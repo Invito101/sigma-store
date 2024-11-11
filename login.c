@@ -1,7 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int main(void){
-  printf("Welcome To Sigma Store");
+int main(){
+  system("clear");
+  printf("Welcome To Sigma Store\n");
+
+  return 0;
 }
 
