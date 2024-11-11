@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -g
-OBJ = login.o  # Add your new object file here
+OBJ = login-signup.o  # Add your new object file here
 TARGET = sigma-store  # Name of your output executable
 
 all: $(TARGET)
