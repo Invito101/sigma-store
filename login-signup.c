@@ -1,9 +1,9 @@
-#include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include "headers.h"
 
 void choices(void); // function to allow user to choose signup or login
+void signup(void);
 
 int main(void){
   clrscr();
@@ -19,8 +19,7 @@ void choices(void){
     scanf("%d",&choice);
     if (choice==1)
     {
-      clrscr();
-      printf("Welcome to signup");
+      signup();
     }
     else if (choice==2)
     {
@@ -32,4 +31,10 @@ void choices(void){
       printf("Invalid Input! Try again!\n");
     }
   }while (choice != 1 && choice !=2);
+}
+
+void signup(void){ //Email password phonenumber name address state 
+  clrscr();
+  printf("Please enter your details below to signup");
+
 }
