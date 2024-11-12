@@ -12,7 +12,7 @@ char* encrypt(char *text) {
         } else if (text[i] >= 'A' && text[i] <= 'Z') {
             encrypted[i] = (text[i] - 'A' + SHIFT) % 26 + 'A';
         } else {
-            encrypted[i] = text[i];
+            encrypted[i] = text[i]; 
         }
         i++;
     }
@@ -30,10 +30,11 @@ char* decrypt(char *text) {
         } else if (text[i] >= 'A' && text[i] <= 'Z') {
             decrypted[i] = (text[i] - 'A' - SHIFT + 26) % 26 + 'A';
         } else {
-            decrypted[i] = text[i];
+            decrypted[i] = text[i]; 
         }
         i++;
     }
     decrypted[i] = '\0';
     return decrypted;
 }
+
