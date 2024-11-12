@@ -1,3 +1,4 @@
 sigma-store
 *.o
 .vscode/
+db/SigmaStore.db

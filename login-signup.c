@@ -7,10 +7,12 @@ void signup(void);
 
 int main(void){
     clrscr();
-    printf("Welcome To Sigma Store\n");
-    printf("Enter 1 to signup\n");
-    printf("Enter 2 to login\n");
-    choices();
+    // printf("Welcome To Sigma Store\n");
+    // printf("Enter 1 to signup\n");
+    // printf("Enter 2 to login\n");
+    // choices();
+
+    create_tables();
 }
 
 void choices(void){

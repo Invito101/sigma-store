@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -g
 LDFLAGS = -lsqlite3  # Linker flag for SQLite
-OBJ = login-signup.o helper-functions.o database-control.o  # Add your object files here
+OBJ = login-signup.o helper-functions.o db/db-utils.o  # Add your object files here
 TARGET = sigma-store  # Name of your output executable
 
 all: $(TARGET)
