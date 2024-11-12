@@ -13,6 +13,7 @@ int main(void){
     // choices();
 
     create_tables();
+    create_customer("Akshay", "akshay@gmail.com", "password", "797979797979", "jkgvsbhjb sdhbvgjswg", 453787, "KA");
 }
 
 void choices(void){

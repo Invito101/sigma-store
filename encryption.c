@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include "headers.h"
 #define SHIFT 3
 
 char* encrypt(char *text) {
