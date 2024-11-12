@@ -12,7 +12,7 @@ sqlite3* open_db(void){
     }
 
     printf("Database opened (or created) successfully.\n");
-    sqlite3_close(db);
+
     return db;
 }
 
