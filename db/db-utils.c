@@ -91,3 +91,9 @@ int create_seller(char *name, char *email, char *password, char *phoneNumber, ch
 
     return 0;
 }
+
+int create_admin(char *name, char *email, char *password, char *phoneNumber, char *address, int pincode, char *state){
+    create_user("Admin", name, email, password, phoneNumber, address, pincode, state);
+
+    return 0;
+}
