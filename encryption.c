@@ -3,7 +3,7 @@
 #define SHIFT 3
 
 char* encrypt(char *text) {
-    static char encrypted[100];
+    char encrypted[100];
     int i = 0;
 
     while (text[i] != '\0') {
@@ -21,7 +21,7 @@ char* encrypt(char *text) {
 }
 
 char* decrypt(char *text) {
-    static char decrypted[100];
+    char decrypted[100];
     int i = 0;
 
     while (text[i] != '\0') {
