@@ -174,3 +174,9 @@ User* get_all_users(int *size) {
     *size = count;
     return users;
 }
+
+User* login(char *email, char *password){
+    sqlite3 *db = open_db();
+
+    char *encryptedPassword = encrypt(password);
+}
