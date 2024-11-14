@@ -13,7 +13,6 @@ int main(void){
     // choices();
 
     create_tables();
-    get_all_users();
 }
 
 void choices(void){

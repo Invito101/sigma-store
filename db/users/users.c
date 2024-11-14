@@ -93,47 +93,7 @@ int dataCallback(void *userWrapper, int argc, char **argv, char **azColName) {
     UserArrayWrapper *wrapper = (UserArrayWrapper *)userWrapper;
     User *userObject = &wrapper->users[wrapper->currentIndex];
 
-    userObject->id = atoi(argv[0]);
-
-    if (argv[1]) {
-        strncpy(userObject->name, argv[1], sizeof(userObject->name) - 1);
-        userObject->name[sizeof(userObject->name) - 1] = '\0';
-    }
-
-    if (argv[2]) {
-        strncpy(userObject->email, argv[2], sizeof(userObject->email) - 1);
-        userObject->email[sizeof(userObject->email) - 1] = '\0';
-    }
-
-    if (argv[3]) {
-        strncpy(userObject->role, argv[3], sizeof(userObject->role) - 1);
-        userObject->role[sizeof(userObject->role) - 1] = '\0';
-    }
-
-    if (argv[4]) {
-        strncpy(userObject->password, argv[4], sizeof(userObject->password) - 1);
-        userObject->password[sizeof(userObject->password) - 1] = '\0';
-    }
-
-    if (argv[5]) {
-        strncpy(userObject->phoneNumber, argv[5], sizeof(userObject->phoneNumber) - 1);
-        userObject->phoneNumber[sizeof(userObject->phoneNumber) - 1] = '\0';
-    }
-
-    if (argv[6]) {
-        strncpy(userObject->address, argv[6], sizeof(userObject->address) - 1);
-        userObject->address[sizeof(userObject->address) - 1] = '\0';
-    }
-
-    userObject->pincode = atoi(argv[7]);
-
-    if (argv[8]) {
-        strncpy(userObject->state, argv[8], sizeof(userObject->state) - 1);
-        userObject->state[sizeof(userObject->state) - 1] = '\0';
-    }
-
-    userObject->money = atoi(argv[9]);
-    userObject->createdAt = parseDateToTimeT(argv[10]);
+    cast_row_to_struct(userObject, argv);
 
     wrapper->currentIndex++;
     return 0;
@@ -152,7 +112,7 @@ User* get_all_users(int *size) {
 
     User *users = malloc(count * sizeof(User));
     if (!users) {
-        fprintf(stderr, "Memory allocation failed\n");
+        fprintf(stderr, "%s: Memory allocation failed\n", __func__);
         sqlite3_close(db);
         return NULL;
     }
@@ -179,4 +139,34 @@ User* login(char *email, char *password){
     sqlite3 *db = open_db();
 
     char *encryptedPassword = encrypt(password);
+
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT * FROM Users WHERE email = ? AND password = ?";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return NULL;
+    }
+
+    sqlite3_bind_text(stmt, 1, email, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 2, encryptedPassword, -1, SQLITE_STATIC);
+
+    User *user = NULL;
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        user = malloc(sizeof(User));
+        if (user) {
+            // Array of char pointers
+            char *values[11];
+            for (int i = 0; i < 11; i++) {
+                values[i] = (char *)sqlite3_column_text(stmt, i);
+            }
+
+            cast_row_to_struct(user, values);
+        }
+    }
+    
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    return user;
 }
