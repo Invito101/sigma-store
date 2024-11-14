@@ -75,7 +75,7 @@ int count_all_users(){
     if (sqlite3_exec(db, sql, countCallback, &count, &errMsg) != SQLITE_OK) {
         fprintf(stderr, "%s : Failed to count users: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_close(db);
-        return NULL;
+        return -1;
     }
 
     return count;
