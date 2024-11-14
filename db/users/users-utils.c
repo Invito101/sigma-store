@@ -43,3 +43,27 @@ void cast_row_to_struct(User *userObject, char **values){
     userObject->money = atoi(values[9]);
     userObject->createdAt = parseDateToTimeT(values[10]);
 }
+
+int is_email_taken(char *email){
+    sqlite3* db = open_db();
+    sqlite3_stmt *stmt;
+
+    char *sql = "SELECT COUNT(*) FROM Users WHERE email = ?;";
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return NULL;
+    }
+
+    sqlite3_bind_text(stmt, 1, email, -1, SQLITE_STATIC);
+
+    if (sqlite3_step(stmt) == SQLITE_ROW){
+        if(sqlite3_column_text(stmt, 0) == 0){
+            return 0;
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    return 1;
+}

@@ -9,9 +9,15 @@ utils.c:16:59: warning: comparison between pointer and integer
    16 |     if (strptime(dateStr, "%Y-%m-%d %H:%M:%S", &tmStruct) == NULL) {
       |                                                           ^~
 gcc -Wall -g -c db/db-utils.c -o db/db-utils.o
-gcc -Wall -g -c encryption.c -o encryption.o
-gcc -Wall -g -o sigma-store   login-signup.o utils.o db/db-utils.o db/users/users.c db/users/users-utils.c encryption.o   -lsqlite3    # Include LDFLAGS here
+gcc -Wall -g -c db/users/users.c -o db/users/users.o
 db/users/users.c: In function ‘count_all_users’:
-db/users/users.c:81:16: warning: returning ‘void *’ from a function with return type ‘int’ makes integer from pointer without a cast [-Wint-conversion]
-   81 |         return NULL;
+db/users/users.c:78:16: warning: returning ‘void *’ from a function with return type ‘int’ makes integer from pointer without a cast [-Wint-conversion]
+   78 |         return NULL;
       |                ^~~~
+gcc -Wall -g -c db/users/users-utils.c -o db/users/users-utils.o
+db/users/users-utils.c: In function ‘is_email_taken’:
+db/users/users-utils.c:55:16: warning: returning ‘void *’ from a function with return type ‘int’ makes integer from pointer without a cast [-Wint-conversion]
+   55 |         return NULL;
+      |                ^~~~
+gcc -Wall -g -c encryption.c -o encryption.o
+gcc -Wall -g -o sigma-store login-signup.o utils.o db/db-utils.o db/users/users.o db/users/users-utils.o encryption.o -lsqlite3 -lncurses

@@ -63,10 +63,7 @@ int create_admin(char *name, char *email, char *password, char *phoneNumber, cha
     return 0;
 }
 
-int countCallback(void *count, int argc, char **argv, char **azColName){
-    *(int *)count = atoi(argv[0]);
-    return 0;
-}
+
 
 int count_all_users(){
     sqlite3 *db = open_db();
@@ -153,12 +150,12 @@ User* login(char *email, char *password){
     sqlite3_bind_text(stmt, 2, encryptedPassword, -1, SQLITE_STATIC);
 
     User *user = NULL;
-    if (sqlite3_step(stmt) == SQLITE_ROW) {
+    if (sqlite3_step(stmt) == SQLITE_ROW){
         user = malloc(sizeof(User));
         if (user) {
             // Array of char pointers
             char *values[11];
-            for (int i = 0; i < 11; i++) {
+            for (int i = 0; i < 11; i++){
                 values[i] = (char *)sqlite3_column_text(stmt, i);
             }
 

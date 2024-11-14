@@ -9,17 +9,15 @@
 #define HEADERS_H
 
 // utils.c
-
 void clrscr(void);
 time_t parseDateToTimeT(const char *dateStr);
+int countCallback(void *count, int argc, char **argv, char **azColName);
 
 // encryption.c
-
 char* encrypt(char *text);
 char* decrypt(char *text);
 
 // db/db-utils.c
-
 sqlite3* open_db(void);
 int create_tables(void);
 

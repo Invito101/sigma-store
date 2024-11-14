@@ -21,3 +21,9 @@ time_t parseDateToTimeT(const char *dateStr){
     // Convert struct tm to time_t
     return mktime(&tmStruct);
 }
+
+// SQL stuff
+int countCallback(void *count, int argc, char **argv, char **azColName){
+    *(int *)count = atoi(argv[0]);
+    return 0;
+}
