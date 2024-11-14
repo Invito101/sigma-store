@@ -1,10 +1,9 @@
 gcc -Wall -g -c login-signup.c -o login-signup.o
-login-signup.c: In function ‘main’:
-login-signup.c:16:5: error: too few arguments to function ‘get_all_users’
-   16 |     get_all_users();
-      |     ^~~~~~~~~~~~~
-In file included from login-signup.c:3:
-headers.h:31:7: note: declared here
-   31 | User *get_all_users(int *size);
-      |       ^~~~~~~~~~~~~
-make: *** [Makefile:13: login-signup.o] Error 1
+login-signup.c:16:19: error: too few arguments to function call, single argument 'size' was not specified
+    get_all_users();
+    ~~~~~~~~~~~~~ ^
+./headers.h:31:7: note: 'get_all_users' declared here
+User *get_all_users(int *size);
+      ^
+1 error generated.
+make: *** [login-signup.o] Error 1

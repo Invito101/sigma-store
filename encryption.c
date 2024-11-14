@@ -3,7 +3,7 @@
 #define SHIFT 3
 
 char* encrypt(char *text) {
-    char *encrypted = (char *)malloc(100 * sizeof(char));
+    static char encrypted[100];
     if (encrypted == NULL) {
         return NULL;
     }
@@ -25,7 +25,7 @@ char* encrypt(char *text) {
 }
 
 char* decrypt(char *text) {
-    char *decrypted = (char *)malloc(100 * sizeof(char));
+    static char decrypted[100];
     if (decrypted == NULL) {
         return NULL;
     }
