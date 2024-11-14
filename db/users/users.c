@@ -104,7 +104,7 @@ User* get_all_users(int *size) {
     if (count <= 0) {
         *size = 0;
         sqlite3_close(db);
-        return NULL;
+        return -1;
     }
 
     User *users = malloc(count * sizeof(User));

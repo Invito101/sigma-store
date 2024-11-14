@@ -52,7 +52,7 @@ int is_email_taken(char *email){
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_close(db);
-        return NULL;
+        return -1;
     }
 
     sqlite3_bind_text(stmt, 1, email, -1, SQLITE_STATIC);
