@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Run `make` to build the executable
-make
+make 2>&1 | tee build.log
 
 # Check if the build was successful
 if [ $? -eq 0 ]; then
