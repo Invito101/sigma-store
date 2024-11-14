@@ -2,7 +2,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "structs/structs.h"
+#include "structs/structs.c"
 #include <string.h>
 
 #ifndef HEADERS_H   // Prevents multiple inclusion
