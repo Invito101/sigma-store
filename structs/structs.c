@@ -1,3 +1,5 @@
+#include <time.h>
+
 typedef struct User{
     int id;
     char name[301];
