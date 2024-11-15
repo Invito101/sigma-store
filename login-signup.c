@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include <ncurses.h>
 #include "headers.h"  // Ensure this file exists and is in the correct path
+#include <wchar.h> // This is temporary as I'm trying to put in unicode characters
+
 
 // Function declarations
 void choices(void);  // Function to allow user to choose signup or login
@@ -10,7 +12,7 @@ void signup(void);
 int main(void) {
     // Initialize ncurses
     initscr();
-    cbreak();
+    raw();
     noecho();
     keypad(stdscr, TRUE);  // Enable arrow keys and other extended keys
 
@@ -24,40 +26,97 @@ int main(void) {
 }
 
 void choices(void) {
-    int choice = 0;
+    
+    int choice=0;
+    int tco = 0; //the_chosen_one
+    const char *a[3]={"signup","login","exit"};
+    int sizea=sizeof(a)/sizeof(a[0]);
+    int ch;
+    //char opencircle[]="\u25EF";
+    //char closedcircle[]="\u2B24";
 
-    do {
-        clear();  // Clear the screen
-        mvprintw(5, 10, "Welcome! Please choose an option:");
-        mvprintw(7, 12, "1. Signup");
-        mvprintw(8, 12, "2. Login");
-        mvprintw(10, 10, "Enter your choice (1 or 2):");
+    initscr();
+    start_color();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+
+
+    while(true){
+        clear();
+        attron(COLOR_PAIR(1));
+        mvprintw(5, 10, "Welcome! Please die:");
+        attroff(COLOR_PAIR(1));
+        for(int i=0;i<sizea;i++){
+            if(i==tco){
+                attron(COLOR_PAIR(2));
+                mvprintw(7+i,12,"> %s",a[i]);
+                attroff(COLOR_PAIR(2));
+                refresh();
+            }
+            else{
+                attron(COLOR_PAIR(1));
+                //mvprintw(7+i,12,"%s ",opencircle);
+                mvprintw(7+i,12,"  %s",a[i]);
+                attroff(COLOR_PAIR(1));
+                refresh();
+            }
+        }
+        
+        attron(COLOR_PAIR(1));
+        mvprintw(10, 10, "Use arrow keys to navigate, Enter to select.");
+        attroff(COLOR_PAIR(1));
         refresh();
 
-        choice = getch();  // Get user input
-
-        switch (choice) {
-            case '1':
-                signup();
-                break;
-            case '2':
-                clear();
-                mvprintw(5, 10, "Welcome to login");
-                refresh();
-                getch();  // Wait for user input to continue
-                break;
-            default:
-                mvprintw(12, 10, "Invalid Input! Try again!");
-                refresh();
-                getch();  // Wait for user input to continue
-                break;
+        ch=getch();
+        
+        if(ch =='\n'){
+            choice=tco;
+            break;
         }
-    } while (choice != '1' && choice != '2');
-}
+        else if(ch==KEY_DOWN){
+            if(tco==sizea-1)
+                tco=0;
+                else
+                tco+=1;
+                
+        }
+        else if(ch==KEY_UP){
+            if(tco==0)
+                tco=sizea-1;
+                else
+                tco-=1;
+                
+        }
+        else
+        continue;
 
-void signup(void) {
-    clear();
-    mvprintw(5, 10, "Signup functionality is not yet implemented.");
+    } 
+
+    
+    switch (choice){
+        case 0:
+            signup();
+            break;
+        case 1:
+            clear();
+            mvprintw(5, 10, "Welcome to login");
+            refresh();
+            getch();
+            break;
+        case 2:
+            clear();
+
+    }
+
+    endwin();
+}
+void signup() {
+    // Placeholder for signup function
+    mvprintw(5, 10, "Signup function called");
     refresh();
-    getch();  // Wait for user input to continue
+    getch();
 }
