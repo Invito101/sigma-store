@@ -8,6 +8,8 @@
 // Function declarations
 void choices(void);  // Function to allow user to choose signup or login
 void signup(void);
+void login1(void);
+void quit(void);
 
 int main(void) {
     create_tables();
@@ -30,7 +32,8 @@ void choices(void) {
     
     int choice=0;
     int tco = 0; //the_chosen_one
-    const char *a[3]={"signup","login","exit"};
+    const char *a[3]={"signup","login","quit"};
+    void (*b[])()={signup,login1,quit};
     int sizea=sizeof(a)/sizeof(a[0]);
     int ch;
     //char opencircle[]="\u25EF";
@@ -49,7 +52,7 @@ void choices(void) {
     while(true){
         clear();
         attron(COLOR_PAIR(1));
-        mvprintw(5, 10, "Welcome! Please die:");
+        mvprintw(5, 10, "Welcome! Please live:");
         attroff(COLOR_PAIR(1));
         for(int i=0;i<sizea;i++){
             if(i==tco){
@@ -60,7 +63,6 @@ void choices(void) {
             }
             else{
                 attron(COLOR_PAIR(1));
-                //mvprintw(7+i,12,"%s ",opencircle);
                 mvprintw(7+i,12,"  %s",a[i]);
                 attroff(COLOR_PAIR(1));
                 refresh();
@@ -97,7 +99,8 @@ void choices(void) {
 
     } 
 
-    
+    b[choice]();
+    /*
     switch (choice){
         case 0:
             signup();
@@ -111,13 +114,23 @@ void choices(void) {
         case 2:
             clear();
 
-    }
+    }*/
 
     endwin();
 }
 void signup() {
     // Placeholder for signup function
+    clear();
     mvprintw(5, 10, "Signup function called");
     refresh();
     getch();
+}
+void login1(){
+    clear();
+    mvprintw(5, 10, "Login function called");
+    refresh();
+    getch();
+}
+void quit(){
+    clear();
 }
