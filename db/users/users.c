@@ -6,7 +6,7 @@ int create_user(char *role, char *name, char *email, char *password, char *phone
 
     sqlite3_stmt *stmt;
 
-    const char *sql = "INSERT INTO USERS(name, email, role, password, phoneNumber, address, pincode, state, money) VALUES(?,?,?,?,?,?,?,?,?);";
+    const char *sql = "INSERT INTO users(name, email, role, password, phoneNumber, address, pincode, state, money) VALUES(?,?,?,?,?,?,?,?,?);";
 
     int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
 
@@ -129,7 +129,7 @@ User* login(char *email, char *password){
     char *encryptedPassword = encrypt(password);
 
     sqlite3_stmt *stmt;
-    const char *sql = "SELECT * FROM Users WHERE email = ? AND password = ?";
+    const char *sql = "SELECT * FROM Users WHERE email = ? AND password = ?;";
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
@@ -164,7 +164,7 @@ int get_money_of_user(char *email){
     int money = 0;
 
     sqlite3_stmt *stmt;
-    const char *sql = "SELECT money FROM Users WHERE email = ?";
+    const char *sql = "SELECT money FROM Users WHERE email = ?;";
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
@@ -185,7 +185,7 @@ int get_money_of_user(char *email){
 int modify_money_of_user(char *email, int new_money){
     sqlite3* db = open_db();
     sqlite3_stmt *stmt;
-    const char *sql = "UPDATE Users SET money = ? WHERE email = ?";
+    const char *sql = "UPDATE Users SET money = ? WHERE email = ?;";
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));

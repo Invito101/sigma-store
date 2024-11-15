@@ -10,6 +10,7 @@ void choices(void);  // Function to allow user to choose signup or login
 void signup(void);
 
 int main(void) {
+    create_tables();
     // Initialize ncurses
     initscr();
     raw();
