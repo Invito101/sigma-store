@@ -2,7 +2,6 @@
 
 int create_user(char *role, char *name, char *email, char *password, char *phoneNumber, char *address, int pincode, char *state){
     sqlite3 *db = open_db();
-    if(db == NULL) return 1;
     char *errMsg = 0;
 
     sqlite3_stmt *stmt;
@@ -51,19 +50,11 @@ int create_customer(char *name, char *email, char *password, char *phoneNumber, 
     return 0;
 }
 
-int create_seller(char *name, char *email, char *password, char *phoneNumber, char *address, int pincode, char *state){
-    create_user("Seller", name, email, password, phoneNumber, address, pincode, state);
-
-    return 0;
-}
-
 int create_admin(char *name, char *email, char *password, char *phoneNumber, char *address, int pincode, char *state){
     create_user("Admin", name, email, password, phoneNumber, address, pincode, state);
 
     return 0;
 }
-
-
 
 int count_all_users(){
     sqlite3 *db = open_db();
@@ -119,7 +110,7 @@ User* get_all_users(int *size) {
     char *sql = "SELECT * FROM Users";
     int rc = sqlite3_exec(db, sql, dataCallback, &wrapper, &errMsg);
 
-    if (rc != SQLITE_OK) {
+    if (rc != SQLITE_OK){
         fprintf(stderr, "%s: Execution of Query : %s\n", __func__, errMsg ? errMsg : sqlite3_errmsg(db));
         sqlite3_free(errMsg);
         sqlite3_close(db);
@@ -140,7 +131,7 @@ User* login(char *email, char *password){
     sqlite3_stmt *stmt;
     const char *sql = "SELECT * FROM Users WHERE email = ? AND password = ?";
 
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_close(db);
         return NULL;
@@ -166,4 +157,54 @@ User* login(char *email, char *password){
     sqlite3_finalize(stmt);
     sqlite3_close(db);
     return user;
+}
+
+int get_money_of_user(char *email){
+    sqlite3* db = open_db();
+    int money = 0;
+
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT money FROM Users WHERE email = ?";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sqlite3_bind_text(stmt, 1, email, -1, SQLITE_STATIC);
+    if (sqlite3_step(stmt) == SQLITE_ROW){
+        money = atoi(sqlite3_column_text(stmt, 0));
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    return money;
+}
+
+int modify_money_of_user(char *email, int new_money){
+    sqlite3* db = open_db();
+    sqlite3_stmt *stmt;
+    const char *sql = "UPDATE Users SET money = ? WHERE email = ?";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sqlite3_bind_int(stmt, 1, new_money);
+    sqlite3_bind_text(stmt, 2, email, -1, SQLITE_STATIC);
+
+    if (sqlite3_step(stmt) != SQLITE_DONE){
+        fprintf(stderr, "%s : Failed to update record: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    return 0;
 }

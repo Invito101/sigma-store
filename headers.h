@@ -26,9 +26,10 @@ void cast_row_to_struct(User *userObject, char **values);
 
 // db/users/users.c
 int create_customer(char *name, char *email, char *password, char *phoneNumber, char *address, int pincode, char *state);
-int create_seller(char *name, char *email, char *password, char *phoneNumber, char *address, int pincode, char *state);
 int create_admin(char *name, char *email, char *password, char *phoneNumber, char *address, int pincode, char *state);
 User* get_all_users(int *size);
+int get_money_of_user(char *email);
+int modify_money_of_user(char *email, int new_money);
 
 
 
