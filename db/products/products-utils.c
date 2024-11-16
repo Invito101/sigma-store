@@ -39,7 +39,7 @@ int get_product_no_of_rating(char *name){
 
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
     if (sqlite3_step(stmt) == SQLITE_ROW){
-        noOfRating = atoi(sqlite3_column_text(stmt, 0));
+        noOfRating = atoi((const char*)sqlite3_column_text(stmt, 0));
     }
 
     sqlite3_finalize(stmt);
@@ -62,7 +62,7 @@ double get_product_rating(char *name){
 
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
     if (sqlite3_step(stmt) == SQLITE_ROW){
-        rating = atof(sqlite3_column_text(stmt, 0));
+        rating = atof((const char*)sqlite3_column_text(stmt, 0));
     }
 
     sqlite3_finalize(stmt);

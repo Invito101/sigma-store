@@ -174,7 +174,7 @@ int get_money_of_user(char *email){
 
     sqlite3_bind_text(stmt, 1, email, -1, SQLITE_STATIC);
     if (sqlite3_step(stmt) == SQLITE_ROW){
-        money = atoi(sqlite3_column_text(stmt, 0));
+        money = atoi((const char*)sqlite3_column_text(stmt, 0));
     }
 
     sqlite3_finalize(stmt);

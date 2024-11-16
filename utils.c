@@ -1,4 +1,5 @@
 #include "headers.h"
+#include <time.h>
 
 void clrscr(void){
     #if defined(_WIN32) || defined(_WIN64)
@@ -8,17 +9,12 @@ void clrscr(void){
     #endif
 }
 
-time_t parseDateToTimeT(const char *dateStr){
+time_t parseDateToTimeT(char *dateStr){
     struct tm tmStruct;
-    memset(&tmStruct, 0, sizeof(struct tm));  // Initialize struct to zero
+    memset(&tmStruct, 0, sizeof(struct tm));
 
-    // Parse the string into struct tm
-    if (strptime(dateStr, "%Y-%m-%d %H:%M:%S", &tmStruct) == NULL) {
-        fprintf(stderr, "Error parsing date string\n");
-        return (time_t)(-1);
-    }
+    strftime(dateStr, sizeof(dateStr), "%Y-%m-%d %H:%M:%S", &tmStruct);
 
-    // Convert struct tm to time_t
     return mktime(&tmStruct);
 }
 
