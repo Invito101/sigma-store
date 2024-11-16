@@ -6,7 +6,7 @@
 
  
 // Function declarations
-void select(int n,const char *a[],void (*b[])());  //Function allows user to input options    
+void select1(int n,const char *a[],void (*b[])());  //Function allows user to input options    
 //here n is the number of options, a is the array of label names, and b is the function pointer array  // Function to allow user to choose signup or login
 void signup(void);
 void login1(void);
@@ -22,7 +22,7 @@ int main(void) {
     
     // Clear the screen and show options
     clear();
-    select(3,a,b);
+    select1(3,a,b);
 
     // Cleanup ncurses
     endwin();
@@ -30,7 +30,7 @@ int main(void) {
 }
 
 
-void select(int n,const char *a[],void (*b[])()) {
+void select1(int n,const char *a[],void (*b[])()) {
   
     int choice=0;
     int tco = 0; //the_chosen_one
@@ -75,7 +75,7 @@ void select(int n,const char *a[],void (*b[])()) {
         }
         
         attron(COLOR_PAIR(1));
-        mvprintw(10, 10, "Use arrow keys to navigate, Enter to select.");
+        mvprintw(10, 10, "Use arrow keys to navigate, Enter to select1.");
         attroff(COLOR_PAIR(1));
         refresh();
 
