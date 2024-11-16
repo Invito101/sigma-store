@@ -4,9 +4,10 @@
 #include "headers.h"  // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 
-
+ 
 // Function declarations
-void choices(void);  // Function to allow user to choose signup or login
+void select(int n,const char *a[],void (*b[])());  //Function allows user to input options    
+//here n is the number of options, a is the array of label names, and b is the function pointer array  // Function to allow user to choose signup or login
 void signup(void);
 void login1(void);
 void quit(void);
@@ -15,34 +16,38 @@ int main(void) {
     create_tables();
     // Initialize ncurses
     initscr();
-    raw();
-    noecho();
-    keypad(stdscr, TRUE);  // Enable arrow keys and other extended keys
-
+    
+    const char *a[3]={"Sign up","Login","Quit"};
+    void (*b[])()={signup,login1,quit};
+    
     // Clear the screen and show options
     clear();
-    choices();
+    select(3,a,b);
 
     // Cleanup ncurses
     endwin();
     return 0;
 }
 
-void choices(void) {
-    
+
+void select(int n,const char *a[],void (*b[])()) {
+  
     int choice=0;
     int tco = 0; //the_chosen_one
-    const char *a[3]={"signup","login","quit"};
-    void (*b[])()={signup,login1,quit};
-    int sizea=sizeof(a)/sizeof(a[0]);
+    
+    int sizea=n;
     int ch;
     //char opencircle[]="\u25EF";
     //char closedcircle[]="\u2B24";
 
     initscr();
+    raw();
+    clear();
     start_color();
     cbreak();
     noecho();
+    curs_set(0);     
+
     keypad(stdscr, TRUE);
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
@@ -100,22 +105,6 @@ void choices(void) {
     } 
 
     b[choice]();
-    /*
-    switch (choice){
-        case 0:
-            signup();
-            break;
-        case 1:
-            clear();
-            mvprintw(5, 10, "Welcome to login");
-            refresh();
-            getch();
-            break;
-        case 2:
-            clear();
-
-    }*/
-
     endwin();
 }
 void signup() {
