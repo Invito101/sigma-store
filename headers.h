@@ -63,4 +63,12 @@ void quit2();
 int callback(void *data, int argc, char **argv, char **azColName);
 int call(char *category);
 
+//signup helper functions
+int is_numeric(char *str);
+int is_valid_email(char *email);
+int is_valid_name(char *name);
+int is_valid_phone(char *phone);
+int is_valid_pincode(char *pincode);
+void get_valid_input(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
+
 #endif

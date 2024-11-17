@@ -29,3 +29,73 @@ int countCallback(void *count, int argc, char **argv, char **azColName){
     *(int *)count = atoi(argv[0]);
     return 0;
 }
+
+//Signup stuff
+
+int is_numeric(char *str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (!isdigit((unsigned char)str[i]))
+            return 0;
+    }
+    return 1;
+}
+
+int is_valid_email(char *email) { // if there is one @ in the email, it confirms that it is valid
+    int at_count = 0;
+    for (int i = 0; email[i] != '\0'; i++) {
+        if (email[i] == '@') {
+            at_count++;
+        }
+    }
+    return at_count == 1;
+}
+
+
+int is_valid_name(char *name) { // name cannot be empty or just numericor have invalid characters
+    if (strlen(name) == 0) return 0;
+    for (int i = 0; name[i] != '\0'; i++) {
+        if (!isalnum(name[i]) && name[i] != ' ') { 
+            return 0; 
+        }
+    }
+    return !is_numeric(name); 
+    }
+
+int is_valid_phone(char *phone) { // phone number must be 10 digits
+    return strlen(phone) == 10 && is_numeric(phone);
+}
+
+int is_valid_pincode(char *pincode) { // pincode must be numeric
+    return is_numeric(pincode);
+}
+
+void get_valid_input(int row, char *label, char *buffer, int max_length, int (*validate)(char *)) {
+    do {
+        move(row, 10);
+        clrtoeol();
+        
+        attron(COLOR_PAIR(1));
+        mvprintw(row, 10, "%s: ", label);
+        attroff(COLOR_PAIR(1));
+        refresh();
+
+        attron(COLOR_PAIR(2));
+        echo();
+        getnstr(buffer, max_length);
+        noecho();
+        attroff(COLOR_PAIR(2));
+
+        move(row + 1, 10); // makes sure it doesnt clash with any error message
+        clrtoeol();
+
+        if (validate == NULL || validate(buffer)) { // Checks for valid input if required per the case.
+            break; // Valid input
+        }
+
+        // error message if invalid input
+        attron(COLOR_PAIR(1));
+        mvprintw(row + 1, 10, "Invalid %s. Please try again.", label);
+        attroff(COLOR_PAIR(1));
+        refresh();
+    } while (1);
+}
