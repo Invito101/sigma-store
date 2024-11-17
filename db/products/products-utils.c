@@ -119,20 +119,25 @@ void cast_row_to_product_struct(Product *productObject, char **values){
     productObject->price = atoi(values[2]);
 
     if (values[3]) {
-        strncpy(productObject->description, values[2], sizeof(productObject->description) - 1);
+        strncpy(productObject->description, values[3], sizeof(productObject->description) - 1);
         productObject->description[sizeof(productObject->description) - 1] = '\0';
     }
 
     if (values[4]) {
-        strncpy(productObject->manufacturedBy, values[3], sizeof(productObject->manufacturedBy) - 1);
+        strncpy(productObject->category, values[4], sizeof(productObject->category) - 1);
+        productObject->category[sizeof(productObject->category) - 1] = '\0';
+    }
+
+    if (values[5]) {
+        strncpy(productObject->manufacturedBy, values[5], sizeof(productObject->manufacturedBy) - 1);
         productObject->manufacturedBy[sizeof(productObject->manufacturedBy) - 1] = '\0';
     }
 
-    productObject->rating = atof(values[5]);
+    productObject->rating = atof(values[6]);
 
-    productObject->noOfRatings = atoi(values[6]);
+    productObject->noOfRatings = atoi(values[7]);
 
-    productObject->amountBought = atoi(values[7]);
+    productObject->amountBought = atoi(values[8]);
 
-    productObject->createdAt = parseDateToTimeT(values[8]);
+    productObject->createdAt = parseDateToTimeT(values[9]);
 }

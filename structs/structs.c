@@ -24,6 +24,7 @@ typedef struct Product{
     char name[301];
     int price;
     char description[1001];
+    char category[301];
     char manufacturedBy[301];
     double rating;
     int noOfRatings;

@@ -34,9 +34,9 @@ int get_money_of_user(char *email);
 int modify_money_of_user(char *email, int new_money);
 
 // db/products/products.c
-int create_product(char *name, int price, char *description, char *manufacturedBy);
+int create_product(char *name, int price, char *description, char *category, char *manufacturedBy);
 int delete_product(char *name);
-int modify_product(char *name, char *new_name, int new_price, char *new_description, char *new_manufacturedBy);
+int modify_product(char *name, char *new_name, int new_price, char *new_description, char *new_category, char *new_manufacturedBy);
 int rate_product(char *name, int rating);
 Product* get_all_products(int *size);
 

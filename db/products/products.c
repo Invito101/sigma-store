@@ -1,12 +1,12 @@
 #include "../../headers.h"
 
-int create_product(char *name, int price, char *description, char *manufacturedBy){
+int create_product(char *name, int price, char *description, char *category, char *manufacturedBy){
     sqlite3 *db = open_db();
     char *errMsg = 0;
 
     sqlite3_stmt *stmt;
 
-    const char *sql = "INSERT INTO Products(name, price, description, manufacturedBy, rating, noOfRatings, amountBought) VALUES(?,?,?,?,0,0,0);";
+    const char *sql = "INSERT INTO Products(name, price, description, category, manufacturedBy, rating, noOfRatings, amountBought) VALUES(?,?,?,?,?,0,0,0);";
 
     int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
 
@@ -20,7 +20,8 @@ int create_product(char *name, int price, char *description, char *manufacturedB
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 2, price);
     sqlite3_bind_text(stmt, 3, description, -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 4, manufacturedBy, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 4, description, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 5, manufacturedBy, -1, SQLITE_STATIC);
 
     rc = sqlite3_step(stmt);
 
@@ -63,10 +64,10 @@ int delete_product(char *name){
     return 0;
 }
 
-int modify_product(char *name, char *new_name, int new_price, char *new_description, char *new_manufacturedBy){
+int modify_product(char *name, char *new_name, int new_price, char *new_description, char *new_category, char *new_manufacturedBy){
     sqlite3* db = open_db();
     sqlite3_stmt *stmt;
-    const char *sql = "UPDATE Products SET name = ?, price = ?, description = ?, manufacturedBy = ? WHERE name = ?;";
+    const char *sql = "UPDATE Products SET name = ?, price = ?, description = ?, category = ?, manufacturedBy = ? WHERE name = ?;";
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
@@ -77,7 +78,8 @@ int modify_product(char *name, char *new_name, int new_price, char *new_descript
     sqlite3_bind_text(stmt, 1, new_name, -1, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 2, new_price);
     sqlite3_bind_text(stmt, 3, new_description, -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 4, new_manufacturedBy, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 4, new_category, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 5, new_manufacturedBy, -1, SQLITE_STATIC);
 
     if (sqlite3_step(stmt) != SQLITE_DONE){
         fprintf(stderr, "%s : Failed to update record: %s\n", __func__, sqlite3_errmsg(db));
