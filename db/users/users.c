@@ -56,32 +56,11 @@ int create_admin(char *name, char *email, char *password, char *phoneNumber, cha
     return 0;
 }
 
-int count_all_users(){
-    sqlite3 *db = open_db();
-
-    char *sql = "SELECT COUNT(*) FROM Users;";
-    int count = 0;
-    char *errMsg = 0;
-
-    if (sqlite3_exec(db, sql, countCallback, &count, &errMsg) != SQLITE_OK) {
-        fprintf(stderr, "%s : Failed to count users: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
-        return -1;
-    }
-
-    return count;
-}
-
-typedef struct {
-    User *users;
-    int currentIndex;
-} UserArrayWrapper;
-
 int dataCallback(void *userWrapper, int argc, char **argv, char **azColName) {
     UserArrayWrapper *wrapper = (UserArrayWrapper *)userWrapper;
     User *userObject = &wrapper->users[wrapper->currentIndex];
 
-    cast_row_to_struct(userObject, argv);
+    cast_row_to_user_struct(userObject, argv);
 
     wrapper->currentIndex++;
     return 0;
@@ -150,7 +129,7 @@ User* login(char *email, char *password){
                 values[i] = (char *)sqlite3_column_text(stmt, i);
             }
 
-            cast_row_to_struct(user, values);
+            cast_row_to_user_struct(user, values);
         }
     }
     

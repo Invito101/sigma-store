@@ -107,3 +107,32 @@ int increase_no_of_ratings_by_one(char *name){
     sqlite3_close(db);
     return 0;
 }
+
+void cast_row_to_product_struct(Product *productObject, char **values){
+    productObject->id = atoi(values[0]);
+
+    if (values[1]) {
+        strncpy(productObject->name, values[1], sizeof(productObject->name) - 1);
+        productObject->name[sizeof(productObject->name) - 1] = '\0';
+    }
+
+    productObject->price = atoi(values[2]);
+
+    if (values[3]) {
+        strncpy(productObject->description, values[2], sizeof(productObject->description) - 1);
+        productObject->description[sizeof(productObject->description) - 1] = '\0';
+    }
+
+    if (values[4]) {
+        strncpy(productObject->manufacturedBy, values[3], sizeof(productObject->manufacturedBy) - 1);
+        productObject->manufacturedBy[sizeof(productObject->manufacturedBy) - 1] = '\0';
+    }
+
+    productObject->rating = atof(values[5]);
+
+    productObject->noOfRatings = atoi(values[6]);
+
+    productObject->amountBought = atoi(values[7]);
+
+    productObject->createdAt = parseDateToTimeT(values[8]);
+}

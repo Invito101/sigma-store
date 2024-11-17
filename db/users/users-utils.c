@@ -1,6 +1,6 @@
 #include "../../headers.h"
 
-void cast_row_to_struct(User *userObject, char **values){
+void cast_row_to_user_struct(User *userObject, char **values){
     userObject->id = atoi(values[0]);
 
     if (values[1]) {
@@ -66,4 +66,20 @@ int is_email_taken(char *email){
     sqlite3_finalize(stmt);
     sqlite3_close(db);
     return 1;
+}
+
+int count_all_users(){
+    sqlite3 *db = open_db();
+
+    char *sql = "SELECT COUNT(*) FROM Users;";
+    int count = 0;
+    char *errMsg = 0;
+
+    if (sqlite3_exec(db, sql, countCallback, &count, &errMsg) != SQLITE_OK) {
+        fprintf(stderr, "%s : Failed to count users: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return -1;
+    }
+
+    return count;
 }

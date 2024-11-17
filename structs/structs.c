@@ -13,3 +13,25 @@ typedef struct User{
     int money;
     time_t createdAt;
 } User;
+
+typedef struct {
+    User *users;
+    int currentIndex;
+} UserArrayWrapper;
+
+typedef struct Product{
+    int id;
+    char name[301];
+    int price;
+    char description[1001];
+    char manufacturedBy[301];
+    double rating;
+    int noOfRatings;
+    int amountBought;
+    time_t createdAt;
+} Product;
+
+typedef struct {
+    Product *products;
+    int currentIndex;
+} ProductArrayWrapper;

@@ -118,3 +118,49 @@ int rate_product(char *name, int rating){
     sqlite3_close(db);
     return 0;
 }
+
+int dataCallback(void *productWrapper, int argc, char **argv, char **azColName) {
+    ProductArrayWrapper *wrapper = (ProductArrayWrapper *)productWrapper;
+    Product *productObject = &wrapper->products[wrapper->currentIndex];
+
+    cast_row_to_product_struct(productObject, argv);
+
+    wrapper->currentIndex++;
+    return 0;
+}
+
+Product* get_all_products(int *size){
+    sqlite3 *db = open_db();
+    
+    char *errMsg = 0;
+    int count = count_all_products();
+    if (count <= 0) {
+        *size = 0;
+        sqlite3_close(db);
+        return NULL;
+    }
+
+    Product *products = malloc(count * sizeof(User));
+    if (!products) {
+        fprintf(stderr, "%s: Memory allocation failed\n", __func__);
+        sqlite3_close(db);
+        return NULL;
+    }
+
+    ProductArrayWrapper wrapper = { .products = products, .currentIndex = 0 };
+
+    char *sql = "SELECT * FROM Products";
+    int rc = sqlite3_exec(db, sql, dataCallback, &wrapper, &errMsg);
+
+    if (rc != SQLITE_OK){
+        fprintf(stderr, "%s: Execution of Query : %s\n", __func__, errMsg ? errMsg : sqlite3_errmsg(db));
+        sqlite3_free(errMsg);
+        sqlite3_close(db);
+        free(products);
+        return NULL;
+    }
+
+    sqlite3_close(db);
+    *size = count;
+    return products;
+}
