@@ -11,8 +11,8 @@
 
 // utils.c
 void clrscr(void);
+time_t parseDateToTimeT(char *dateStr);
 int countCallback(void *count, int argc, char **argv, char **azColName);
-int getISTTime();
 
 // encryption.c
 char* encrypt(char *text);
@@ -41,7 +41,6 @@ int modify_product(char *name, char *new_name, int new_price, char *new_descript
 int rate_product(char *name, int rating);
 Product* get_all_products(int *size);
 Product* get_all_category_products(int *size, char *cName);
-Product* get_product_by_name(char *name);
 
 // db/products/products-utils.c
 int is_product_name_taken(char *name);

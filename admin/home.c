@@ -49,30 +49,30 @@ void selectany1(int n,const char *a[],void (*b[])()) {
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-    call("Harry Potter");
+
     while(true){
         clear();
         call("Harry Potter");
         attron(COLOR_PAIR(1));
-        mvprintw(18, 30, "Welcome! Please live:");
+        mvprintw(1, 1, "Welcome! Please live:");
         attroff(COLOR_PAIR(1));
         for(int i=0;i<sizea;i++){
             if(i==tco){
                 attron(COLOR_PAIR(2));
-                mvprintw(20+i,30,"> %s",a[i]);
+                mvprintw(3+i,3,"> %s",a[i]);
                 attroff(COLOR_PAIR(2));
                 refresh();
             }
             else{
                 attron(COLOR_PAIR(1));
-                mvprintw(20+i,30,"  %s",a[i]);
+                mvprintw(3+i,3,"  %s",a[i]);
                 attroff(COLOR_PAIR(1));
                 refresh();
             }
         }
         
         attron(COLOR_PAIR(1));
-        mvprintw(24, 30, "Use arrow keys to navigate, Enter to select1.");
+        mvprintw(6, 3, "Use arrow keys to navigate, Enter to select1.");
         attroff(COLOR_PAIR(1));
         refresh();
 
@@ -108,8 +108,16 @@ void selectany1(int n,const char *a[],void (*b[])()) {
 void view_all() {
     // Placeholder for view_all function
     clear();
-    mvprintw(5, 10, "view_all function called");
-    refresh();
+    // mvprintw(5, 10, "view_all function called");
+
+    // refresh();
+    int *size = 0;
+    Product *products_p = get_all_products(size);
+    for (int i=0;i<(*size);i++)
+    {
+        call((products_p)->name);
+    }
+
     getch();
 }
 void quit2(){
