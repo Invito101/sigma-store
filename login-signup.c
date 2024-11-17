@@ -14,6 +14,7 @@ void quit(void);
 
 int main(void) {
     create_tables();
+    create_product("Harry Potter",300,"Magic","Books","Penguin House");
     // Initialize ncurses
     initscr();
     
@@ -22,6 +23,7 @@ int main(void) {
     
     // Clear the screen and show options
     clear();
+
     select1(3,a,b);
 
     // Cleanup ncurses
@@ -116,7 +118,8 @@ void signup() {
 }
 void login1(){
     clear();
-    mvprintw(5, 10, "Login function called");
+    //mvprintw(5, 10, "Login function called");
+    new();
     refresh();
     getch();
 }
