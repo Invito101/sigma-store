@@ -20,7 +20,7 @@ int create_product(char *name, int price, char *description, char *category, cha
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 2, price);
     sqlite3_bind_text(stmt, 3, description, -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 4, description, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 4, category, -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 5, manufacturedBy, -1, SQLITE_STATIC);
 
     rc = sqlite3_step(stmt);
@@ -162,6 +162,56 @@ Product* get_all_products(int *size){
         return NULL;
     }
 
+    sqlite3_close(db);
+    *size = count;
+    return products;
+}
+
+Product* get_all_category_products(int *size, char *cName){
+    sqlite3 *db = open_db();
+
+    char *errMsg = 0;
+    int count = count_all_category_products(cName);
+    if (count <= 0) {
+        *size = 0;
+        sqlite3_close(db);
+        return NULL;
+    }
+
+    Product *products = malloc(count * sizeof(User));
+    if (!products) {
+        fprintf(stderr, "%s: Memory allocation failed\n", __func__);
+        sqlite3_close(db);
+        return NULL;
+    }
+
+    ProductArrayWrapper wrapper = { .products = products, .currentIndex = 0 };
+
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT * FROM Products WHERE category = ?";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sqlite3_bind_text(stmt, 1, cName, -1, SQLITE_STATIC);
+
+    while(sqlite3_step(stmt) == SQLITE_ROW){
+        Product *productObject = &(wrapper.products[wrapper.currentIndex]);
+
+        char *values[10];
+        for (int i = 0; i < 10; i++){
+            values[i] = (char *)sqlite3_column_text(stmt, i);
+        }
+
+        cast_row_to_product_struct(productObject, values);
+
+        wrapper.currentIndex++;
+    }
+
+    sqlite3_finalize(stmt);
     sqlite3_close(db);
     *size = count;
     return products;

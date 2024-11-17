@@ -39,6 +39,7 @@ int delete_product(char *name);
 int modify_product(char *name, char *new_name, int new_price, char *new_description, char *new_category, char *new_manufacturedBy);
 int rate_product(char *name, int rating);
 Product* get_all_products(int *size);
+Product* get_all_category_products(int *size, char *cName);
 
 // db/products/products-utils.c
 int is_product_name_taken(char *name);
@@ -48,5 +49,6 @@ int increase_amount_bought_by_one(char *name);
 int increase_no_of_ratings_by_one(char *name);
 void cast_row_to_product_struct(Product *productObject, char **values);
 int count_all_products();
+int count_all_category_products(char *cName);
 
 #endif

@@ -63,6 +63,30 @@ int count_all_products(){
     return count;
 }
 
+int count_all_category_products(char *cName){
+    int count = 0;
+    sqlite3 *db = open_db();
+
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT COUNT(*) FROM Products WHERE category = ?;";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sqlite3_bind_text(stmt, 1, cName, -1, SQLITE_STATIC);
+    if (sqlite3_step(stmt) == SQLITE_ROW){
+        count = atof((const char*)sqlite3_column_text(stmt, 0));
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    return count;
+}
+
 double get_product_rating(char *name){
     sqlite3* db = open_db();
     double rating = 0;
