@@ -20,7 +20,7 @@ int create_tables(void){
     char *errMsg = 0;
 
     char *sql = "CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY, name VARCHAR(300), email VARCHAR(300) UNIQUE, role VARCHAR(10), password VARCHAR(110), phoneNumber VARCHAR(10), address VARCHAR(1000), pincode INT, state VARCHAR(100), money INT, createdAt INT NOT NULL);"
-    "CREATE TABLE IF NOT EXISTS Products(id INTEGER PRIMARY KEY, name VARCHAR(300), price INT, description VARCHAR(1000), category VARCHAR(300), manufacturedBy VARCHAR(300), rating DOUBLE, noOfRatings INT, amountBought INT, createdAt INT NOT NULL);";
+    "CREATE TABLE IF NOT EXISTS Products(id INTEGER PRIMARY KEY, name UNIQUE VARCHAR(300), price INT, description VARCHAR(1000), category VARCHAR(300), manufacturedBy VARCHAR(300), rating DOUBLE, noOfRatings INT, amountBought INT, createdAt INT NOT NULL);";
 
     int rc = sqlite3_exec(db, sql, 0, 0, &errMsg);
 

@@ -178,7 +178,7 @@ Product* get_all_category_products(int *size, char *cName){
         return NULL;
     }
 
-    Product *products = malloc(count * sizeof(User));
+    Product *products = malloc(count * sizeof(Product));
     if (!products) {
         fprintf(stderr, "%s: Memory allocation failed\n", __func__);
         sqlite3_close(db);
@@ -215,4 +215,37 @@ Product* get_all_category_products(int *size, char *cName){
     sqlite3_close(db);
     *size = count;
     return products;
+}
+
+Product* get_product_by_name(char *name){
+    sqlite3 *db = open_db();
+
+    Product *product = malloc(sizeof(Product));
+    if (!product) {
+        fprintf(stderr, "%s: Memory allocation failed\n", __func__);
+        sqlite3_close(db);
+        return NULL;
+    }
+
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT * FROM Products WHERE name = ?";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return NULL;
+    }
+
+    sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
+
+    char *values[10];
+    for (int i = 0; i < 10; i++){
+        values[i] = (char *) sqlite3_column_text(stmt, i);
+    }
+
+    cast_row_to_product_struct(product, values);
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    return product;
 }
