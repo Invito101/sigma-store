@@ -6,7 +6,7 @@ int create_user(char *role, char *name, char *email, char *password, char *phone
 
     sqlite3_stmt *stmt;
 
-    const char *sql = "INSERT INTO users(name, email, role, password, phoneNumber, address, pincode, state, money) VALUES(?,?,?,?,?,?,?,?,?);";
+    const char *sql = "INSERT INTO users(name, email, role, password, phoneNumber, address, pincode, state, money, createdAt) VALUES(?,?,?,?,?,?,?,?,?,?);";
 
     int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
 
@@ -28,6 +28,7 @@ int create_user(char *role, char *name, char *email, char *password, char *phone
     sqlite3_bind_int(stmt, 7, pincode);
     sqlite3_bind_text(stmt, 8, state, -1, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 9, 0);
+    sqlite3_bind_int(stmt, 10, getISTTime());
 
     rc = sqlite3_step(stmt);
 
