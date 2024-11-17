@@ -41,7 +41,7 @@ void cast_row_to_user_struct(User *userObject, char **values){
     }
 
     userObject->money = atoi(values[9]);
-    userObject->createdAt = parseDateToTimeT(values[10]);
+    userObject->createdAt = atoi(values[10]);
 }
 
 int is_email_taken(char *email){

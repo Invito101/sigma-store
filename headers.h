@@ -10,8 +10,8 @@
 
 // utils.c
 void clrscr(void);
-time_t parseDateToTimeT(char *dateStr);
 int countCallback(void *count, int argc, char **argv, char **azColName);
+int getISTTime();
 
 // encryption.c
 char* encrypt(char *text);

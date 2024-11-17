@@ -179,5 +179,5 @@ void cast_row_to_product_struct(Product *productObject, char **values){
 
     productObject->amountBought = atoi(values[8]);
 
-    productObject->createdAt = parseDateToTimeT(values[9]);
+    productObject->createdAt = atoi(values[9]);
 }

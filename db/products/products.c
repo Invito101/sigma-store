@@ -6,7 +6,7 @@ int create_product(char *name, int price, char *description, char *category, cha
 
     sqlite3_stmt *stmt;
 
-    const char *sql = "INSERT INTO Products(name, price, description, category, manufacturedBy, rating, noOfRatings, amountBought) VALUES(?,?,?,?,?,0,0,0);";
+    const char *sql = "INSERT INTO Products(name, price, description, category, manufacturedBy, rating, noOfRatings, amountBought, createdAt) VALUES(?,?,?,?,?,0,0,0,?);";
 
     int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
 
@@ -22,6 +22,7 @@ int create_product(char *name, int price, char *description, char *category, cha
     sqlite3_bind_text(stmt, 3, description, -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 4, category, -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 5, manufacturedBy, -1, SQLITE_STATIC);
+    sqlite3_bind_int(stmt, 6, getISTTime());
 
     rc = sqlite3_step(stmt);
 
@@ -170,7 +171,6 @@ Product* get_all_products(int *size){
 Product* get_all_category_products(int *size, char *cName){
     sqlite3 *db = open_db();
 
-    char *errMsg = 0;
     int count = count_all_category_products(cName);
     if (count <= 0) {
         *size = 0;
@@ -193,7 +193,7 @@ Product* get_all_category_products(int *size, char *cName){
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_close(db);
-        return -1;
+        return NULL;
     }
 
     sqlite3_bind_text(stmt, 1, cName, -1, SQLITE_STATIC);

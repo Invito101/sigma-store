@@ -9,13 +9,19 @@ void clrscr(void){
     #endif
 }
 
-time_t parseDateToTimeT(char *dateStr){
-    struct tm tmStruct;
-    memset(&tmStruct, 0, sizeof(struct tm));
+int getISTTime(){
+    time_t rawtime;
+    struct tm * timeinfo;
 
-    strftime(dateStr, sizeof(dateStr), "%Y-%m-%d %H:%M:%S", &tmStruct);
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
 
-    return mktime(&tmStruct);
+    timeinfo->tm_hour += 5;
+    timeinfo->tm_min += 30;
+
+    mktime(timeinfo);
+
+    return mktime(timeinfo);
 }
 
 // SQL stuff

@@ -14,6 +14,7 @@ void quit(void);
 
 int main(void) {
     create_tables();
+    create_product("Name", 1, "Fafa", "Books", "Apple");
     // Initialize ncurses
     initscr();
     
