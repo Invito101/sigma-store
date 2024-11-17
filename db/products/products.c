@@ -116,6 +116,13 @@ int rate_product(char *name, int rating){
     sqlite3_bind_double(stmt, 1, newRating);
     sqlite3_bind_text(stmt, 2, name, -1, SQLITE_STATIC);
 
+    if (sqlite3_step(stmt) != SQLITE_DONE){
+        fprintf(stderr, "%s : Failed to update record: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return -1;
+    }
+
     sqlite3_finalize(stmt);
 
     sqlite3_close(db);
@@ -233,10 +240,18 @@ Product* get_product_by_name(char *name){
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_close(db);
+        free(product);
         return NULL;
     }
 
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
+
+    if (sqlite3_step(stmt) != SQLITE_ROW){
+        fprintf(stderr, "%s : Failed to update record: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return -1;
+    }
 
     char *values[10];
     for (int i = 0; i < 10; i++){
