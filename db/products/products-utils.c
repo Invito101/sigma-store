@@ -47,6 +47,22 @@ int get_product_no_of_rating(char *name){
     return noOfRating;
 }
 
+int count_all_products(){
+    sqlite3 *db = open_db();
+
+    char *sql = "SELECT COUNT(*) FROM Products;";
+    int count = 0;
+    char *errMsg = 0;
+
+    if (sqlite3_exec(db, sql, countCallback, &count, &errMsg) != SQLITE_OK) {
+        fprintf(stderr, "%s : Failed to count products: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return -1;
+    }
+
+    return count;
+}
+
 double get_product_rating(char *name){
     sqlite3* db = open_db();
     double rating = 0;

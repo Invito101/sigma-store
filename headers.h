@@ -47,5 +47,6 @@ double get_product_rating(char *name);
 int increase_amount_bought_by_one(char *name);
 int increase_no_of_ratings_by_one(char *name);
 void cast_row_to_product_struct(Product *productObject, char **values);
+int count_all_products();
 
 #endif

@@ -121,7 +121,7 @@ int rate_product(char *name, int rating){
     return 0;
 }
 
-int dataCallback(void *productWrapper, int argc, char **argv, char **azColName) {
+int productDataCallback(void *productWrapper, int argc, char **argv, char **azColName) {
     ProductArrayWrapper *wrapper = (ProductArrayWrapper *)productWrapper;
     Product *productObject = &wrapper->products[wrapper->currentIndex];
 
@@ -152,7 +152,7 @@ Product* get_all_products(int *size){
     ProductArrayWrapper wrapper = { .products = products, .currentIndex = 0 };
 
     char *sql = "SELECT * FROM Products";
-    int rc = sqlite3_exec(db, sql, dataCallback, &wrapper, &errMsg);
+    int rc = sqlite3_exec(db, sql, productDataCallback, &wrapper, &errMsg);
 
     if (rc != SQLITE_OK){
         fprintf(stderr, "%s: Execution of Query : %s\n", __func__, errMsg ? errMsg : sqlite3_errmsg(db));
