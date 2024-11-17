@@ -58,4 +58,8 @@ void selectany1(int n,const char *a[],void (*b[])());
 void view_all();
 void quit2();
 
+// admin/extract-product.c
+int callback(void *data, int argc, char **argv, char **azColName);
+int call(char *category);
+
 #endif

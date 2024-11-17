@@ -14,7 +14,6 @@ void quit(void);
 
 int main(void) {
     create_tables();
-    create_product("Harry Potter",300,"Magic","Books","Penguin House");
     // Initialize ncurses
     initscr();
     

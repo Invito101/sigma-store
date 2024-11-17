@@ -18,12 +18,14 @@ int new(void) {
     
     // Clear the screen and show options
     clear();
+
     selectany1(2,a,b);
 
     // Cleanup ncurses
     endwin();
     return 0;
 }
+
 
 void selectany1(int n,const char *a[],void (*b[])()) {
   
@@ -47,10 +49,10 @@ void selectany1(int n,const char *a[],void (*b[])()) {
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-
-
+    call("Harry Potter");
     while(true){
         clear();
+        call("Harry Potter");
         attron(COLOR_PAIR(1));
         mvprintw(18, 30, "Welcome! Please live:");
         attroff(COLOR_PAIR(1));
@@ -112,4 +114,6 @@ void view_all() {
 }
 void quit2(){
     clear();
+    endwin();
+    exit(0);
 }

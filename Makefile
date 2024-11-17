@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -g
 LDFLAGS = -lsqlite3
-OBJ = login-signup.o utils.o db/db-utils.o db/users/users.o db/users/users-utils.o db/products/products.o db/products/products-utils.o structs/structs.o encryption.o admin/home.o
+OBJ = login-signup.o utils.o db/db-utils.o db/users/users.o db/users/users-utils.o db/products/products.o db/products/products-utils.o structs/structs.o encryption.o admin/home.o admin/extract-product.o
 TARGET = sigma-store
 
 ifeq ($(shell uname -s), Darwin)
