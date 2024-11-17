@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "structs/structs.c"
 #include <string.h>
+#include <ncurses.h>
 
 #ifndef HEADERS_H   // Prevents multiple inclusion
 #define HEADERS_H
@@ -50,5 +51,15 @@ int increase_no_of_ratings_by_one(char *name);
 void cast_row_to_product_struct(Product *productObject, char **values);
 int count_all_products();
 int count_all_category_products(char *cName);
+
+// admin/home.c
+int new();
+void selectany1(int n,const char *a[],void (*b[])());
+void view_all();
+void quit2();
+
+// admin/extract-product.c
+int callback(void *data, int argc, char **argv, char **azColName);
+int call(char *category);
 
 #endif

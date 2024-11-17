@@ -23,6 +23,7 @@ int main(void) {
     
     // Clear the screen and show options
     clear();
+
     select1(3,a,b);
 
     // Cleanup ncurses
@@ -117,7 +118,8 @@ void signup() {
 }
 void login1(){
     clear();
-    mvprintw(5, 10, "Login function called");
+    //mvprintw(5, 10, "Login function called");
+    new();
     refresh();
     getch();
 }
