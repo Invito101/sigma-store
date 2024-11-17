@@ -250,7 +250,7 @@ Product* get_product_by_name(char *name){
         fprintf(stderr, "%s : Failed to update record: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
         sqlite3_close(db);
-        return -1;
+        return NULL;
     }
 
     char *values[10];
