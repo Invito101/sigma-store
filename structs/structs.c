@@ -36,3 +36,16 @@ typedef struct {
     Product *products;
     int currentIndex;
 } ProductArrayWrapper;
+
+//Order structs
+
+typedef OrderItem{ //productid, quantity, users email
+    int id; //product id.
+    int quantity; //quantity of item.
+    OrderItem* nextitem;
+}OrderItem;
+
+typedef struct Order{
+    char useremail[301];
+    OrderItem* nextitem;
+}Order;
