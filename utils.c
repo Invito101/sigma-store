@@ -1,5 +1,6 @@
 #include "headers.h"
 #include <time.h>
+#include <ctype.h>
 
 void clrscr(void){
     #if defined(_WIN32) || defined(_WIN64)
