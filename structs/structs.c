@@ -38,7 +38,6 @@ typedef struct {
 } ProductArrayWrapper;
 
 //Order structs
-
 typedef OrderItem{ //productid, quantity, users email
     int id; //product id.
     int quantity; //quantity of item.
