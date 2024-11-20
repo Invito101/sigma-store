@@ -4,7 +4,7 @@
 
 static Order order = {"", NULL};
 
-void CreateNewOrder(char useremail[]) {
+void CreateNewOrder(char useremail[]) { //Called whenever a new user has to be connected to order.
     strncpy(order.useremail, useremail, sizeof(order.useremail) - 1);
     order.nextitem = NULL;  
 }
@@ -53,3 +53,16 @@ int DecreaseItemQuantity(int id) { // returns 0 if successful, returns 1 if item
     }
     return 1;
 }
+
+void PlaceOrder() {
+    OrderItem* current = order.nextitem;
+    OrderItem* temp;
+
+    while (current != NULL) {
+        temp = current;
+        current = current->next;
+        free(temp);
+    }
+    order.nextitem = NULL;
+}
+
