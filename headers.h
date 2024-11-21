@@ -14,6 +14,8 @@ void clrscr(void);
 time_t parseDateToTimeT(char *dateStr);
 int countCallback(void *count, int argc, char **argv, char **azColName);
 int getISTTime();
+void get_valid_login(int row, char *label, char *buffer, int max_length, int (*validate)(char *),void page());
+
 
 // encryption.c
 char* encrypt(char *text);
