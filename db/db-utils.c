@@ -25,7 +25,7 @@ int create_tables(void){
 
     "CREATE TABLE IF NOT EXISTS Orders(id INTEGER PRIMARY KEY, userId INT, createdAt INT NOT NULL, FOREIGN KEY (userId) REFERENCES Users(id));"
 
-    "CREATE TABLE IF NOT EXISTS CartItems(id INTEGER PRIMARY, userId INT, productId INT, ordered INT DEFAULT 0, PRIMARY KEY (userId, productId), FOREIGN KEY (userId) REFERENCES Users(id), FOREIGN KEY (productId) REFERENCES Products(id));";
+    "CREATE TABLE IF NOT EXISTS Cart(id INTEGER PRIMARY KEY, quantity INT, userId INT, productId INT, ordered INT DEFAULT 0, orderId INT DEFAULT NULL, FOREIGN KEY (userId) REFERENCES Users(id), FOREIGN KEY (productId) REFERENCES Products(id), FOREIGN KEY (orderId) REFERENCES Orders(id));";
 
     int rc = sqlite3_exec(db, sql, 0, 0, &errMsg);
 

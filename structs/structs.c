@@ -14,7 +14,7 @@ typedef struct User{
     time_t createdAt;
 } User;
 
-typedef struct {
+typedef struct{
     User *users;
     int currentIndex;
 } UserArrayWrapper;
@@ -32,7 +32,7 @@ typedef struct Product{
     time_t createdAt;
 } Product;
 
-typedef struct {
+typedef struct{
     Product *products;
     int currentIndex;
 } ProductArrayWrapper;
@@ -48,3 +48,16 @@ typedef struct Order{
     char useremail[301];
     OrderItem* nextitem;
 } Order;
+
+typedef struct Cart{
+    int id;
+    int quantity;
+    int productId;
+    int userId;
+    int orderId;
+} Cart;
+
+typedef struct CartArrayWrapper{
+    Cart *items;
+    int currentIndex;
+} CartArrayWrapper;

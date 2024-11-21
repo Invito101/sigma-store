@@ -34,6 +34,7 @@ int create_admin(char *name, char *email, char *password, char *phoneNumber, cha
 User* get_all_users(int *size);
 int get_money_of_user(char *email);
 int modify_money_of_user(char *email, int new_money);
+int get_id_of_user_by_email(char *email);
 
 // db/products/products.c
 int create_product(char *name, int price, char *description, char *category, char *manufacturedBy);
@@ -52,6 +53,14 @@ int increase_no_of_ratings_by_one(char *name);
 void cast_row_to_product_struct(Product *productObject, char **values);
 int count_all_products();
 int count_all_category_products(char *cName);
+
+// db/cart/cart.c
+int add_item_to_cart(int userId, int quantity, int productId);
+Cart* get_cart_items(int userId, int* size);
+
+// db/cart/cart-utils.c
+int count_cart_items_of_user(int userId);
+void cast_row_to_cart_struct(Cart *cartObject, char **values);
 
 // admin/home.c
 int new();

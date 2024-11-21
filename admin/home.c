@@ -52,7 +52,7 @@ void selectany1(int n,const char *a[],void (*b[])()) {
 
     while(true){
         clear();
-        call("Harry Potter");
+        // call("Harry Potter");
         attron(COLOR_PAIR(1));
         mvprintw(1, 1, "Welcome! Please live:");
         attroff(COLOR_PAIR(1));
@@ -113,10 +113,10 @@ void view_all() {
     // refresh();
     int *size = 0;
     Product *products_p = get_all_products(size);
-    for (int i=0;i<(*size);i++)
-    {
-        call((products_p)->name);
-    }
+    // for (int i=0;i<(*size);i++)
+    // {
+    //     call((products_p)->name);
+    // }
 
     getch();
 }

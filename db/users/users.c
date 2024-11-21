@@ -162,6 +162,29 @@ int get_money_of_user(char *email){
     return money;
 }
 
+int get_id_of_user_by_email(char *email){
+    sqlite3* db = open_db();
+    int id;
+
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT id FROM Users WHERE email = ?;";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return -1;
+    }
+
+    sqlite3_bind_text(stmt, 1, email, -1, SQLITE_STATIC);
+    if (sqlite3_step(stmt) == SQLITE_ROW){
+        id = atoi((const char*)sqlite3_column_text(stmt, 0));
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    return id;
+}
+
 int modify_money_of_user(char *email, int new_money){
     sqlite3* db = open_db();
     sqlite3_stmt *stmt;

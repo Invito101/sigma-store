@@ -60,6 +60,8 @@ int count_all_products(){
         return -1;
     }
 
+    sqlite3_close(db);
+
     return count;
 }
 
