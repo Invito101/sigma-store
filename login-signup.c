@@ -9,7 +9,8 @@
 
 
 // Function declarations
-void select1(int n,const char *a[],void (*b[])());  //Function allows user to input options    
+void authpage(void);
+void selector(int n,const char *a[],void (*b[])());  //Function allows user to input options    
 //here n is the number of options, a is the array of label names, and b is the function pointer array  // Function to allow user to choose signup or login
 void signup(void);
 void login1(void);
@@ -21,21 +22,23 @@ int main(void) {
     // Initialize ncurses
     initscr();
     
-    const char *a[3]={"Sign up","Login","Quit"};
-    void (*b[])()={signup,login1,quit};
-    
     // Clear the screen and show options
     clear();
 
-    select1(3,a,b);
+    authpage();
 
     // Cleanup ncurses
     endwin();
     return 0;
 }
 
+void authpage(void){
+    const char *a[3]={"Sign up","Login","Quit"};
+    void (*b[])()={signup,login1,quit};
+    selector(3,a,b);
+}
 
-void select1(int n,const char *a[],void (*b[])()) {
+void selector(int n,const char *a[],void (*b[])()) {
   
     int choice=0;
     int tco = 0; //the_chosen_one
@@ -80,7 +83,7 @@ void select1(int n,const char *a[],void (*b[])()) {
         }
         
         attron(COLOR_PAIR(1));
-        mvprintw(10, 10, "Use arrow keys to navigate, Enter to select1.");
+        mvprintw(10, 10, "Use arrow keys to navigate, Enter to select.");
         attroff(COLOR_PAIR(1));
         refresh();
 
@@ -107,7 +110,7 @@ void select1(int n,const char *a[],void (*b[])()) {
         else
         continue;
 
-    } 
+    }
 
     b[choice]();
     endwin();
@@ -199,10 +202,27 @@ void signup() {
 void login1(){
     clear();
     //mvprintw(5, 10, "Login function called");
-    new();
+    int max_length = 100;
+    char password[max_length], email[max_length];
+
+    start_color();
+    init_pair(1, COLOR_GREEN, COLOR_BLACK); 
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
+
+    attron(COLOR_PAIR(1));
+    mvprintw(2, 10, "Login");
+    mvprintw(3, 10, "Press Enter to submit each field:");
+    attroff(COLOR_PAIR(1));
+
     refresh();
+    get_valid_login(5, "Email", email, max_length, is_valid_email,authpage);
+    attron(COLOR_PAIR(1));
+    refresh();
+    noecho();
     getch();
 }
+
 void quit(){
+
     clear();
 }
