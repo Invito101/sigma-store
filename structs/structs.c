@@ -38,10 +38,10 @@ typedef struct {
 } ProductArrayWrapper;
 
 //Order structs
-typedef OrderItem{ //productid, quantity, users email
+typedef struct OrderItem{ //productid, quantity, users email
     int id; //product id.
     int quantity; //quantity of item.
-    OrderItem* nextitem;
+    struct OrderItem* nextitem;
 }OrderItem;
 
 typedef struct Order{
