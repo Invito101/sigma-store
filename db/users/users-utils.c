@@ -57,15 +57,14 @@ int is_email_taken(char *email){
 
     sqlite3_bind_text(stmt, 1, email, -1, SQLITE_STATIC);
 
+    int email_count = 0;
     if (sqlite3_step(stmt) == SQLITE_ROW){
-        if(sqlite3_column_text(stmt, 0) == 0){
-            return 0;
-        }
+        email_count = sqlite3_column_int(stmt, 0);
     }
 
     sqlite3_finalize(stmt);
     sqlite3_close(db);
-    return 1;
+    return email_count > 0 ? 1 : 0;
 }
 
 int count_all_users(){
