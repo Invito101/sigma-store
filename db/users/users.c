@@ -57,8 +57,8 @@ int create_admin(char *name, char *email, char *password, char *phoneNumber, cha
     return 0;
 }
 
-int dataCallback(void *userWrapper, int argc, char **argv, char **azColName) {
-    UserArrayWrapper *wrapper = (UserArrayWrapper *)userWrapper;
+int dataCallback(void *data, int argc, char **argv, char **azColName) {
+    UserArrayWrapper *wrapper = (UserArrayWrapper *) data;
     User *userObject = &wrapper->users[wrapper->currentIndex];
 
     cast_row_to_user_struct(userObject, argv);

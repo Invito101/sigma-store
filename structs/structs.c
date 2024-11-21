@@ -42,9 +42,9 @@ typedef struct OrderItem{ //productid, quantity, users email
     int id; //product id.
     int quantity; //quantity of item.
     struct OrderItem* nextitem;
-}OrderItem;
+} OrderItem;
 
 typedef struct Order{
     char useremail[301];
     OrderItem* nextitem;
-}Order;
+} Order;
