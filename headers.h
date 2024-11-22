@@ -37,6 +37,7 @@ User* get_all_users(int *size);
 int get_money_of_user(char *email);
 int modify_money_of_user(char *email, int new_money);
 int get_id_of_user_by_email(char *email);
+User* login(char *email, char *password);
 
 // db/products/products.c
 int create_product(char *name, int price, char *description, char *category, char *manufacturedBy);

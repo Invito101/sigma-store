@@ -130,10 +130,8 @@ void get_valid_login(int row, char *label, char *buffer, int max_length, int (*v
                 page();
             }
             else if(is_email_taken(buffer)==1){
-                clear();
-                mvprintw(row + 1, 10, "Welcome");
-                refresh();
-            
+                break;
+
             }
 
             break; // Valid input
@@ -148,4 +146,5 @@ void get_valid_login(int row, char *label, char *buffer, int max_length, int (*v
         }
     } while (1);
 }
+
 

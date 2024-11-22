@@ -202,12 +202,15 @@ void signup() {
 void login1(){
     clear();
     //mvprintw(5, 10, "Login function called");
-    int max_length = 100;
-    char password[max_length], email[max_length];
+    #define max_length_const 100
+    int max_length = max_length_const;
+
+    char password[max_length_const], email[max_length_const];
 
     start_color();
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
+    init_pair(3,COLOR_RED,COLOR_BLACK);
 
     attron(COLOR_PAIR(1));
     mvprintw(2, 10, "Login");
@@ -218,9 +221,80 @@ void login1(){
     get_valid_login(5, "Email", email, max_length, is_valid_email,authpage);
     attron(COLOR_PAIR(1));
     refresh();
+    
+    mvprintw(7, 10, "Password: ");
+    refresh();
+    attron(COLOR_PAIR(2));
     noecho();
+    int ch, index = 0;
+
+    while (1) {
+        int ch, index = 0;
+
+        
+        attron(COLOR_PAIR(1));
+        mvprintw(7, 10, "Password: ");
+        attroff(COLOR_PAIR(1));
+        refresh();
+
+        
+        attron(COLOR_PAIR(2));
+        for (int i = 0; i < max_length; i++) {
+            mvaddch(7, 20 + i, ' ');
+        }
+        move(7, 20);
+        refresh();
+        attroff(COLOR_PAIR(2));
+
+        // Input password
+        noecho();
+        attron(COLOR_PAIR(2));
+        index = 0; 
+        while ((ch = getch()) != '\n') {
+            if (ch == KEY_BACKSPACE || ch == 127) {
+                if (index > 0) {
+                    index--;
+                    mvaddch(7, 20 + index, ' '); 
+                    move(7, 20 + index);
+                }
+            } else if (index < max_length - 1) {
+                password[index++] = ch;
+                mvaddch(7, 20 + index - 1, '*'); 
+            }
+        }
+        password[index] = '\0'; // adding null terminator
+        attroff(COLOR_PAIR(2));
+        echo();
+
+        User *details = login(email, password);
+        if (details == NULL) {
+            // Wrong password
+            attron(COLOR_PAIR(3));
+            mvprintw(8, 10, "Wrong password, please try again.");
+            attroff(COLOR_PAIR(3));
+            refresh();
+        } else {
+            // Correct password
+            move(8,10);
+            clrtoeol();
+            refresh();
+            mvprintw(8, 10, "Login successful! Press any key to continue.");
+            refresh();
+            free(details); // Clean up simulated user
+            break; // Exit the loop
+        }
+    }
+    attroff(COLOR_PAIR(2));
+    echo();
+
+
+    
+    refresh();
     getch();
+
+
 }
+
 
 void quit(){
 
