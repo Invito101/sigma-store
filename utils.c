@@ -48,7 +48,7 @@ int is_valid_email(char *email) { // if there is one @ in the email, it confirms
             at_count++;
         }
     }
-    return at_count == 1;
+    return (at_count == 1 && (is_email_taken(email)==0));
 }
 
 
