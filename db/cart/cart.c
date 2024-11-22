@@ -81,3 +81,35 @@ Cart* get_cart_items(int userId, int* size){
     *size = count;
     return items;
 }
+
+int mark_cart_as_ordered(int userId, int orderId){
+    sqlite3 *db = open_db();
+
+    sqlite3_stmt *stmt;
+
+    const char *sql = "UPDATE Cart SET orderID = ? WHERE userId = ?;";
+
+    int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+
+    if(rc != SQLITE_OK){
+        fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return 1;
+    }
+
+    sqlite3_bind_int(stmt, 1, orderId);
+    sqlite3_bind_int(stmt, 2, userId);
+
+    rc = sqlite3_step(stmt);
+
+    if(rc != SQLITE_DONE){
+        fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return 1;
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    return 0;
+}

@@ -61,6 +61,10 @@ int count_all_category_products(char *cName);
 // db/cart/cart.c
 int add_item_to_cart(int userId, int quantity, int productId);
 Cart* get_cart_items(int userId, int* size);
+int mark_cart_as_ordered(int userId, int orderId);
+
+// db/orders/orders.c
+int place_order(int userId);
 
 // db/cart/cart-utils.c
 int count_cart_items_of_user(int userId);
