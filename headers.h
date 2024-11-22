@@ -15,6 +15,7 @@ time_t parseDateToTimeT(char *dateStr);
 int countCallback(void *count, int argc, char **argv, char **azColName);
 int getISTTime();
 void get_valid_login(int row, char *label, char *buffer, int max_length, int (*validate)(char *),void page());
+int is_valid_email_for_login(char *email);
 
 
 // encryption.c

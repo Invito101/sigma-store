@@ -51,6 +51,15 @@ int is_valid_email(char *email) { // if there is one @ in the email, it confirms
     return (at_count == 1 && (is_email_taken(email)==0));
 }
 
+int is_valid_email_for_login(char *email) { // if there is one @ in the email, it confirms that it is valid
+    int at_count = 0;
+    for (int i = 0; email[i] != '\0'; i++) {
+        if (email[i] == '@') {
+            at_count++;
+        }
+    }
+    return at_count == 1;
+}
 
 int is_valid_name(char *name) { // name cannot be empty or just numericor have invalid characters
     if (strlen(name) == 0) return 0;

@@ -218,7 +218,7 @@ void login1(){
     attroff(COLOR_PAIR(1));
 
     refresh();
-    get_valid_login(5, "Email", email, max_length, is_valid_email,authpage);
+    get_valid_login(5, "Email", email, max_length, is_valid_email_for_login,authpage);
     attron(COLOR_PAIR(1));
     refresh();
     
