@@ -65,6 +65,8 @@ int mark_cart_as_ordered(int userId, int orderId);
 
 // db/orders/orders.c
 int place_order(int userId);
+Order get_order(int orderId, int userId);
+Order* get_all_orders_of_user(int userId, int *size);
 
 // db/cart/cart-utils.c
 int count_cart_items_of_user(int userId);
@@ -75,10 +77,6 @@ int new();
 void selectany1(int n,const char *a[],void (*b[])());
 int view_all();
 void quit2();
-
-// admin/extract-product.c
-int callback(void *data, int argc, char **argv, char **azColName);
-int call(char *category);
 
 //signup helper functions
 int is_numeric(char *str);
