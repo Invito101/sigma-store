@@ -44,10 +44,10 @@ typedef struct OrderItem{ //productid, quantity, users email
     struct OrderItem* nextitem;
 } OrderItem;
 
-typedef struct Order{
+typedef struct OrderLL{
     char useremail[301];
     OrderItem* nextitem;
-} Order;
+} OrderLL;
 
 typedef struct Cart{
     int id;

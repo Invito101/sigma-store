@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-static Order order = {"", NULL};
+static OrderLL order = {"", NULL};
 
 void CreateNewOrder(char useremail[]) { //Called whenever a new user has to be connected to order.
     strncpy(order.useremail, useremail, sizeof(order.useremail) - 1);

@@ -68,6 +68,9 @@ int place_order(int userId);
 Order get_order(int orderId, int userId);
 Order* get_all_orders_of_user(int userId, int *size);
 
+// db/orders/order-utils.c
+void cast_row_to_order_struct(Order *orderObject, char **values);
+
 // db/cart/cart-utils.c
 int count_cart_items_of_user(int userId);
 void cast_row_to_cart_struct(Cart *cartObject, char **values);
