@@ -25,7 +25,10 @@ int new(void) {
     return 0;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d976f5b6fd0a138c447d054bf5ad74bfdebcddcf
 void quit2() {
     clear();
     endwin();
@@ -176,10 +179,3 @@ int view_all()
     delwin(pad);
     return 0;
 }
-
-
-
-
-
-
-
