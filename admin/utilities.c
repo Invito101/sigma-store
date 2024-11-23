@@ -22,9 +22,6 @@ int is_valid_name(char *name)
 
 int is_valid_price(char *price)
 {
-    for (int i=0;i<max_length;i++)
-    {
-        if (isdigit((unsigned char)price[i]));
-
-    }
+    if (is_numeric(price)) 
+ 
 }
