@@ -18,7 +18,9 @@ void quit(void);
 
 int main(void) {
     create_tables();
-    create_product("Name", 1, "Fafa", "Books", "Apple");
+    // create_product("Name", 1, "Fafa", "Books", "Apple");
+   
+
     // Initialize ncurses
     initscr();
     
@@ -299,4 +301,5 @@ void login1(){
 void quit(){
 
     clear();
+    new();
 }

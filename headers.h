@@ -73,7 +73,7 @@ void cast_row_to_cart_struct(Cart *cartObject, char **values);
 // admin/home.c
 int new();
 void selectany1(int n,const char *a[],void (*b[])());
-void view_all();
+int view_all();
 void quit2();
 
 // admin/extract-product.c
@@ -87,5 +87,14 @@ int is_valid_name(char *name);
 int is_valid_phone(char *phone);
 int is_valid_pincode(char *pincode);
 void get_valid_input(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
+
+// admin/View_all_products.c
+int view_category_wise();
+void create_product1();
+void modify_product1();
+void delete_product1();
+void quit3();
+
+
 
 #endif

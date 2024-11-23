@@ -150,7 +150,7 @@ Product* get_all_products(int *size){
         return NULL;
     }
 
-    Product *products = malloc(count * sizeof(User));
+    Product *products = malloc(count * sizeof(Product));
     if (!products) {
         fprintf(stderr, "%s: Memory allocation failed\n", __func__);
         sqlite3_close(db);
