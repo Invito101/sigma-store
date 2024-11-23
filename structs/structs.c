@@ -61,3 +61,12 @@ typedef struct CartArrayWrapper{
     Cart *items;
     int currentIndex;
 } CartArrayWrapper;
+
+typedef struct Order{
+    int id;
+    int userId;
+    time_t createdAt;
+    
+    Cart *items;
+    int size;
+} Order;
