@@ -74,7 +74,6 @@ void cast_row_to_cart_struct(Cart *cartObject, char **values);
 
 // admin/home.c
 int new();
-void selectany1(int n,const char *a[],void (*b[])());
 int view_all();
 void quit2();
 
@@ -92,7 +91,15 @@ void create_product1();
 void modify_product1();
 void delete_product1();
 void quit3();
+int selectany1(int n,const char *a[]);
 
 
+// admin/utilities.c
+int has_alphabet(char *str);
+int is_valid__product_name(char *name);
+int is_valid_price(char *price);
+int is_valid_description(char* description);
+int is_valid_manufactured_by(char* manufactured_by);
+void get_valid_input_for_product(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
 
 #endif
