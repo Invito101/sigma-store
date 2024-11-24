@@ -15,7 +15,7 @@ void create_product1()
 {   
     clear();
     endwin();
-    delwin(pad);
+    
     create_tables();
     initscr();
     raw();
@@ -29,7 +29,8 @@ void create_product1()
 
     
     char name[max_len],price[max_len];
-    char description[max_len], category[max_len], manufactured_by[max_len];
+    char description[max_len], category[max_len], manufacturedBy[max_len];
+
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
@@ -41,12 +42,13 @@ void create_product1()
     refresh();
 
     get_valid_input_for_product(5, "Name of the product: ", name, max_len, is_valid_name);
-    get_valid_input_for_product(6, "Price: ", price, max_len, is_valid_email);
+    get_valid_input_for_product(6, "Price: ", price, max_len, is_valid_price);
     get_valid_input_for_product(7, "Description: ",description, max_len, NULL);
 
-    const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
-    category = categ[selected]
+    strncpy(category, categ[selected], max_len);
+
     attron(COLOR_PAIR(1));
     mvprintw(8,10, "Category: ");
     attroff(COLOR_PAIR(1));
@@ -55,12 +57,12 @@ void create_product1()
     mvprintw(8,20, "%s",category);
     attroff(COLOR_PAIR(2));
     refresh();
-    get_valid_input_for_product(9, "Manufactured by: ",manufactured_by, max_len, is_valid_manufactured_by);
+    get_valid_input_for_product(9, "Manufactured by: ",manufacturedBy, max_len, is_valid_manufacturedBy);
 
-    create_product(name,price,description,category, manufactured_by);
+    int sf = create_product(name,atoi(price),description,category, manufacturedBy);
 
     clear();
-
+    if (sf==0){
     attron(COLOR_PAIR(1));
     mvprintw(5, 10, "Product created successfully! Here's the data you entered:");
     mvprintw(6, 10, "Name:");
@@ -74,16 +76,23 @@ void create_product1()
     mvprintw(7, 30, "%s", price);
     mvprintw(8, 30, "%s", description);
     mvprintw(9, 30, "%s", category);
-    mvprintw(10, 30, "%s", manufactured_by);
+    mvprintw(10, 30, "%s", manufacturedBy);
     attroff(COLOR_PAIR(2));
     refresh();
-
+    }
+    else 
+    {
+        attron(COLOR_PAIR(1));
+    mvprintw(10, 10, "Product not created.");
+    attroff(COLOR_PAIR(1));
+    }
     attron(COLOR_PAIR(1));
     mvprintw(15, 10, "Press any key to return to the menu.");
     attroff(COLOR_PAIR(1));
     getch();
     endwin();
     new();
+    
 }
 
 
@@ -158,9 +167,7 @@ int selectany1(int n,const char *a[]) {
     //char opencircle[]="\u25EF";
     //char closedcircle[]="\u2B24";
 
-    initscr();
     raw();
-    clear();
     start_color();
     cbreak();
     noecho();
@@ -172,7 +179,6 @@ int selectany1(int n,const char *a[]) {
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
 
     while(true){
-        clear();
         attron(COLOR_PAIR(1));
         mvprintw(8, 10, "Category: ");
         attroff(COLOR_PAIR(1));

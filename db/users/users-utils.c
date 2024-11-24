@@ -51,7 +51,7 @@ int is_email_taken(char *email){
     char *sql = "SELECT COUNT(*) FROM Users WHERE email = ?;";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
@@ -63,7 +63,7 @@ int is_email_taken(char *email){
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return email_count > 0 ? 1 : 0;
 }
 
@@ -76,7 +76,7 @@ int count_all_users(){
 
     if (sqlite3_exec(db, sql, countCallback, &count, &errMsg) != SQLITE_OK) {
         fprintf(stderr, "%s : Failed to count users: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 

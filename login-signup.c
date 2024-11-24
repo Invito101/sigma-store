@@ -18,8 +18,22 @@ void quit(void);
 
 int main(void) {
     create_tables();
-    // create_product("Name", 1, "Fafa", "Books", "Apple");
-   
+    // Open a file to store stderr
+    int file = open("stderr_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (file == -1) {
+        perror("Error opening file");
+        return 1;
+    }
+
+    // Redirect stderr to the file
+    if (dup2(file, STDERR_FILENO) == -1) {
+        perror("Error redirecting stderr");
+        close(file);
+        return 1;
+    }
+
+    // Now any output to stderr will go to the file
+    fprintf(stderr, "This error message will go to stderr_output.txt\n");
 
     // Initialize ncurses
     initscr();
@@ -203,6 +217,7 @@ void signup() {
 
 void login1(){
     clear();
+    int flag=1;
     //mvprintw(5, 10, "Login function called");
     #define max_length_const 100
     int max_length = max_length_const;
@@ -282,6 +297,8 @@ void login1(){
             refresh();
             mvprintw(8, 10, "Login successful! Press any key to continue.");
             refresh();
+            getch();
+            flag=0;
             free(details); // Clean up simulated user
             break; // Exit the loop
         }
@@ -289,10 +306,11 @@ void login1(){
     attroff(COLOR_PAIR(2));
     echo();
 
+    if(flag==0)
+    menu1();
 
     
-    refresh();
-    getch();
+    
 
 
 }
