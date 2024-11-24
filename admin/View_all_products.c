@@ -11,6 +11,46 @@ int view_category_wise()
     return 0;
 }
 
+void view_particular()
+{   char *name;
+    clear();
+    endwin();
+    
+    create_tables();
+    initscr();
+    raw();
+    clear();
+    start_color();
+    cbreak();
+    noecho();
+    curs_set(0);     
+
+    keypad(stdscr, TRUE);
+    init_pair(1, COLOR_GREEN, COLOR_BLACK); 
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
+
+    move(2, 10);
+    clrtoeol();
+
+    attron(COLOR_PAIR(1));
+    mvprintw(2, 10, "%s: ", "Enter the name of the product: ");
+    attroff(COLOR_PAIR(1));
+    refresh();
+
+    attron(COLOR_PAIR(2));
+    echo();
+    getnstr(name, max_l);
+    noecho();
+    attroff(COLOR_PAIR(2));
+
+    move(2 + 1, 10); // makes sure it doesnt clash with any error message
+    clrtoeol();
+
+
+}
+
+
+
 void create_product1()
 {   
     clear();
@@ -45,7 +85,7 @@ void create_product1()
     get_valid_input_for_product(6, "Price: ", price, max_len, is_valid_price);
     get_valid_input_for_product(7, "Description: ",description, max_len, NULL);
 
-    char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(category, categ[selected], max_len);
 
@@ -91,7 +131,7 @@ void create_product1()
     attroff(COLOR_PAIR(1));
     getch();
     endwin();
-    new();
+    admin_home();
     
 }
 
@@ -195,6 +235,9 @@ void quit3()
     endwin();
     exit(0);
 }
+
+
+
 
 
 int selectany1(int n,const char *a[]) {

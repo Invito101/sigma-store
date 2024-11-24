@@ -7,7 +7,7 @@
 
 int view_all(void);
 void quit2(void);
-int new(void) {
+int admin_home(void) {
     create_tables();
     // Initialize ncurses
     initscr();
@@ -35,15 +35,15 @@ void quit2() {
 int view_all()
 {
     clear();
-     const char *aa[5]={"View products by category","Create product","Delete product","Modify product","Quit"};
-    void (*bb[])()={(void *)view_category_wise,create_product1,delete_product1,modify_product1,quit3};
+     const char *aa[6]={"View products by category","View a particular product","Create product","Delete product","Modify product","Quit"};
+    void (*bb[])()={(void *)view_category_wise,view_particular,create_product1,delete_product1,modify_product1,quit3};
 
 
 
     int choice=0;
     int tco = 0; //the_chosen_one
-    int n=5;
-    int sizea=n; 
+    int n=6;
+    int sizea=n;
     int ch;
     //char opencircle[]="\u25EF";
     //char closedcircle[]="\u2B24";
@@ -168,7 +168,7 @@ int view_all()
         else
         continue;
     }
-
+    free(products);
     delwin(pad);
     bb[choice]();
     endwin();

@@ -85,7 +85,7 @@ void cast_row_to_order_struct(Order *orderObject, char **values);
 void menu1(void);
 
 // admin/home.c
-int new();
+int admin_home();
 int view_all();
 void quit2();
 
@@ -104,6 +104,8 @@ void modify_product1();
 void delete_product1();
 void quit3();
 int selectany1(int n,const char *a[]);
+void view_particular();
+
 
 
 // admin/utilities.c
@@ -115,5 +117,11 @@ int is_valid_manufacturedBy(char* manufacturedBy);
 void get_valid_input_for_product(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
 void get_valid_input_for_existing_product(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
 
+// customer/orders.c
+void CreateNewOrder(int userId);
+int AddItemToOrder(int id, int userId);
+int DecreaseItemQuantity(int id, int userId);
+void PlaceOrder(int userId);
+void DisplayCart(int userId);
 
 #endif
