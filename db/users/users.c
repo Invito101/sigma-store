@@ -13,7 +13,7 @@ int create_user(char *role, char *name, char *email, char *password, char *phone
     if(rc != SQLITE_OK){
         fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, errMsg ? errMsg : sqlite3_errmsg(db));
         sqlite3_free(errMsg);
-        sqlite3_close(db);
+        close_db(db);
         return 1;
     }
 
@@ -35,12 +35,12 @@ int create_user(char *role, char *name, char *email, char *password, char *phone
     if(rc != SQLITE_DONE){
         fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, errMsg ? errMsg : sqlite3_errmsg(db));
         sqlite3_free(errMsg);
-        sqlite3_close(db);
+        close_db(db);
         return 1;
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
 
     return 0;
 }
@@ -74,14 +74,14 @@ User* get_all_users(int *size) {
     int count = count_all_users();
     if (count <= 0) {
         *size = 0;
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
     User *users = malloc(count * sizeof(User));
     if (!users) {
         fprintf(stderr, "%s: Memory allocation failed\n", __func__);
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
@@ -93,12 +93,12 @@ User* get_all_users(int *size) {
     if (rc != SQLITE_OK){
         fprintf(stderr, "%s: Execution of Query : %s\n", __func__, errMsg ? errMsg : sqlite3_errmsg(db));
         sqlite3_free(errMsg);
-        sqlite3_close(db);
+        close_db(db);
         free(users);
         return NULL;
     }
 
-    sqlite3_close(db);
+    close_db(db);
     *size = count;
     return users;
 }
@@ -113,7 +113,7 @@ User* login(char *email, char *password){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
@@ -135,7 +135,7 @@ User* login(char *email, char *password){
     }
     
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return user;
 }
 
@@ -148,7 +148,7 @@ int get_money_of_user(char *email){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
@@ -158,7 +158,7 @@ int get_money_of_user(char *email){
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return money;
 }
 
@@ -171,7 +171,7 @@ int get_id_of_user_by_email(char *email){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
@@ -181,7 +181,7 @@ int get_id_of_user_by_email(char *email){
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return id;
 }
 
@@ -192,7 +192,7 @@ int modify_money_of_user(char *email, int new_money){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
@@ -202,12 +202,12 @@ int modify_money_of_user(char *email, int new_money){
     if (sqlite3_step(stmt) != SQLITE_DONE){
         fprintf(stderr, "%s : Failed to update record: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
 
     return 0;
 }

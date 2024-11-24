@@ -25,10 +25,6 @@ int new(void) {
     return 0;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> d976f5b6fd0a138c447d054bf5ad74bfdebcddcf
 void quit2() {
     clear();
     endwin();
@@ -79,7 +75,7 @@ int view_all()
 
     }
 
-    int size;aa
+    int size;
     Product *products = get_all_products(&size);
 
 
@@ -173,9 +169,9 @@ int view_all()
         continue;
     }
 
-
+    delwin(pad);
     bb[choice]();
     endwin();
-    delwin(pad);
+
     return 0;
 }

@@ -5,6 +5,8 @@
 #include "structs/structs.c"
 #include <string.h>
 #include <ncurses.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #ifndef HEADERS_H   // Prevents multiple inclusion
 #define HEADERS_H
@@ -24,6 +26,7 @@ char* decrypt(char *text);
 
 // db/db-utils.c
 sqlite3* open_db(void);
+void close_db(sqlite3 *db);
 int create_tables(void);
 
 // db/users/users-utils.c
@@ -102,7 +105,8 @@ int has_alphabet(char *str);
 int is_valid__product_name(char *name);
 int is_valid_price(char *price);
 int is_valid_description(char* description);
-int is_valid_manufactured_by(char* manufactured_by);
+int is_valid_manufacturedBy(char* manufacturedBy);
 void get_valid_input_for_product(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
+
 
 #endif

@@ -11,7 +11,7 @@ int place_order(int userId){
 
     if(rc != SQLITE_OK){
         fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return 1;
     }
 
@@ -22,14 +22,14 @@ int place_order(int userId){
 
     if(rc != SQLITE_DONE){
         fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return 1;
     }
 
     int orderId = (int)sqlite3_last_insert_rowid(db);
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
 
     mark_cart_as_ordered(userId, orderId);
     return 0;
@@ -47,7 +47,7 @@ Order get_order(int orderId, int userId){
 
     if(rc != SQLITE_OK){
         fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return order;
     }
 
@@ -57,7 +57,7 @@ Order get_order(int orderId, int userId){
 
     if(rc != SQLITE_DONE){
         fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return order;
     }
 
@@ -71,7 +71,7 @@ Order get_order(int orderId, int userId){
     order.items = get_cart_items(userId, &order.size);
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return order;
 }
 
@@ -84,7 +84,7 @@ Order* get_all_orders_of_user(int userId, int *size){
 
     if (rc != SQLITE_OK) {
         fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         *size = 0;
         return NULL;
     }
@@ -105,7 +105,7 @@ Order* get_all_orders_of_user(int userId, int *size){
     if (!orders) {
         fprintf(stderr, "Memory allocation failed for orders.\n");
         sqlite3_finalize(stmt);
-        sqlite3_close(db);
+        close_db(db);
         *size = 0;
         return NULL;
     }
@@ -124,7 +124,7 @@ Order* get_all_orders_of_user(int userId, int *size){
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
 
     *size = rows;
     return orders;

@@ -12,7 +12,7 @@ int count_cart_items_of_user(int userId){
 
     if(rc != SQLITE_OK){
         fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return 1;
     }
 
@@ -23,7 +23,7 @@ int count_cart_items_of_user(int userId){
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
 
     return count;
 }

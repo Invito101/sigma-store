@@ -15,7 +15,7 @@ int count_all_orders_of_user(int userId){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
@@ -25,7 +25,7 @@ int count_all_orders_of_user(int userId){
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
 
     return count;
 }

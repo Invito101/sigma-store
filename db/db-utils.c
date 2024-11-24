@@ -8,11 +8,16 @@ sqlite3* open_db(void){
 
     if (rc != SQLITE_OK){
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db); // Close the database connection if it was partially opened
+        close_db(db); // Close the database connection if it was partially opened
         exit(0);
     }
 
     return db;
+}
+
+void close_db(sqlite3 *db){
+
+    sqlite3_close(db);
 }
 
 int create_tables(void){
@@ -32,10 +37,10 @@ int create_tables(void){
     if(rc != SQLITE_OK){
         fprintf(stderr, "Failed to create tables: %s\n", errMsg ? errMsg : sqlite3_errmsg(db));
         sqlite3_free(errMsg);
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
-    sqlite3_close(db);
+    close_db(db);
     return 0;
 }

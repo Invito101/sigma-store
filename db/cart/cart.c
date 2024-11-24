@@ -11,7 +11,7 @@ int add_item_to_cart(int userId, int quantity, int productId){
 
     if(rc != SQLITE_OK){
         fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return 1;
     }
 
@@ -23,12 +23,12 @@ int add_item_to_cart(int userId, int quantity, int productId){
 
     if(rc != SQLITE_DONE){
         fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return 1;
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
 
     return 0;
 }
@@ -40,14 +40,14 @@ Cart* get_cart_items(int userId, int* size){
     int count = count_cart_items_of_user(userId);
     if (count <= 0) {
         *size = 0;
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
     Cart *items = malloc(count * sizeof(Cart));
     if (!items) {
         fprintf(stderr, "%s: Memory allocation failed\n", __func__);
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
@@ -58,7 +58,7 @@ Cart* get_cart_items(int userId, int* size){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
@@ -77,7 +77,7 @@ Cart* get_cart_items(int userId, int* size){
         wrapper.currentIndex++;
     }
 
-    sqlite3_close(db);
+    close_db(db);
     *size = count;
     return items;
 }
@@ -93,7 +93,7 @@ int mark_cart_as_ordered(int userId, int orderId){
 
     if(rc != SQLITE_OK){
         fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return 1;
     }
 
@@ -104,12 +104,12 @@ int mark_cart_as_ordered(int userId, int orderId){
 
     if(rc != SQLITE_DONE){
         fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return 1;
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
 
     return 0;
 }
