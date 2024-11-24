@@ -47,7 +47,7 @@ int view_all()
     int choice=0;
     int tco = 0; //the_chosen_one
     int n=5;
-    int sizea=n;
+    int sizea=n; 
     int ch;
     //char opencircle[]="\u25EF";
     //char closedcircle[]="\u2B24";

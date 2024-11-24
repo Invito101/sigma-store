@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <ncurses.h> // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
+#define max_len 100
 
 int view_category_wise()
 {
@@ -26,7 +27,7 @@ void create_product1()
 
     keypad(stdscr, TRUE);
 
-    int max_len = 100;
+    
     char name[max_len],price[max_len];
     char description[max_len], category[max_len], manufactured_by[max_len];
 
@@ -89,9 +90,48 @@ void create_product1()
 void modify_product1()
 {
     clear();
+    endwin();
+    initscr();
     mvprintw(5, 10, "modify_product function called");
+    
+    create_tables();
+    raw();
+    clear();
+    start_color();
+    cbreak();
+    noecho();
+    curs_set(0); 
+    keypad(stdscr,TRUE);
+    int ch;
+    int size;
+    char name[max_len];
+    char new_name[max_len],new_price[max_len];
+    char new_description[max_len], new_category[max_len], new_manufactured_by[max_len];
+    init_pair(1, COLOR_GREEN, COLOR_BLACK); 
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
+    attron(COLOR_PAIR(1));
+    mvprintw(2, 10, "Modify The Product :");
+    mvprintw(3, 10, "Press Enter to submit each field, and type carefully:");
+    int prod_list=get_all_products(&size);
+    int len=sizeof(prod_list)/sizeof(prod_list[0]);
+    for (int i=0;i<len;i++)
+    {
+        mvprintw(4+i,10,"%s",a[i]);
+    }
+    attroff(COLOR_PAIR(1));
+    refresh();
+    get_valid_input_for_product(5, "Name of the product that you wanna modify: ", name, max_len, is_valid_name);
+
+    get_valid_input_for_product(5, "Name of the product that you wanna modify: ", name, max_len, is_valid_name);
+    get_valid_input_for_product(6, "Price: ", price, max_len, is_valid_email);
+    get_valid_input_for_product(7, "Description: ",description, max_len, NULL);
+
+
 
     refresh();
+    getch();
+    endwin();
+    new();
 }
 void delete_product1()
 {
