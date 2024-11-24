@@ -17,7 +17,7 @@ int create_user(char *role, char *name, char *email, char *password, char *phone
         return 1;
     }
 
-    char *encryptedPassword = encrypt(password);
+    char *encryptedPassword = encrypter(password);
 
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 2, email, -1, SQLITE_STATIC);
@@ -106,7 +106,7 @@ User* get_all_users(int *size) {
 User* login(char *email, char *password){
     sqlite3 *db = open_db();
 
-    char *encryptedPassword = encrypt(password);
+    char *encryptedPassword = encrypter(password);
 
     sqlite3_stmt *stmt;
     const char *sql = "SELECT * FROM Users WHERE email = ? AND password = ?;";

@@ -2,7 +2,7 @@
 #include "headers.h"
 #define SHIFT 3
 
-char* encrypt(char *text) {
+char* encrypter(char *text) {
     static char encrypted[100];
     
     int i = 0;

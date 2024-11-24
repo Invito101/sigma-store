@@ -21,7 +21,7 @@ int is_valid_email_for_login(char *email);
 
 
 // encryption.c
-char* encrypt(char *text);
+char* encrypter(char *text);
 char* decrypt(char *text);
 
 // db/db-utils.c
@@ -80,6 +80,9 @@ Order* get_all_orders_of_user(int userId, int *size);
 
 // db/orders/order-utils.c
 void cast_row_to_order_struct(Order *orderObject, char **values);
+
+// customer/customer-home.c
+void menu1(void);
 
 // admin/home.c
 int new();

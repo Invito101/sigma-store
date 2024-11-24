@@ -217,6 +217,7 @@ void signup() {
 
 void login1(){
     clear();
+    int flag=1;
     //mvprintw(5, 10, "Login function called");
     #define max_length_const 100
     int max_length = max_length_const;
@@ -296,6 +297,8 @@ void login1(){
             refresh();
             mvprintw(8, 10, "Login successful! Press any key to continue.");
             refresh();
+            getch();
+            flag=0;
             free(details); // Clean up simulated user
             break; // Exit the loop
         }
@@ -303,10 +306,11 @@ void login1(){
     attroff(COLOR_PAIR(2));
     echo();
 
+    if(flag==0)
+    menu1();
 
     
-    refresh();
-    getch();
+    
 
 
 }
