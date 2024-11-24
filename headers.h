@@ -60,8 +60,14 @@ int count_all_category_products(char *cName);
 
 // db/cart/cart.c
 int add_item_to_cart(int userId, int quantity, int productId);
+int modify_item_in_cart(int userId, int quantity, int productId);
+int delete_cart_item(int userId, int productId);
 Cart* get_cart_items(int userId, int* size);
 int mark_cart_as_ordered(int userId, int orderId);
+
+// db/cart/cart-utils.c
+int count_cart_items_of_user(int userId);
+void cast_row_to_cart_struct(Cart *cartObject, char **values);
 
 // db/orders/orders.c
 int place_order(int userId);
@@ -70,10 +76,6 @@ Order* get_all_orders_of_user(int userId, int *size);
 
 // db/orders/order-utils.c
 void cast_row_to_order_struct(Order *orderObject, char **values);
-
-// db/cart/cart-utils.c
-int count_cart_items_of_user(int userId);
-void cast_row_to_cart_struct(Cart *cartObject, char **values);
 
 // admin/home.c
 int new();

@@ -23,6 +23,7 @@ int add_item_to_cart(int userId, int quantity, int productId){
 
     if(rc != SQLITE_DONE){
         fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
         sqlite3_close(db);
         return 1;
     }
@@ -30,6 +31,67 @@ int add_item_to_cart(int userId, int quantity, int productId){
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 
+    return 0;
+}
+
+int modify_item_in_cart(int userId, int quantity, int productId){
+    sqlite3 *db = open_db();
+
+    sqlite3_stmt *stmt;
+
+    const char *sql = "UPDATE Cart SET quantity = ? WHERE userId = ? AND productId = ?";
+
+    int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+
+    if(rc != SQLITE_OK){
+        fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return 1;
+    }
+
+    sqlite3_bind_int(stmt, 1, quantity);
+    sqlite3_bind_int(stmt, 2, userId);
+    sqlite3_bind_int(stmt, 3, productId);
+
+    rc = sqlite3_step(stmt);
+
+    if(rc != SQLITE_DONE){
+        fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return 1;
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    return 0;
+}
+
+int delete_cart_item(int userId, int productId){
+    sqlite3 *db = open_db();
+    sqlite3_stmt *stmt;
+
+    const char *sql = "DELETE FROM Cart WHERE userId = ? AND productId = ?;";
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
+        fprintf(stderr, "%s : Failed to prepare delete statement: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return 1;
+    }
+
+    sqlite3_bind_int(stmt, 1, userId);
+    sqlite3_bind_int(stmt, 2, productId);
+
+    int rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        fprintf(stderr, "%s : Failed to delete cart item: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return 1;
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
     return 0;
 }
 
