@@ -298,6 +298,12 @@ void login1(){
             mvprintw(8, 10, "Login successful! Press any key to continue.");
             refresh();
             getch();
+            if(strcmp(details->role,"Admin")==0){
+                admin_home();
+            }
+            else if(strcmp(details->role,"Customer")==0){
+                menu1();
+            }
             flag=0;
             free(details); // Clean up simulated user
             break; // Exit the loop
