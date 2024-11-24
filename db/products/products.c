@@ -80,6 +80,7 @@ int modify_product(char *name, char *new_name, int new_price, char *new_descript
     sqlite3_bind_text(stmt, 3, new_description, -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 4, new_category, -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 5, new_manufacturedBy, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 6, name, -1, SQLITE_STATIC);
 
     if (sqlite3_step(stmt) != SQLITE_DONE){
         fprintf(stderr, "%s : Failed to update record: %s\n", __func__, sqlite3_errmsg(db));
