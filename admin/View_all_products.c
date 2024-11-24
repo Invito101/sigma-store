@@ -39,7 +39,7 @@ void view_particular()
 
     attron(COLOR_PAIR(2));
     echo();
-    getnstr(name, max_l);
+    getnstr(name, max_len);
     noecho();
     attroff(COLOR_PAIR(2));
 
@@ -160,16 +160,16 @@ void modify_product1()
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
     attron(COLOR_PAIR(1));
     mvprintw(1, 10, "Modify The Product :");
-    mvprintw(2, 10, "Press Enter to submit each field, and type carefully:");
+    mvprintw(2, 10, "Press Enter To Submit Each Field, And Type Carefully:");
     
     attroff(COLOR_PAIR(1));
     refresh();
-    get_valid_input_for_existing_product(4, "Name of the product do you wanna modify: ", name, max_len, is_valid_name);
+    get_valid_input_for_existing_product(4, "Name Of The Product Do You Wanna Modify: ", name, max_len, is_valid_name);
     
     
 
 
-    get_valid_input_for_product(5, "new Name: ", new_name, max_len, is_valid_name);
+    get_valid_input_for_product(5, "New Name: ", new_name, max_len, is_valid_name);
 
     get_valid_input_for_product(6, "New Price: ", new_price, max_len, is_numeric);
     get_valid_input_for_product(7, "New Description: ",new_description, max_len, NULL);
@@ -220,7 +220,7 @@ void modify_product1()
     
     getch();
     endwin();
-    new();
+    admin_home();
 }
 void delete_product1()
 {
