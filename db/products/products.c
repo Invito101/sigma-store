@@ -246,9 +246,51 @@ Product* get_product_by_name(char *name){
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
 
     if (sqlite3_step(stmt) != SQLITE_ROW){
-        fprintf(stderr, "%s : Failed to update record: %s\n", __func__, sqlite3_errmsg(db));
+        fprintf(stderr, "%s : Failed to get record: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
         close_db(db);
+        return NULL;
+    }
+
+    char *values[10];
+    for (int i = 0; i < 10; i++){
+        values[i] = (char *) sqlite3_column_text(stmt, i);
+    }
+
+    cast_row_to_product_struct(product, values);
+
+    sqlite3_finalize(stmt);
+    close_db(db);
+    return product;
+}
+
+Product* get_product_by_id(int productId){
+    sqlite3 *db = open_db();
+
+    Product *product = malloc(sizeof(Product));
+    if (!product) {
+        fprintf(stderr, "%s: Memory allocation failed\n", __func__);
+        close_db(db);
+        return NULL;
+    }
+
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT * FROM Products WHERE id = ?";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
+        free(product);
+        return NULL;
+    }
+
+    sqlite3_bind_int(stmt, 1, productId);
+
+    if (sqlite3_step(stmt) != SQLITE_ROW){
+        fprintf(stderr, "%s : Failed to get record: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        close_db(db);
+        free(product);
         return NULL;
     }
 

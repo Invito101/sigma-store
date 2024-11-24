@@ -48,6 +48,7 @@ int create_product(char *name, int price, char *description, char *category, cha
 int delete_product(char *name);
 int modify_product(char *name, char *new_name, int new_price, char *new_description, char *new_category, char *new_manufacturedBy);
 int rate_product(char *name, int rating);
+Product* get_product_by_id(int productId);
 Product* get_all_products(int *size);
 Product* get_all_category_products(int *size, char *cName);
 

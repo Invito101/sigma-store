@@ -4,7 +4,6 @@ int add_item_to_cart(int userId, int quantity, int productId){
     sqlite3 *db = open_db();
 
     sqlite3_stmt *stmt;
-
     const char *sql = "INSERT INTO Cart(quantity, userId, productId) VALUES(?,?,?);";
 
     int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
@@ -23,13 +22,13 @@ int add_item_to_cart(int userId, int quantity, int productId){
 
     if(rc != SQLITE_DONE){
         fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_finalize(db);
         close_db(db);
         return 1;
     }
 
     sqlite3_finalize(stmt);
     close_db(db);
-
     return 0;
 }
 
@@ -37,7 +36,6 @@ int modify_item_in_cart(int userId, int quantity, int productId){
     sqlite3 *db = open_db();
 
     sqlite3_stmt *stmt;
-
     const char *sql = "UPDATE Cart SET quantity = ? WHERE userId = ? AND productId = ?";
 
     int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
@@ -95,15 +93,13 @@ int delete_cart_item(int userId, int productId){
 }
 
 Cart* get_cart_items(int userId, int* size){
-    sqlite3 *db = open_db();
-    
-    char *errMsg = 0;
     int count = count_cart_items_of_user(userId);
     if (count <= 0) {
         *size = 0;
-        close_db(db);
         return NULL;
     }
+
+    sqlite3 *db = open_db();
 
     Cart *items = malloc(count * sizeof(Cart));
     if (!items) {
