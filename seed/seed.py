@@ -9,13 +9,66 @@ conn = sqlite3.connect('../db/SigmaStore.db')
 cursor = conn.cursor()
 
 def generate_tables():
-    cursor.execute("CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY, name VARCHAR(300), email VARCHAR(300) UNIQUE, role VARCHAR(10), password VARCHAR(110), phoneNumber VARCHAR(10), address VARCHAR(1000), pincode INT, state VARCHAR(100), money INT, createdAt INT NOT NULL);CREATE TABLE IF NOT EXISTS Products(id INTEGER PRIMARY KEY, name VARCHAR(300) UNIQUE, price INT, description VARCHAR(1000), category VARCHAR(300), manufacturedBy VARCHAR(300), rating DOUBLE, noOfRatings INT, amountBought INT, createdAt INT NOT NULL);CREATE TABLE IF NOT EXISTS Orders(id INTEGER PRIMARY KEY, userId INT, createdAt INT NOT NULL, FOREIGN KEY (userId) REFERENCES Users(id));CREATE TABLE IF NOT EXISTS Cart(id INTEGER PRIMARY KEY, quantity INT, userId INT, productId INT, ordered INT DEFAULT 0, orderId INT DEFAULT NULL, FOREIGN KEY (userId) REFERENCES Users(id), FOREIGN KEY (productId) REFERENCES Products(id), FOREIGN KEY (orderId) REFERENCES Orders(id));")
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Users(
+            id INTEGER PRIMARY KEY, 
+            name VARCHAR(300), 
+            email VARCHAR(300) UNIQUE, 
+            role VARCHAR(10), 
+            password VARCHAR(110), 
+            phoneNumber VARCHAR(10), 
+            address VARCHAR(1000), 
+            pincode INT, 
+            state VARCHAR(100), 
+            money INT, 
+            createdAt INT NOT NULL
+        );
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Products(
+            id INTEGER PRIMARY KEY, 
+            name VARCHAR(300) UNIQUE, 
+            price INT, 
+            description VARCHAR(1000), 
+            category VARCHAR(300), 
+            manufacturedBy VARCHAR(300), 
+            rating DOUBLE, 
+            noOfRatings INT, 
+            amountBought INT, 
+            createdAt INT NOT NULL
+        );
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Orders(
+            id INTEGER PRIMARY KEY, 
+            userId INT, 
+            createdAt INT NOT NULL, 
+            FOREIGN KEY (userId) REFERENCES Users(id)
+        );
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Cart(
+            id INTEGER PRIMARY KEY, 
+            quantity INT, 
+            userId INT, 
+            productId INT, 
+            ordered INT DEFAULT 0, 
+            orderId INT DEFAULT NULL, 
+            FOREIGN KEY (userId) REFERENCES Users(id), 
+            FOREIGN KEY (productId) REFERENCES Products(id), 
+            FOREIGN KEY (orderId) REFERENCES Orders(id)
+        );
+    """)
+
 
 def generate_users(num_users):
     for i in range(1, num_users + 1):
         name = faker.name()
         email = faker.unique.email()
-        role = random.choice(['user', 'admin'])
+        role = random.choice(['Customer', 'Admin'])
         password = faker.name()
         phone = faker.unique.msisdn()[:10]
         address = faker.address().replace("\n", ", ")
