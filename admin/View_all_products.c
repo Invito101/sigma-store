@@ -111,30 +111,73 @@ void modify_product1()
     noecho();
     curs_set(0); 
     keypad(stdscr,TRUE);
-    int ch;
-    int size;
+    
+    
     char name[max_len];
     char new_name[max_len],new_price[max_len];
     char new_description[max_len], new_category[max_len], new_manufactured_by[max_len];
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
     attron(COLOR_PAIR(1));
-    mvprintw(2, 10, "Modify The Product :");
-    mvprintw(3, 10, "Press Enter to submit each field, and type carefully:");
+    mvprintw(1, 10, "Modify The Product :");
+    mvprintw(2, 10, "Press Enter to submit each field, and type carefully:");
     
     attroff(COLOR_PAIR(1));
     refresh();
-    get_valid_input_for_existing_product(5, "Name of the product do you wanna modify: ", name, max_len, is_valid_name);
+    get_valid_input_for_existing_product(4, "Name of the product do you wanna modify: ", name, max_len, is_valid_name);
+    
+    
 
 
-    get_valid_input_for_product(6, "new Name: ", new_name, max_len, is_valid_name);
+    get_valid_input_for_product(5, "new Name: ", new_name, max_len, is_valid_name);
 
-    get_valid_input_for_product(7, "New Price: ", new_price, max_len, is_numeric);
-    get_valid_input_for_product(8, "New Description: ",new_description, max_len, NULL);
+    get_valid_input_for_product(6, "New Price: ", new_price, max_len, is_numeric);
+    get_valid_input_for_product(7, "New Description: ",new_description, max_len, NULL);
 
+    char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    int selected = selectany1(7,categ);
+    strncpy(new_category, categ[selected], max_len);
 
+    attron(COLOR_PAIR(1));
+    mvprintw(8,10, "Category: ");
+    attroff(COLOR_PAIR(1));
 
+    attron(COLOR_PAIR(2));
+    mvprintw(8,20, "%s",new_category);
+    attroff(COLOR_PAIR(2));
     refresh();
+    get_valid_input_for_product(9, "Manufactured by: ",new_manufactured_by, max_len, is_valid_manufacturedBy);
+
+    int sf = modify_product(name,new_name,atoi(new_price),new_description,new_category,new_manufactured_by);
+    clear();
+    if (sf==0){
+    attron(COLOR_PAIR(1));
+    mvprintw(5, 10, "Product modified successfully! Here's the data you entered:");
+    mvprintw(6, 10, "Name:");
+    mvprintw(7, 10, "Price:");
+    mvprintw(8, 10, "Description:");
+    mvprintw(9, 10, "Category:");
+    mvprintw(10, 10, "Manufactured by:");
+    attroff(COLOR_PAIR(1));
+    attron(COLOR_PAIR(2));
+    mvprintw(6, 30, "%s", new_name);
+    mvprintw(7, 30, "%s", new_price);
+    mvprintw(8, 30, "%s", new_description);
+    mvprintw(9, 30, "%s", new_category);
+    mvprintw(10, 30, "%s",new_manufactured_by);
+    attroff(COLOR_PAIR(2));
+    refresh();
+    }
+    else 
+    {
+        attron(COLOR_PAIR(1));
+    mvprintw(10, 10, "Product not created.");
+    attroff(COLOR_PAIR(1));
+    }
+    attron(COLOR_PAIR(1));
+    mvprintw(15, 10, "Press any key to return to the menu.");
+    attroff(COLOR_PAIR(1));
+    
     getch();
     endwin();
     new();
