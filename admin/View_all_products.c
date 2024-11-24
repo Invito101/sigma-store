@@ -57,7 +57,7 @@ void create_product1()
     refresh();
     get_valid_input_for_product(9, "Manufactured by: ",manufactured_by, max_len, is_valid_manufactured_by);
 
-    create_product(name,price,description,category, manufactured_by);
+    create_product(name,atoi(price),description,category, manufactured_by);
 
     clear();
 

@@ -140,10 +140,10 @@ int productDataCallback(void *productWrapper, int argc, char **argv, char **azCo
 }
 
 Product* get_all_products(int *size){
-    sqlite3 *db = open_db();
-    
     char *errMsg = 0;
     int count = count_all_products();
+
+    sqlite3 *db = open_db();
     if (count <= 0) {
         *size = 0;
         sqlite3_close(db);

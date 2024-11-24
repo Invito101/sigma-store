@@ -14,7 +14,9 @@ int is_product_name_taken(char *name){
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
 
     if (sqlite3_step(stmt) == SQLITE_ROW){
-        if(sqlite3_column_text(stmt, 0) == 0){
+        if(sqlite3_column_int(stmt, 0) == 0){
+            sqlite3_finalize(stmt);
+            sqlite3_close(db);
             return 0;
         }
     }
