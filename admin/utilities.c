@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 int max_len = 100;
+
 int has_alphabet(char *str)
 {
     for (int j = 0; str[j] != '\0'; j++) {
@@ -21,7 +22,7 @@ int is_valid_product_name(char *name)
 
 int is_valid_price(char *price)
 {
-    if (is_numeric(price)&& atoi(price)!=0 && strlen(price)!=0)
+    if (is_numeric(price)&& atoi(price)!=0)
         return 1;
     else return 0;
  
@@ -33,9 +34,9 @@ int is_valid_description(char* description)
 }
 
 
-int is_valid_manufactured_by(char* manufactured_by)
+int is_valid_manufacturedBy(char* manufacturedBy)
 {
-    if (strlen(manufactured_by)==0) return 0;
+    if (strlen(manufacturedBy)==0) return 0;
     else return 1;
 }
 
@@ -45,7 +46,7 @@ void get_valid_input_for_product(int row, char *label, char *buffer, int max_len
         clrtoeol();
 
         attron(COLOR_PAIR(1));
-        mvprintw(row, 10, "%s: ", label);
+        mvprintw(row, 10, "%s", label);
         attroff(COLOR_PAIR(1));
         refresh();
 
@@ -59,13 +60,13 @@ void get_valid_input_for_product(int row, char *label, char *buffer, int max_len
         clrtoeol();
 
         if (validate == NULL || validate(buffer)) { // Checks for valid input if required per the case.
-            if(label == "Name of the product: " && is_product_name_taken(buffer)==1){
+            if(strcmp(label,"Name of the product: ")==0 && is_product_name_taken(buffer)==1){
                 attron(COLOR_PAIR(1));
-                mvprintw(row + 1, 10, "Product with this name already exists. Please enter a new name.");
+                mvprintw(row + 1, 10, "Product with this name already exists. Press any key to enter a new name.");
                 attroff(COLOR_PAIR(1));
                 refresh();
                 getch();
-                // page();
+                continue;
             }
             else if(is_product_name_taken(buffer)==0){
                 break;

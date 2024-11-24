@@ -169,9 +169,9 @@ int view_all()
         continue;
     }
 
-
+    delwin(pad);
     bb[choice]();
     endwin();
-    delwin(pad);
+
     return 0;
 }

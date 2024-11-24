@@ -7,7 +7,7 @@ int is_product_name_taken(char *name){
     char *sql = "SELECT COUNT(*) FROM Products WHERE name = ?;";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
@@ -16,13 +16,13 @@ int is_product_name_taken(char *name){
     if (sqlite3_step(stmt) == SQLITE_ROW){
         if(sqlite3_column_int(stmt, 0) == 0){
             sqlite3_finalize(stmt);
-            sqlite3_close(db);
+            close_db(db);
             return 0;
         }
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return 1;
 }
 
@@ -35,7 +35,7 @@ int get_product_no_of_rating(char *name){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
@@ -45,7 +45,7 @@ int get_product_no_of_rating(char *name){
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return noOfRating;
 }
 
@@ -58,11 +58,11 @@ int count_all_products(){
 
     if (sqlite3_exec(db, sql, countCallback, &count, &errMsg) != SQLITE_OK) {
         fprintf(stderr, "%s : Failed to count products: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
-    sqlite3_close(db);
+    close_db(db);
 
     return count;
 }
@@ -76,7 +76,7 @@ int count_all_category_products(char *cName){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
@@ -86,7 +86,7 @@ int count_all_category_products(char *cName){
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
 
     return count;
 }
@@ -100,7 +100,7 @@ double get_product_rating(char *name){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
@@ -110,7 +110,7 @@ double get_product_rating(char *name){
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return rating;
 }
 
@@ -122,14 +122,14 @@ int increase_amount_bought_by_one(char *name){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return 0;
 }
 
@@ -141,14 +141,14 @@ int increase_no_of_ratings_by_one(char *name){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return 0;
 }
 

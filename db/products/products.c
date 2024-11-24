@@ -2,21 +2,20 @@
 
 int create_product(char *name, int price, char *description, char *category, char *manufacturedBy){
     sqlite3 *db = open_db();
-    char *errMsg = 0;
 
     sqlite3_stmt *stmt;
+    sqlite3_busy_timeout(db, 5000);  
 
     const char *sql = "INSERT INTO Products(name, price, description, category, manufacturedBy, rating, noOfRatings, amountBought, createdAt) VALUES(?,?,?,?,?,0,0,0,?);";
 
     int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
 
     if(rc != SQLITE_OK){
-        fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, errMsg ? errMsg : sqlite3_errmsg(db));
-        sqlite3_free(errMsg);
-        sqlite3_close(db);
+        fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
         return 1;
     }
-
+    
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 2, price);
     sqlite3_bind_text(stmt, 3, description, -1, SQLITE_STATIC);
@@ -26,16 +25,16 @@ int create_product(char *name, int price, char *description, char *category, cha
 
     rc = sqlite3_step(stmt);
 
+
     if(rc != SQLITE_DONE){
-        fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, errMsg ? errMsg : sqlite3_errmsg(db));
-        sqlite3_free(errMsg);
-        sqlite3_close(db);
+        fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
         return 1;
     }
 
     sqlite3_finalize(stmt);
 
-    sqlite3_close(db);
+    close_db(db);
     return 0;
 }
 
@@ -45,8 +44,8 @@ int delete_product(char *name){
 
     const char *sql = "DELETE FROM Products WHERE name = ?;";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
-        fprintf(stderr, "%s : Failed to prepare delete product statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        fprintf(stderr, "%s : Failed to prepare delete statement: %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
         return 1;
     }
 
@@ -56,12 +55,12 @@ int delete_product(char *name){
     if (rc != SQLITE_DONE) {
         fprintf(stderr, "%s : Failed to delete product: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        sqlite3_close(db);
+        close_db(db);
         return 1;
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return 0;
 }
 
@@ -72,7 +71,7 @@ int modify_product(char *name, char *new_name, int new_price, char *new_descript
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
@@ -85,12 +84,12 @@ int modify_product(char *name, char *new_name, int new_price, char *new_descript
     if (sqlite3_step(stmt) != SQLITE_DONE){
         fprintf(stderr, "%s : Failed to update record: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
 
     return 0;
 }
@@ -109,7 +108,7 @@ int rate_product(char *name, int rating){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
@@ -119,13 +118,13 @@ int rate_product(char *name, int rating){
     if (sqlite3_step(stmt) != SQLITE_DONE){
         fprintf(stderr, "%s : Failed to update record: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        sqlite3_close(db);
+        close_db(db);
         return -1;
     }
 
     sqlite3_finalize(stmt);
 
-    sqlite3_close(db);
+    close_db(db);
     return 0;
 }
 
@@ -146,14 +145,14 @@ Product* get_all_products(int *size){
     sqlite3 *db = open_db();
     if (count <= 0) {
         *size = 0;
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
     Product *products = malloc(count * sizeof(Product));
     if (!products) {
         fprintf(stderr, "%s: Memory allocation failed\n", __func__);
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
@@ -165,12 +164,12 @@ Product* get_all_products(int *size){
     if (rc != SQLITE_OK){
         fprintf(stderr, "%s: Execution of Query : %s\n", __func__, errMsg ? errMsg : sqlite3_errmsg(db));
         sqlite3_free(errMsg);
-        sqlite3_close(db);
+        close_db(db);
         free(products);
         return NULL;
     }
 
-    sqlite3_close(db);
+    close_db(db);
     *size = count;
     return products;
 }
@@ -181,14 +180,14 @@ Product* get_all_category_products(int *size, char *cName){
     int count = count_all_category_products(cName);
     if (count <= 0) {
         *size = 0;
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
     Product *products = malloc(count * sizeof(Product));
     if (!products) {
         fprintf(stderr, "%s: Memory allocation failed\n", __func__);
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
@@ -199,7 +198,7 @@ Product* get_all_category_products(int *size, char *cName){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
@@ -219,7 +218,7 @@ Product* get_all_category_products(int *size, char *cName){
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     *size = count;
     return products;
 }
@@ -230,7 +229,7 @@ Product* get_product_by_name(char *name){
     Product *product = malloc(sizeof(Product));
     if (!product) {
         fprintf(stderr, "%s: Memory allocation failed\n", __func__);
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
@@ -239,7 +238,7 @@ Product* get_product_by_name(char *name){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         free(product);
         return NULL;
     }
@@ -249,7 +248,7 @@ Product* get_product_by_name(char *name){
     if (sqlite3_step(stmt) != SQLITE_ROW){
         fprintf(stderr, "%s : Failed to update record: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        sqlite3_close(db);
+        close_db(db);
         return NULL;
     }
 
@@ -261,6 +260,6 @@ Product* get_product_by_name(char *name){
     cast_row_to_product_struct(product, values);
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
     return product;
 }
