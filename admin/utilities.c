@@ -35,7 +35,7 @@ int is_valid_description(char* description)
 
 int is_valid_manufactured_by(char* manufactured_by)
 {
-    if (strlen(name)==0) return 0;
+    if (strlen(manufactured_by)==0) return 0;
     else return 1;
 }
 
@@ -65,7 +65,7 @@ void get_valid_input_for_product(int row, char *label, char *buffer, int max_len
                 attroff(COLOR_PAIR(1));
                 refresh();
                 getch();
-                page();
+                // page();
             }
             else if(is_product_name_taken(buffer)==0){
                 break;

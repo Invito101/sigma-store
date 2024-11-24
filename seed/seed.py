@@ -9,10 +9,7 @@ conn = sqlite3.connect('../db/SigmaStore.db')
 cursor = conn.cursor()
 
 def generate_tables():
-    cursor.execute("""
-            INSERT INTO Users (id, name, email, role, password, phoneNumber, address, pincode, state, money, createdAt)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (i, name, email, role, password, phone, address, pincode, state, money, created_at))
+    cursor.execute("CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY, name VARCHAR(300), email VARCHAR(300) UNIQUE, role VARCHAR(10), password VARCHAR(110), phoneNumber VARCHAR(10), address VARCHAR(1000), pincode INT, state VARCHAR(100), money INT, createdAt INT NOT NULL);CREATE TABLE IF NOT EXISTS Products(id INTEGER PRIMARY KEY, name VARCHAR(300) UNIQUE, price INT, description VARCHAR(1000), category VARCHAR(300), manufacturedBy VARCHAR(300), rating DOUBLE, noOfRatings INT, amountBought INT, createdAt INT NOT NULL);CREATE TABLE IF NOT EXISTS Orders(id INTEGER PRIMARY KEY, userId INT, createdAt INT NOT NULL, FOREIGN KEY (userId) REFERENCES Users(id));CREATE TABLE IF NOT EXISTS Cart(id INTEGER PRIMARY KEY, quantity INT, userId INT, productId INT, ordered INT DEFAULT 0, orderId INT DEFAULT NULL, FOREIGN KEY (userId) REFERENCES Users(id), FOREIGN KEY (productId) REFERENCES Products(id), FOREIGN KEY (orderId) REFERENCES Orders(id));")
 
 def generate_users(num_users):
     for i in range(1, num_users + 1):
@@ -74,6 +71,7 @@ num_products = 200
 num_orders = 150
 num_cart_items = 300
 
+generate_tables()
 generate_users(num_users)
 generate_products(num_products)
 generate_orders(num_orders, num_users)
