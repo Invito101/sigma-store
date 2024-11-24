@@ -44,7 +44,7 @@ void create_product1()
     get_valid_input_for_product(6, "Price: ", price, max_len, is_valid_price);
     get_valid_input_for_product(7, "Description: ",description, max_len, NULL);
 
-    const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(category, categ[selected], max_len);
 
