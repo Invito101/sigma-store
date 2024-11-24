@@ -113,6 +113,7 @@ int is_valid_price(char *price);
 int is_valid_description(char* description);
 int is_valid_manufacturedBy(char* manufacturedBy);
 void get_valid_input_for_product(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
+void get_valid_input_for_existing_product(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
 
 
 #endif
