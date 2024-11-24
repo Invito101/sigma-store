@@ -88,6 +88,8 @@ void menu1(void);
 int admin_home();
 int view_all();
 void quit2();
+void selectany1func(int n,const char *a[],void (*b[])());
+
 
 //signup helper functions
 int is_numeric(char *str);
@@ -105,12 +107,12 @@ void delete_product1();
 void quit3();
 int selectany1(int n,const char *a[]);
 void view_particular();
-
+void view_all_products();
 
 
 // admin/utilities.c
 int has_alphabet(char *str);
-int is_valid__product_name(char *name);
+int is_valid_product_name(char *name);
 int is_valid_price(char *price);
 int is_valid_description(char* description);
 int is_valid_manufacturedBy(char* manufacturedBy);

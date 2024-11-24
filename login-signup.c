@@ -319,4 +319,5 @@ void login1(){
 void quit(){
 
     clear();
+    admin_home();
 }

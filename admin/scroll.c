@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include "../headers.h"
 
 void scr() {
     clear();
@@ -47,7 +48,7 @@ void scr() {
     delwin(pad);
 }
 
-void selectany1(int n,const char *a[],void (*b[])()) {
+void selectany1func(int n,const char *a[],void (*b[])()) {
   
     int choice=0;
     int tco = 0; //the_chosen_one

@@ -46,7 +46,7 @@ void get_valid_input_for_product(int row, char *label, char *buffer, int max_len
         clrtoeol();
 
         attron(COLOR_PAIR(1));
-        mvprintw(row, 10, "%s", label);
+        mvprintw(row, 10, "%s: ", label);
         attroff(COLOR_PAIR(1));
         refresh();
 
