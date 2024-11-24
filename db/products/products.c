@@ -8,7 +8,7 @@ int create_product(char *name, int price, char *description, char *category, cha
 
     const char *sql = "INSERT INTO Products(name, price, description, category, manufacturedBy, rating, noOfRatings, amountBought, createdAt) VALUES(?,?,?,?,?,0,0,0,?);";
 
-    int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
 
     if(rc != SQLITE_OK){
         fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, errMsg ? errMsg : sqlite3_errmsg(db));
@@ -45,7 +45,7 @@ int delete_product(char *name){
 
     const char *sql = "DELETE FROM Products WHERE name = ?;";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
-        fprintf(stderr, "%s : Failed to prepare delete statement: %s\n", __func__, sqlite3_errmsg(db));
+        fprintf(stderr, "%s : Failed to prepare delete product statement: %s\n", __func__, sqlite3_errmsg(db));
         sqlite3_close(db);
         return 1;
     }

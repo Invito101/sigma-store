@@ -41,7 +41,7 @@ int modify_item_in_cart(int userId, int quantity, int productId){
 
     const char *sql = "UPDATE Cart SET quantity = ? WHERE userId = ? AND productId = ?";
 
-    int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
 
     if(rc != SQLITE_OK){
         fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
