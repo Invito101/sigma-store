@@ -165,13 +165,172 @@ void modify_product1()
 
     refresh();
 }
-void delete_product1()
-{
-    clear();
-    mvprintw(5, 10, "delete_product function called");
 
-    refresh();
+
+void delete_product1() {
+    clear();
+    initscr();
+    raw();
+    noecho();
+    curs_set(0);
+    keypad(stdscr, TRUE);
+    start_color();
+
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+
+    int count = count_all_products();
+    if (count == 0) {
+        attron(COLOR_PAIR(2));
+        mvprintw(5, 10, "No products available to delete.");
+        attroff(COLOR_PAIR(2));
+        refresh();
+        getch();
+        endwin();
+        return;
+    }
+
+    Product *products = get_all_products(&count);
+    if (products == NULL) {
+        endwin();
+        fprintf(stderr, "Failed to retrieve products.\n");
+        return;
+    }
+
+    // Extract unique categories
+    const char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    int category_count = 7;
+
+
+    int category_choice = 0;
+    int ch;
+
+    while (true) {
+        clear();
+        attron(COLOR_PAIR(2));
+        mvprintw(1, 10, "Select a category:");
+        attroff(COLOR_PAIR(2));
+
+        // Display categories
+        for (int i = 0; i < category_count; i++) {
+            if (i == category_choice) {
+                attron(COLOR_PAIR(2));
+                mvprintw(3 + i, 10, "> %s", categories[i]);
+                attroff(COLOR_PAIR(2));
+            } else {
+                attron(COLOR_PAIR(1));
+                mvprintw(3 + i, 12, "%s", categories[i]);
+                attroff(COLOR_PAIR(1));
+            }
+        }
+
+        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to select, q to quit.");
+        refresh();
+
+        ch = getch();
+        if (ch == 'q') {
+            break;
+        }
+
+        switch (ch) {
+            case KEY_UP:
+                category_choice = (category_choice == 0) ? category_count - 1 : category_choice - 1;
+                break;
+            case KEY_DOWN:
+                category_choice = (category_choice == category_count - 1) ? 0 : category_choice + 1;
+                break;
+            case '\n': {
+                // Display products under the selected category
+                clear();
+                attron(COLOR_PAIR(2));
+                mvprintw(1, 10, "Select a product to delete from category: %s", categories[category_choice]);
+                attroff(COLOR_PAIR(2));
+
+                int filtered_indices[count];
+                int filtered_count = 0;
+
+                for (int i = 0; i < count; i++) {
+                    if (strcmp(products[i].category, categories[category_choice]) == 0) {
+                        filtered_indices[filtered_count++] = i;
+                    }
+                }
+
+                if (filtered_count == 0) {
+                    mvprintw(3, 10, "No products available in this category.");
+                    mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to delete, b to go back.");
+                    refresh();
+                    getch();
+                    break;
+                }
+
+                int product_choice = 0;
+
+                while (true) {
+                    clear();
+                    attron(COLOR_PAIR(2));
+                    mvprintw(1, 10, "Select a product to delete from category: %s", categories[category_choice]);
+                    attroff(COLOR_PAIR(2));
+
+                    for (int i = 0; i < filtered_count; i++) {
+                        int index = filtered_indices[i];
+                        if (i == product_choice) {
+                            attron(COLOR_PAIR(2));
+                            mvprintw(3 + i, 10, "> %s", products[index].name);
+                            attroff(COLOR_PAIR(2));
+                        } else {
+                            attron(COLOR_PAIR(1));
+                            mvprintw(3 + i, 12, "%s", products[index].name);
+                            attroff(COLOR_PAIR(1));
+                        }
+                    }
+
+                    mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to delete, b to go back.");
+                    refresh();
+
+                    ch = getch();
+                    if (ch == 'b') break;
+
+                    switch (ch) {
+                        case KEY_UP:
+                            product_choice = (product_choice == 0) ? filtered_count - 1 : product_choice - 1;
+                            break;
+                        case KEY_DOWN:
+                            product_choice = (product_choice == filtered_count - 1) ? 0 : product_choice + 1;
+                            break;
+                        case '\n': {
+                            int delete_index = filtered_indices[product_choice];
+                            attron(COLOR_PAIR(2));
+                            mvprintw(LINES - 4, 10, "Are you sure you want to delete '%s'? (y/n)", products[delete_index].name);
+                            attroff(COLOR_PAIR(2));
+                            refresh();
+                            ch = getch();
+                            if (ch == 'y') {
+                                delete_product(products[delete_index].name); // Assume a delete_product function exists
+                                move(LINES-4,10);
+                                clrtoeol();
+                                attron(COLOR_PAIR(2));
+                                mvprintw(LINES - 4, 10, "'%s' deleted successfully!", products[delete_index].name);
+                                attroff(COLOR_PAIR(2));
+                                getch();
+                                clear();
+                                new();
+                                break;
+                            }
+                            refresh();
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    // Clean up
+    endwin();
+    free(products);
 }
+
 void quit3()
 {
     clear();
