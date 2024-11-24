@@ -319,5 +319,4 @@ void login1(){
 void quit(){
 
     clear();
-    new();
 }

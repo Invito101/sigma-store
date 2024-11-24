@@ -85,7 +85,7 @@ void cast_row_to_order_struct(Order *orderObject, char **values);
 void menu1(void);
 
 // admin/home.c
-int new();
+int admin_home();
 int view_all();
 void quit2();
 
@@ -104,6 +104,8 @@ void modify_product1();
 void delete_product1();
 void quit3();
 int selectany1(int n,const char *a[]);
+void view_particular();
+
 
 
 // admin/utilities.c
