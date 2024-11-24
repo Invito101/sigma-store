@@ -46,13 +46,14 @@ void menu1(void){
 
     initscr();
     clear();
-    mvprintw(5, 5, "   _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(5, 5, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
 mvprintw(6, 10, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
 mvprintw(7, 10, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
 mvprintw(8, 10, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
 mvprintw(9, 10, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
 mvprintw(10, 10, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
+refresh();
 
     const char *a[2][2] = {
         {"CART", "WALLET"},
@@ -85,7 +86,6 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])()) {
 
     initscr();
     raw();
-    clear();
     start_color();
     cbreak();
     noecho();
@@ -97,7 +97,6 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])()) {
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
 
     while(true){
-        clear();
     
     for (int i = 0; i < sizer; i++) {
             for (int j = 0; j < sizec; j++) {
@@ -122,10 +121,6 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])()) {
             }
         }
         
-        attron(COLOR_PAIR(1));
-        mvprintw(10, 10, "Use arrow keys to navigate, Enter to select1.");
-        attroff(COLOR_PAIR(1));
-        refresh();
 
         ch=getch();
         
