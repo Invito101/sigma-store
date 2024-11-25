@@ -110,7 +110,7 @@ void view_particular();
 
 // admin/utilities.c
 int has_alphabet(char *str);
-int is_valid__product_name(char *name);
+int is_valid_product_name(char *name);
 int is_valid_price(char *price);
 int is_valid_description(char* description);
 int is_valid_manufacturedBy(char* manufacturedBy);

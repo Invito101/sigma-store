@@ -1,6 +1,7 @@
 #include "../headers.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include<string.h>
 #include <ncurses.h> // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 #define max_len 100
@@ -12,7 +13,8 @@ int view_category_wise()
 }
 
 void view_particular()
-{   char *name;
+{   
+    
     clear();
     endwin();
     
@@ -23,31 +25,58 @@ void view_particular()
     start_color();
     cbreak();
     noecho();
-    curs_set(0);     
-
+    curs_set(0);
+   
     keypad(stdscr, TRUE);
+    char name[max_len];
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
-    init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
-
-    move(2, 10);
-    clrtoeol();
-
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+    
     attron(COLOR_PAIR(1));
-    mvprintw(2, 10, "%s: ", "Enter the name of the product: ");
+    mvprintw(1,10,"Search A Product By Name: ");
+    mvprintw(2,10,"Press Enter To Submit Each Field And Be Careful While Typing: ");
     attroff(COLOR_PAIR(1));
     refresh();
+    
+    get_valid_input_for_existing_product(4, "Name of the product: ", name, max_len, is_valid_name);
+    
+    Product *products=get_product_by_name(name);
+    
+    
+            attron(COLOR_PAIR(1));
+            mvprintw(5, 10, "The Details Of Your Products Are: ");
+            //mvprintw(6, 10, "Name:");
+            mvprintw(7, 10, "Price:");
+            //mvprintw(8, 10, "Description:");
+            //mvprintw(9, 10, "Category:");
+            //mvprintw(10, 10, "Manufactured by:");
+            attroff(COLOR_PAIR(1));
+            attron(COLOR_PAIR(2));
+            //getchar();
+            //mvprintw(6, 30, "%[^\n]", products->name);
+            mvprintw(7, 30, "%d", products->price);
+           // getchar();
+           // mvprintw(8, 30, "%[^\n]", products->description);
+            //getchar();
+            ////mvprintw(9, 30, "%[^\n]", products->category);
+            //getchar();
+            //mvprintw(10, 30, "%[^\n]", products->manufacturedBy);
+            attroff(COLOR_PAIR(2));
+            refresh();
+            
 
-    attron(COLOR_PAIR(2));
-    echo();
-    getnstr(name, max_len);
-    noecho();
-    attroff(COLOR_PAIR(2));
-
-    move(2 + 1, 10); // makes sure it doesnt clash with any error message
-    clrtoeol();
+    attron(COLOR_PAIR(1));
+    mvprintw(15, 10, "Press any key to return to the menu.");
+    attroff(COLOR_PAIR(1));
+    getch();
+    endwin();
+    admin_home();
 
 
+    
+    
 }
+
 
 
 
@@ -160,7 +189,7 @@ void modify_product1()
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
     attron(COLOR_PAIR(1));
     mvprintw(1, 10, "Modify The Product :");
-    mvprintw(2, 10, "Press Enter To Submit Each Field, And Type Carefully:");
+    mvprintw(2, 10, "Press Enter To Submit Each Field, And Type Carefully: ");
     
     attroff(COLOR_PAIR(1));
     refresh();
