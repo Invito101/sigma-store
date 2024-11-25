@@ -4,11 +4,10 @@
 #include <ncurses.h> // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 
-void selectany1(int n,const char *a[],void (*b[])());  //Function allows user to input options    
-//here n is the number of options, a is the array of label names, and b is the function pointer array  // Function to allow user to choose signup or login
+
 int view_all(void);
 void quit2(void);
-int new(void) {
+int admin_home(void) {
     create_tables();
     // Initialize ncurses
     initscr();
@@ -36,14 +35,14 @@ void quit2() {
 int view_all()
 {
     clear();
-     const char *aa[5]={"View products by category","Create product","Delete product","Modify product","Quit"};
-    void (*bb[])()={(void *)view_category_wise,create_product1,delete_product1,modify_product1,quit3};
+     const char *aa[6]={"View products by category","View a particular product","Create product","Delete product","Modify product","Quit"};
+    void (*bb[])()={(void *)view_category_wise,view_particular,create_product1,delete_product1,modify_product1,quit3};
 
 
 
     int choice=0;
     int tco = 0; //the_chosen_one
-    int n=5;
+    int n=6;
     int sizea=n;
     int ch;
     //char opencircle[]="\u25EF";
@@ -169,10 +168,10 @@ int view_all()
         else
         continue;
     }
-
-
+    free(products);
+    delwin(pad);
     bb[choice]();
     endwin();
-    delwin(pad);
+
     return 0;
 }

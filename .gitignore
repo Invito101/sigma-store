@@ -3,3 +3,4 @@ sigma-store
 .vscode/
 db/SigmaStore.db
 build.log
+stderr_output.txt

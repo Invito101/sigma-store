@@ -6,13 +6,13 @@ int count_cart_items_of_user(int userId){
     int count = 0;
     sqlite3_stmt *stmt;
 
-    char *sql = "SELECT COUNT(*) FROM Cart WHERE userId = ?;";
+    char *sql = "SELECT COUNT(*) FROM Cart WHERE userId = ? AND orderId IS NULL;";
 
     int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
 
     if(rc != SQLITE_OK){
         fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_close(db);
+        close_db(db);
         return 1;
     }
 
@@ -23,7 +23,7 @@ int count_cart_items_of_user(int userId){
     }
 
     sqlite3_finalize(stmt);
-    sqlite3_close(db);
+    close_db(db);
 
     return count;
 }

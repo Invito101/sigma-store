@@ -5,6 +5,8 @@
 #include "structs/structs.c"
 #include <string.h>
 #include <ncurses.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #ifndef HEADERS_H   // Prevents multiple inclusion
 #define HEADERS_H
@@ -19,11 +21,12 @@ int is_valid_email_for_login(char *email);
 
 
 // encryption.c
-char* encrypt(char *text);
+char* encrypter(char *text);
 char* decrypt(char *text);
 
 // db/db-utils.c
 sqlite3* open_db(void);
+void close_db(sqlite3 *db);
 int create_tables(void);
 
 // db/users/users-utils.c
@@ -45,6 +48,7 @@ int create_product(char *name, int price, char *description, char *category, cha
 int delete_product(char *name);
 int modify_product(char *name, char *new_name, int new_price, char *new_description, char *new_category, char *new_manufacturedBy);
 int rate_product(char *name, int rating);
+Product* get_product_by_id(int productId);
 Product* get_all_products(int *size);
 Product* get_all_category_products(int *size, char *cName);
 
@@ -60,8 +64,14 @@ int count_all_category_products(char *cName);
 
 // db/cart/cart.c
 int add_item_to_cart(int userId, int quantity, int productId);
+int modify_item_in_cart(int userId, int quantity, int productId);
+int delete_cart_item(int userId, int productId);
 Cart* get_cart_items(int userId, int* size);
 int mark_cart_as_ordered(int userId, int orderId);
+
+// db/cart/cart-utils.c
+int count_cart_items_of_user(int userId);
+void cast_row_to_cart_struct(Cart *cartObject, char **values);
 
 // db/orders/orders.c
 int place_order(int userId);
@@ -71,13 +81,11 @@ Order* get_all_orders_of_user(int userId, int *size);
 // db/orders/order-utils.c
 void cast_row_to_order_struct(Order *orderObject, char **values);
 
-// db/cart/cart-utils.c
-int count_cart_items_of_user(int userId);
-void cast_row_to_cart_struct(Cart *cartObject, char **values);
+// customer/customer-home.c
+void menu1(void);
 
 // admin/home.c
-int new();
-void selectany1(int n,const char *a[],void (*b[])());
+int admin_home();
 int view_all();
 void quit2();
 
@@ -95,7 +103,25 @@ void create_product1();
 void modify_product1();
 void delete_product1();
 void quit3();
+int selectany1(int n,const char *a[]);
+void view_particular();
 
 
+
+// admin/utilities.c
+int has_alphabet(char *str);
+int is_valid__product_name(char *name);
+int is_valid_price(char *price);
+int is_valid_description(char* description);
+int is_valid_manufacturedBy(char* manufacturedBy);
+void get_valid_input_for_product(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
+void get_valid_input_for_existing_product(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
+
+// customer/orders.c
+void CreateNewOrder(int userId);
+int AddItemToOrder(int id, int userId);
+int DecreaseItemQuantity(int id, int userId);
+void PlaceOrder(int userId);
+void DisplayCart(int userId);
 
 #endif
