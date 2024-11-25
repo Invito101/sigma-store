@@ -1,5 +1,4 @@
 #include "../headers.h"
-#include <stdio.h>
 #include <stdbool.h>
 #include <ncurses.h> // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
@@ -12,8 +11,6 @@ int admin_home(void) {
     // Initialize ncurses
     initscr();
     
-    const char *a[2]={"View All Products","Quit"};
-    void (*b[])()={(void *)view_all,quit2};
     
     // Clear the screen and show options
     clear();
@@ -35,14 +32,143 @@ void quit2() {
 int view_all()
 {
     clear();
-     const char *aa[6]={"View products by category","View a particular product","Create product","Delete product","Modify product","Quit"};
-    void (*bb[])()={(void *)view_category_wise,view_particular,create_product1,delete_product1,modify_product1,quit3};
+    const char *aa[3][2] = {
+        {"View products by category","View all products"},
+        {"View a particular product","Create product"},
+        {"Delete product","Modify product"}
+    };
+    void (*bb[3][2])() = {
+        {(void *)view_category_wise,view_all_products},
+        {view_particular,create_product1},
+        {delete_product1,modify_product1}
+    };
+
+
+    int m = 3;
+    int n = 2;
+    int choice[2]={0,0};
+    int tco[2] = {0,0}; //the_chosen_one
+    
+    int sizer=m;
+    int sizec=n;
+    int ch;
+    //char opencircle[]="\u25EF";
+    //char closedcircle[]="\u2B24";
+
+    initscr();
+    raw();
+    start_color();
+    cbreak();
+    noecho();
+    curs_set(0);     
+
+    keypad(stdscr, TRUE);
+
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(3, COLOR_BLUE , COLOR_BLACK);
+    attron(COLOR_PAIR(3));
+    mvprintw(10,5,"Press q to quit.");
+    
+    attroff(COLOR_PAIR(3));
+    refresh();
+
+
+mvprintw(2,5, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+mvprintw(3, 10, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+mvprintw(4, 10, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+mvprintw(5, 10, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+mvprintw(6, 10, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+mvprintw(7, 10, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+refresh();
+
+
+    while(true){
+    
+    for (int i = 0; i < sizer; i++) {
+            for (int j = 0; j < sizec; j++) {
+                int row;
+                if (i==0) row = 20;
+                else if (i==1) row = 25;
+                else if (i==2) row = 30;
+                int col= j==0? 5:55;
+
+                if (i == tco[0] && j == tco[1]) {
+                    // Highlight the selected button
+                    attron(COLOR_PAIR(2));
+                    mvprintw(row, col, "+--------------------------------+");
+                    mvprintw(row + 1, col, "|  %-30s|", aa[i][j]);
+                    mvprintw(row + 2, col, "+--------------------------------+");
+                    attroff(COLOR_PAIR(2));
+                } else {
+                    // Render the non-selected buttons
+                    attron(COLOR_PAIR(1));
+                    mvprintw(row, col, "+--------------------------------+");
+                    mvprintw(row + 1, col, "|  %-30s|", aa[i][j]);
+                    mvprintw(row + 2, col, "+--------------------------------+");
+                    attroff(COLOR_PAIR(1));
+                }
+            }
+        }
+        
+
+        ch=getch();
+        
+        if(ch =='\n'){
+            choice[0]=tco[0];
+            choice[1]=tco[1];
+            break;
+        }
+        else if(ch==KEY_DOWN){
+            if(tco[0]==sizer-1)
+                tco[0]=0;
+            else
+                tco[0]+=1;
+                
+        }
+        else if(ch==KEY_UP){
+            if(tco[0]==0)
+                tco[0]=sizer-1;
+            else
+                tco[0]-=1;
+                
+        }
+        else if(ch==KEY_RIGHT){
+            if(tco[1]==sizec-1)
+                tco[1]=0;
+                else
+                tco[1]+=1;
+        }
+        else if(ch==KEY_LEFT){
+            if(tco[1]==0)
+                tco[1]=sizec-1;
+            else
+                tco[1]-=1;
+        }
+        else if(ch == 'Q'|| ch == 'q'){
+            endwin();
+            exit(0);
+        }
+
+
+        
+        else
+        continue;
+
+    } 
+
+    bb[choice[0]][choice[1]]();
+    endwin();
+}
 
 
 
+void selectany1func(int n,const char *a[],void (*b[])()) {
+  
     int choice=0;
     int tco = 0; //the_chosen_one
-    int n=6;
+    
     int sizea=n;
     int ch;
     //char opencircle[]="\u25EF";
@@ -57,43 +183,9 @@ int view_all()
     curs_set(0);     
 
     keypad(stdscr, TRUE);
-    int count = count_all_products(); 
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-    attron(COLOR_PAIR(1));
-    mvprintw(12,3,"%s","Product information");
-    attroff(COLOR_PAIR(1));
-    refresh();
-    int pad_rows = count*4+2;
-    int pad_cols = 200;
-    WINDOW *pad = newpad(pad_rows, pad_cols);
-    if (pad == NULL) {
-        endwin();
-        printf("Error creating pad.\n");
-        return 1;
-
-    }
-
-    int size;
-    Product *products = get_all_products(&size);
-
-
-    for (int i = 0; i < count; i++) {
-  
-        int row = 4 * i;
-        wattron(pad,COLOR_PAIR(1));
-        mvwprintw(pad, row, 0, "%s", products[i].name);       // Print product name
-        mvwprintw(pad, row + 1, 0, "%s", products[i].category); // Print product category
-        wattroff(pad,COLOR_PAIR(1));
-    }
-
-
-    int start_row = 0, start_col = 0;
-    int display_rows = LINES < 45 ? LINES : 45;
-    int display_cols = COLS < 130 ? COLS : 130;
-    prefresh(pad, start_row, start_col, 15, 60, display_rows - 1, display_cols - 1);
-
 
     while(true){
         clear();
@@ -103,13 +195,13 @@ int view_all()
         for(int i=0;i<sizea;i++){
             if(i==tco){
                 attron(COLOR_PAIR(2));
-                mvprintw(3+i,3,"> %s",aa[i]);
+                mvprintw(3+i,3,"> %s",a[i]);
                 attroff(COLOR_PAIR(2));
                 refresh();
             }
             else{
                 attron(COLOR_PAIR(1));
-                mvprintw(3+i,3,"  %s",aa[i]);
+                mvprintw(3+i,3,"  %s",a[i]);
                 attroff(COLOR_PAIR(1));
                 refresh();
             }
@@ -119,14 +211,6 @@ int view_all()
         mvprintw(n+4, 3, "Use arrow keys to navigate, Enter to select1.");
         attroff(COLOR_PAIR(1));
         refresh();
-
-
-
-
-
-    prefresh(pad, start_row, start_col, 15, 60, display_rows - 1, display_cols - 1);
-
-
 
         ch=getch();
         
@@ -148,30 +232,12 @@ int view_all()
                 tco-=1;
                 
         }
-        else if (ch== KEY_PPAGE){
-                if (start_row > 0) start_row--;
-                prefresh(pad, start_row, start_col, 15, 60, display_rows - 1, display_cols - 1);
-        }
-        else if (ch == KEY_NPAGE){
-                if (start_row < pad_rows - display_rows) start_row++;
-                prefresh(pad, start_row, start_col, 15, 60, display_rows - 1, display_cols - 1);
-        }
-        else if (ch== KEY_LEFT){
-                if (start_col > 0) start_col--;
-                prefresh(pad, start_row, start_col, 15, 60, display_rows - 1, display_cols - 1);
-        }
-        else if(ch==KEY_RIGHT){
-                if (start_col < pad_cols - display_cols) start_col++;
-                prefresh(pad, start_row, start_col, 15, 60, display_rows - 1, display_cols - 1);
-        }
-        
         else
         continue;
-    }
-    free(products);
-    delwin(pad);
-    bb[choice]();
-    endwin();
 
-    return 0;
+    } 
+
+    b[choice]();
+    endwin();
 }
+
