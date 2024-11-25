@@ -16,9 +16,7 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
 
 void cart() {
     clear();
-    mvprintw(5, 10, "Cart function called.");
-    refresh();
-    getch();
+    DisplayCart(userdetails->id);
 }
 
 void wallet() {
@@ -76,7 +74,7 @@ refresh();
     };
 
     // Clear the screen and show options
-    buttonselect2d(2, 2, a, b,5,100);
+    buttonselect2d(2, 2, a, b,5,90);
     // Cleanup ncurses
     
 refresh();
@@ -166,12 +164,29 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
                 tco[1]-=1;
         }
 
-        
+
         else
         continue;
 
     } 
+    if(strcmp(a[choice[0]][choice[1]],"PLACE ORDER")==0){
+        printw("Order has been placed. Press any key to continue");
+        refresh();
+        getch();
+        clear();
+        endwin();
+        PlaceOrder(userdetails->id);
+        
 
+    }
+    else if(strcmp(a[choice[0]][choice[1]],"BACK")==0){
+        endwin();
+        menu1();
+        
+    }
+
+    else{
+    clear();
     b[choice[0]][choice[1]]();
-    endwin();
+    endwin();}
 }
