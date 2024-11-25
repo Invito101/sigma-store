@@ -330,23 +330,6 @@ void modify_product1()
     endwin();
     admin_home();
 }
-void delete_product1()
-{
-    clear();
-    mvprintw(5, 10, "delete_product function called");
-
-    refresh();
-}
-void quit3()
-{
-    clear();
-    endwin();
-    exit(0);
-}
-
-
-
-
 
 int selectany1(int n,const char *a[]) {
   
@@ -417,28 +400,9 @@ int selectany1(int n,const char *a[]) {
         continue;
     }
 
-
-    bb[choice]();
     endwin();
-    delwin(pad);
     return 0;
 }
-
-void create_product1()
-{
-    clear();
-    
-
-
-}
-void modify_product1()
-{
-    clear();
-    mvprintw(5, 10, "modify_product function called");
-
-    refresh();
-}
-
 
 void delete_product1() {
     clear();
@@ -586,7 +550,7 @@ void delete_product1() {
                                 attroff(COLOR_PAIR(2));
                                 getch();
                                 clear();
-                                new();
+                                admin_home();
                                 break;
                             }
                             refresh();

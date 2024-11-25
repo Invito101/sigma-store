@@ -244,6 +244,7 @@ void login1(){
     attron(COLOR_PAIR(2));
     noecho();
     int ch, index = 0;
+    static User *details;
 
     while (1) {
         int ch, index = 0;
@@ -283,7 +284,7 @@ void login1(){
         attroff(COLOR_PAIR(2));
         echo();
 
-        User *details = login(email, password);
+        details = login(email, password);
         if (details == NULL) {
             // Wrong password
             attron(COLOR_PAIR(3));
@@ -298,27 +299,21 @@ void login1(){
             mvprintw(8, 10, "Login successful! Press any key to continue.");
             refresh();
             getch();
-            if(strcmp(details->role,"Admin")==0){
-                admin_home();
-            }
-            else if(strcmp(details->role,"Customer")==0){
-                menu1();
-            }
-            flag=0;
-            free(details); // Clean up simulated user
-            break; // Exit the loop
+            break;
         }
     }
     attroff(COLOR_PAIR(2));
     echo();
 
-    if(flag==0)
-    menu1();
-
-    
-    
-
-
+    clear();
+    if(strcmp(details->role,"Admin")==0){
+        admin_home();
+    }
+    else if(strcmp(details->role,"Customer")==0){
+        menu1();
+    }
+    flag=0;
+    free(details); // Clean up simulated user
 }
 
 

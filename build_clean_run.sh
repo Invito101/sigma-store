@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Delete the current executable
+if [ -f sigma-store ]; then
+  echo "Removing existing executable..."
+  rm sigma-store
+fi
+
 # Run `make` to build the executable
 make 2>&1 | tee build.log
 

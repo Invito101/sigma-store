@@ -1,5 +1,4 @@
 #include "../headers.h"
-#include <stdio.h>
 #include <stdbool.h>
 #include <ncurses.h> // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
