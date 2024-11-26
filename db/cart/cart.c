@@ -22,7 +22,7 @@ int add_item_to_cart(int userId, int quantity, int productId){
 
     if(rc != SQLITE_DONE){
         fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_finalize(db);
+        sqlite3_finalize(stmt);
         close_db(db);
         return 1;
     }
