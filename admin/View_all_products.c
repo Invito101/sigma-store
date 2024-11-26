@@ -6,8 +6,7 @@
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 #define max_len 100
 
-int view_category_wise()
-{
+int view_category_wise(){
     clear();
     initscr();
     raw();
@@ -216,8 +215,7 @@ int view_category_wise()
     return 0;
 }
 
-void view_particular()
-{   
+void view_particular(){   
     clear();
     endwin();
     
@@ -262,7 +260,7 @@ void view_particular()
     getch();
     endwin();
     return;
-}
+    }
 
     
     attron(COLOR_PAIR(1));
@@ -301,8 +299,7 @@ void view_particular()
     
 }
 
-void view_all_products()
-{
+void view_all_products(){
     clear();
     endwin();
     
@@ -324,7 +321,7 @@ void view_all_products()
     mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
     mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
-refresh();
+    refresh();
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
@@ -441,14 +438,10 @@ refresh();
             delwin(pad2);
             endwin();
             admin_home();
+}
 
 
-
-        }
-
-
-void create_product1()
-{   
+void create_product1(){   
     clear();
     endwin();
     
@@ -544,8 +537,7 @@ void create_product1()
 }
 
 
-void modify_product1()
-{
+void modify_product1(){
     clear();
     endwin();
     initscr();
@@ -644,6 +636,7 @@ void modify_product1()
     admin_home();
 }
 
+
 int selectany1(int n,const char *a[]) {
     int choice = 0;
     int tco = 0; //the_chosen_one
@@ -712,6 +705,7 @@ int selectany1(int n,const char *a[]) {
     endwin();
     return 0;
 }
+
 
 void delete_product1() {
     clear();
@@ -900,12 +894,12 @@ void delete_product1() {
     free(products);
 }
 
-void quit3()
-{
+void quit3(){
     clear();
     endwin();
     exit(0);
 }
+
 
 void view_bestsellers(){
     
@@ -1105,6 +1099,7 @@ void view_bestsellers(){
     }
 } 
 
+
 void view_highest_rated(){
     clear();
     initscr();
@@ -1302,11 +1297,158 @@ void view_highest_rated(){
     }
 }
 
-void complete_order1(){
 
+void complete_order1(){
+    clear();
+    initscr();
+    raw();
+    noecho();
+    curs_set(0);
+    keypad(stdscr, TRUE);
+    start_color();
+
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+
+    int count;
+    Order *orders = get_all_pending_orders(&count);
+    if (count == 0) {
+        attron(COLOR_PAIR(2));
+        mvprintw(5, 10, "No pending orders :)");
+        attroff(COLOR_PAIR(2));
+        refresh();
+        getch();
+        endwin();
+        return;
+    }
+
+    if (orders == NULL) {
+        endwin();
+        fprintf(stderr, "Failed to retrieve orders.\n");
+        return;
+    }
+
+    int choice;
+    int ch;
+
+    while (true) {
+        clear();
+        attron(COLOR_PAIR(2));
+        mvprintw(10, 55, "Select the order and press Enter to view order details.");
+        attroff(COLOR_PAIR(2));
+
+        mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+        mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+        mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+        mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+        mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+        mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+        attron(COLOR_PAIR(1));
+        mvprintw(9, 55, "Order ID");
+        mvprintw(10, 70, "User ID");
+        attroff(COLOR_PAIR(1));
+        refresh();
+        // Display categories
+        for (int i = 0; i < count; i++) {
+            if (i == choice) {
+                attron(COLOR_PAIR(2));
+                mvprintw(12 + i, 55, "> %d", orders[i].id);
+                mvprintw(12 + i, 70, "%d", orders[i].userId);
+                attroff(COLOR_PAIR(2));
+            } else {
+                attron(COLOR_PAIR(1));
+                mvprintw(12 + i, 57, "%d", orders[i].id);
+                mvprintw(12 + i, 70, "%d", orders[i].userId);
+                attroff(COLOR_PAIR(1));
+            }
+        }
+
+        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to select, q to quit.");
+        refresh();
+
+        ch = getch();
+        if (ch == 'q') {
+            break;
+        }
+
+        switch (ch) {
+            case KEY_UP:
+                choice = (choice == 0) ? count - 1 : choice - 1;
+                break;
+            case KEY_DOWN:
+                choice = (choice == count - 1) ? 0 : choice + 1;
+                break;
+            case '\n': {
+                // Display order details
+                while (true) {
+                    clear();
+                    attron(COLOR_PAIR(2));
+                    mvprintw(9, 10, "Do you want to approve the order of '%d'? (y/n)", orders[choice].userId);
+                    attroff(COLOR_PAIR(2));
+
+                    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+                    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+                    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+                    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+                    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+                    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+                    refresh();
+
+                    attron(COLOR_PAIR(1));
+                    mvprintw(9, 55, "Order ID: '%d'",orders[choice].id);
+                    mvprintw(9, 70, "User ID: '%d'",orders[choice].userId);
+                    mvprintw(11,55,"Product ID");
+                    mvprintw(11,70,"Quantity");
+                    attroff(COLOR_PAIR(1));
+
+                    for (int i=0; i<orders[choice].size; i++){
+                        attron(COLOR_PAIR(2));
+                        mvprintw(13+i,55,"%d. %d",i+1,orders[choice].items->productId);
+                        mvprintw(13+i,70,"%d. %d",i+1,orders[choice].items->quantity);
+                        attroff(COLOR_PAIR(2));
+                    }
+
+                    mvprintw(LINES - 2, 3, "Press b to go back.");
+                    refresh();
+
+                    ch = getch();
+                    if (ch == 'b') break;
+
+                    if (ch == 'y' || ch == 'Y') {
+                        clear();
+                        mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+                        mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+                        mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+                        mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+                        mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+                        mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+                        
+                        mvprintw(18,55,"Order approved successfully.");
+                        mark_order_as_delivered(orders[choice].id);
+                        move(LINES-4,10);
+                        clrtoeol();
+                        mvprintw(LINES - 2, 9, "Enter b to go back.");
+                        getch();
+                        clear();
+                        admin_home();
+                        break;
+                    }
+                    refresh();
+                    break;   
+                }
+            }
+            break;
+        }
+    }
+    // Clean up
+    endwin();
+    free(orders);    
+    return;
 }
-void order_history1()
-{
+
+
+void order_history1(){
     clear();
     endwin();
     initscr();
