@@ -419,14 +419,14 @@ void create_product1()
     curs_set(0);     
 
     keypad(stdscr, TRUE);
-    // mvprintw(2,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
-    // mvprintw(3, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
-    // mvprintw(4, 33, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
-    // mvprintw(5, 33, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
-    // mvprintw(6, 33, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
-    // mvprintw(7, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+    mvprintw(2,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(3, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 33, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 33, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 33, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
-    // refresh();
+    refresh();
 
     
     char name[max_len],price[max_len];
@@ -442,27 +442,27 @@ void create_product1()
     attroff(COLOR_PAIR(1));
     refresh();
 
-    get_valid_input_for_product(11, "Name", name, max_len, is_valid_product_name);
-    get_valid_input_for_product(12, "Price", price, max_len, is_valid_price);
-    get_valid_input_for_product(13, "Description",description, max_len, NULL);
+    get_valid_input_for_product(12, "Name", name, max_len, is_valid_product_name);
+    get_valid_input_for_product(13, "Price", price, max_len, is_valid_price);
+    get_valid_input_for_product(14, "Description",description, max_len, NULL);
 
     const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(category, categ[selected], max_len);
     for(int i=0;i<7;i++){
-        move(8+i,10);
+        move(15+i,10);
         clrtoeol();
     }
 
     attron(COLOR_PAIR(1));
-    mvprintw(14,10, "Category");
+    mvprintw(15,10, "Category: ");
     attroff(COLOR_PAIR(1));
 
     attron(COLOR_PAIR(2));
-    mvprintw(14,20, "%s",category);
+    mvprintw(15,20, "%s",category);
     attroff(COLOR_PAIR(2));
     refresh();
-    get_valid_input_for_product(15, "Manufactured by",manufacturedBy, max_len, is_valid_manufacturedBy);
+    get_valid_input_for_product(16, "Manufactured by",manufacturedBy, max_len, is_valid_manufacturedBy);
 
     int sf = create_product(name,atoi(price),description,category, manufacturedBy);
 
@@ -516,6 +516,15 @@ void modify_product1()
     noecho();
     curs_set(0); 
     keypad(stdscr,TRUE);
+
+    mvprintw(1,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(2, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(3, 33, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(4, 33, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(5, 33, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(6, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+    refresh();
     
     
     char name[max_len];
@@ -524,38 +533,38 @@ void modify_product1()
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
     attron(COLOR_PAIR(1));
-    mvprintw(1, 10, "Modify The Product :");
-    mvprintw(2, 10, "Press Enter To Submit Each Field, And Type Carefully: ");
+    mvprintw(8, 10, "Modify The Product :");
+    mvprintw(9, 10, "Press Enter To Submit Each Field, And Type Carefully: ");
     
     attroff(COLOR_PAIR(1));
     refresh();
-    get_valid_input_for_existing_product(4, "Name Of The Product Do You Wanna Modify: ", name, max_len, is_valid_name);
+    get_valid_input_for_existing_product(11, "Name Of The Product Do You Wanna Modify: ", name, max_len, is_valid_name);
     
     
 
 
-    get_valid_input_for_product(5, "New Name: ", new_name, max_len, is_valid_name);
+    get_valid_input_for_product(12, "New Name ", new_name, max_len, is_valid_name);
 
-    get_valid_input_for_product(6, "New Price: ", new_price, max_len, is_numeric);
-    get_valid_input_for_product(7, "New Description: ",new_description, max_len, NULL);
+    get_valid_input_for_product(13, "New Price ", new_price, max_len, is_numeric);
+    get_valid_input_for_product(14, "New Description ",new_description, max_len, NULL);
 
     char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(new_category, categ[selected], max_len);
     for(int i=0;i<7;i++){
-        move(8+i,10);
+        move(15+i,10);
         clrtoeol();
     }
 
     attron(COLOR_PAIR(1));
-    mvprintw(8,10, "Category: ");
+    mvprintw(15,10, "Category: ");
     attroff(COLOR_PAIR(1));
 
     attron(COLOR_PAIR(2));
-    mvprintw(8,20, "%s",new_category);
+    mvprintw(15,20, "%s",new_category);
     attroff(COLOR_PAIR(2));
     refresh();
-    get_valid_input_for_product(9, "Manufactured by: ",new_manufactured_by, max_len, is_valid_manufacturedBy);
+    get_valid_input_for_product(16, "Manufactured by ",new_manufactured_by, max_len, is_valid_manufacturedBy);
 
     int sf = modify_product(name,new_name,atoi(new_price),new_description,new_category,new_manufactured_by);
     clear();
@@ -615,18 +624,18 @@ int selectany1(int n,const char *a[]) {
 
     while(true){
         attron(COLOR_PAIR(1));
-        mvprintw(8, 10, "Category: ");
+        mvprintw(15, 10, "Category: ");
         attroff(COLOR_PAIR(1));
         for(int i=0;i<sizea;i++){
             if(i==tco){
                 attron(COLOR_PAIR(2));
-                mvprintw(8+i,20,"> %s",a[i]);
+                mvprintw(15+i,20,"> %s",a[i]);
                 attroff(COLOR_PAIR(2));
                 refresh();
             }
             else{
                 attron(COLOR_PAIR(1));
-                mvprintw(8+i,20,"  %s",a[i]);
+                mvprintw(15+i,20,"  %s",a[i]);
                 attroff(COLOR_PAIR(1));
                 refresh();
             }
