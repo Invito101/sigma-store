@@ -21,6 +21,7 @@ int is_valid_email_for_login(char *email);
 
 //login-signup.c
 extern User* userdetails;
+void authpage(void);
 
 // encryption.c
 char* encrypter(char *text);
@@ -93,6 +94,10 @@ void cast_row_to_order_struct(Order *orderObject, char **values);
 
 // customer/customer-home.c
 void menu1(void);
+void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, int column);
+
+//customer-filters.c
+void filtertest();
 
 // admin/home.c
 int admin_home();

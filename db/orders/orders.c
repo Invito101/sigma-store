@@ -119,7 +119,7 @@ Order* get_all_orders_of_user(int userId, int *size){
 
         cast_row_to_order_struct(&orders[index], values);
 
-        orders[index].items = get_order_items(values[0], &orders[index].size);
+        orders[index].items = get_order_items(*(values[0]), &orders[index].size);
         index++;
     }
 
@@ -167,7 +167,7 @@ Order* get_all_completed_orders(int *size){
 
         cast_row_to_order_struct(&orders[index], values);
 
-        orders[index].items = get_order_items(values[0], &orders[index].size);
+        orders[index].items = get_order_items(*(values[0]), &orders[index].size);
         index++;
     }
 
@@ -210,12 +210,12 @@ Order* get_all_pending_orders(int *size){
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         char *values[3];
         for (int i = 0; i < 3; i++) {
-            values[i] = (char *)sqlite3_column_text(stmt, i);
+            values[i] = (int *)sqlite3_column_text(stmt, i);
         }
 
         cast_row_to_order_struct(&orders[index], values);
 
-        orders[index].items = get_order_items(values[0], &orders[index].size);
+        orders[index].items = get_order_items(*(values[0]), &orders[index].size);
         index++;
     }
 
