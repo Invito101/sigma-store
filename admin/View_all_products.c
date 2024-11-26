@@ -1,6 +1,7 @@
 #include "../headers.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include<string.h>
 #include <ncurses.h> // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 #define max_len 100
@@ -229,20 +230,30 @@ void view_particular()
     noecho();
     curs_set(0);
    
+    curs_set(0);
+   
     keypad(stdscr, TRUE);
+    mvprintw(2,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(3, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 33, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 33, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 33, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+    refresh();
     char name[max_len];
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
     init_pair(3,COLOR_RED,COLOR_BLACK);
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(3,COLOR_RED,COLOR_BLACK);
     attron(COLOR_PAIR(1));
-    mvprintw(1,10,"Search A Product By Name: ");
-    mvprintw(2,10,"Press Enter To Submit Each Field And Be Careful While Typing: ");
+    mvprintw(9,10,"Search A Product By Name: ");
+    mvprintw(10,10,"Press Enter To Submit Each Field And Be Careful While Typing: ");
     attroff(COLOR_PAIR(1));
     refresh();
     
-    get_valid_input_for_existing_product(4, "Name of the product: ", name, max_len, is_valid_product_name);
-    mvprintw(6, 30, "%s",name);
-    refresh();
+    get_valid_input_for_existing_product(12, "Name of the product: ", name, max_len, is_valid_name);
     
     Product *products=get_product_by_name(name);
     if (!products) {
@@ -254,30 +265,40 @@ void view_particular()
 }
 
     
-            attron(COLOR_PAIR(1));
-            mvprintw(5, 10, "The Details Of Your Products Are: ");
-            mvprintw(6, 10, "Name:");
-            mvprintw(7, 10, "Price:");
-            mvprintw(8, 10, "Description:");
-            mvprintw(9, 10, "Category:");
-            mvprintw(10, 10, "Manufactured by:");
-            attroff(COLOR_PAIR(1));
-            attron(COLOR_PAIR(2));
-            mvprintw(6, 30, "%s", products->name);
-            mvprintw(7, 30, "%d", products->price);
-            mvprintw(8, 30, "%s", products->description);
-            mvprintw(9, 30, "%s", products->category);
-            mvprintw(10, 30, "%s", products->manufacturedBy);
-            attroff(COLOR_PAIR(2));
-            refresh();
-            
+    attron(COLOR_PAIR(1));
+    mvprintw(13, 10, "The Details Of Your Products Are: ");
+    mvprintw(14, 10, "Name: ");
+    mvprintw(15, 10, "Price: ");
+    mvprintw(16, 10, "Description: ");
+    mvprintw(17, 10, "Category: ");
+    mvprintw(18, 10, "Manufactured by: ");
+    mvprintw(19,10,"Rating: ");
+    mvprintw(20,10,"Number Of Ratings: ");
+    mvprintw(21,10,"Number Of Items Bought: ");
+    attroff(COLOR_PAIR(1));
+    attron(COLOR_PAIR(2));
+    mvprintw(14, 36, "%s", products->name);
+    mvprintw(15, 36, "%d", products->price);
+    mvprintw(16, 36, "%s", products->description);
+    mvprintw(17, 36, "%s", products->category);
+    mvprintw(18, 36, "%s", products->manufacturedBy);
+    mvprintw(19,36,"%f",products->rating);
+    mvprintw(20,36,"%d",products->noOfRatings);
+    mvprintw(21,36,"%d",products->amountBought);
+    attroff(COLOR_PAIR(2));
+    refresh();
+    
 
     attron(COLOR_PAIR(1));
-    mvprintw(15, 10, "Press any key to return to the menu.");
+    mvprintw(26, 10, "Press any key to return to the menu.");
     attroff(COLOR_PAIR(1));
     getch();
     endwin();
-    admin_home();    
+    admin_home();
+
+
+    
+    
 }
 
 void view_all_products()
@@ -390,6 +411,7 @@ refresh();
             admin_home();
 }
 
+
 void create_product1()
 {   
     clear();
@@ -405,6 +427,14 @@ void create_product1()
     curs_set(0);     
 
     keypad(stdscr, TRUE);
+    mvprintw(2,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(3, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 33, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 33, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 33, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+    refresh();
 
     
     char name[max_len],price[max_len];
@@ -415,32 +445,32 @@ void create_product1()
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
 
     attron(COLOR_PAIR(1));
-    mvprintw(2, 10, "Create a new product:");
-    mvprintw(3, 10, "Press Enter to submit each field, and type carefully:");
+    mvprintw(9, 10, "Create a new product:");
+    mvprintw(10, 10, "Press Enter to submit each field, and type carefully:");
     attroff(COLOR_PAIR(1));
     refresh();
 
-    get_valid_input_for_product(5, "Name", name, max_len, is_valid_product_name);
-    get_valid_input_for_product(6, "Price", price, max_len, is_valid_price);
-    get_valid_input_for_product(7, "Description",description, max_len, NULL);
+    get_valid_input_for_product(12, "Name", name, max_len, is_valid_product_name);
+    get_valid_input_for_product(13, "Price", price, max_len, is_valid_price);
+    get_valid_input_for_product(14, "Description",description, max_len, NULL);
 
     const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(category, categ[selected], max_len);
     for(int i=0;i<7;i++){
-        move(8+i,10);
+        move(15+i,10);
         clrtoeol();
     }
 
     attron(COLOR_PAIR(1));
-    mvprintw(8,10, "Category:");
+    mvprintw(15,10, "Category: ");
     attroff(COLOR_PAIR(1));
 
     attron(COLOR_PAIR(2));
-    mvprintw(8,20, "%s",category);
+    mvprintw(15,20, "%s",category);
     attroff(COLOR_PAIR(2));
     refresh();
-    get_valid_input_for_product(9, "Manufactured by",manufacturedBy, max_len, is_valid_manufacturedBy);
+    get_valid_input_for_product(16, "Manufactured by",manufacturedBy, max_len, is_valid_manufacturedBy);
 
     int sf = create_product(name,atoi(price),description,category, manufacturedBy);
 
@@ -494,6 +524,15 @@ void modify_product1()
     noecho();
     curs_set(0); 
     keypad(stdscr,TRUE);
+
+    mvprintw(1,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(2, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(3, 33, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(4, 33, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(5, 33, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(6, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+    refresh();
     
     
     char name[max_len];
@@ -502,38 +541,38 @@ void modify_product1()
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
     attron(COLOR_PAIR(1));
-    mvprintw(1, 10, "Modify The Product :");
-    mvprintw(2, 10, "Press Enter To Submit Each Field, And Type Carefully:");
+    mvprintw(8, 10, "Modify The Product :");
+    mvprintw(9, 10, "Press Enter To Submit Each Field, And Type Carefully: ");
     
     attroff(COLOR_PAIR(1));
     refresh();
-    get_valid_input_for_existing_product(4, "Name Of The Product Do You Wanna Modify: ", name, max_len, is_valid_name);
+    get_valid_input_for_existing_product(11, "Name Of The Product Do You Wanna Modify: ", name, max_len, is_valid_name);
     
     
 
 
-    get_valid_input_for_product(5, "New Name: ", new_name, max_len, is_valid_name);
+    get_valid_input_for_product(12, "New Name ", new_name, max_len, is_valid_name);
 
-    get_valid_input_for_product(6, "New Price: ", new_price, max_len, is_numeric);
-    get_valid_input_for_product(7, "New Description: ",new_description, max_len, NULL);
+    get_valid_input_for_product(13, "New Price ", new_price, max_len, is_numeric);
+    get_valid_input_for_product(14, "New Description ",new_description, max_len, NULL);
 
     const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(new_category, categ[selected], max_len);
     for(int i=0;i<7;i++){
-        move(8+i,10);
+        move(15+i,10);
         clrtoeol();
     }
 
     attron(COLOR_PAIR(1));
-    mvprintw(8,10, "Category: ");
+    mvprintw(15,10, "Category: ");
     attroff(COLOR_PAIR(1));
 
     attron(COLOR_PAIR(2));
-    mvprintw(8,20, "%s",new_category);
+    mvprintw(15,20, "%s",new_category);
     attroff(COLOR_PAIR(2));
     refresh();
-    get_valid_input_for_product(9, "Manufactured by: ",new_manufactured_by, max_len, is_valid_manufacturedBy);
+    get_valid_input_for_product(16, "Manufactured by ",new_manufactured_by, max_len, is_valid_manufacturedBy);
 
     int sf = modify_product(name,new_name,atoi(new_price),new_description,new_category,new_manufactured_by);
     clear();
@@ -591,18 +630,18 @@ int selectany1(int n,const char *a[]) {
 
     while(true){
         attron(COLOR_PAIR(1));
-        mvprintw(8, 10, "Category: ");
+        mvprintw(15, 10, "Category: ");
         attroff(COLOR_PAIR(1));
         for(int i=0;i<sizea;i++){
             if(i==tco){
                 attron(COLOR_PAIR(2));
-                mvprintw(8+i,20,"> %s",a[i]);
+                mvprintw(15+i,20,"> %s",a[i]);
                 attroff(COLOR_PAIR(2));
                 refresh();
             }
             else{
                 attron(COLOR_PAIR(1));
-                mvprintw(8+i,20,"  %s",a[i]);
+                mvprintw(15+i,20,"  %s",a[i]);
                 attroff(COLOR_PAIR(1));
                 refresh();
             }
