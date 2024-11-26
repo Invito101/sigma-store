@@ -1108,6 +1108,7 @@ void order_history1()
     mvprintw(9,70,"| ORDER HISTORY |");
     mvprintw(10,70,"-----------------");
     attroff(COLOR_PAIR(1));
+    
 
 
 

@@ -19,6 +19,8 @@ void quit(void);
 
 
 int main(void) {
+    
+    create_tables();
     // // Books
     // create_product("The Great Gatsby", 299, "A classic novel by F. Scott Fitzgerald", "Books", "Penguin Classics");
     // create_product("Introduction to Algorithms", 1500, "Comprehensive guide on algorithms", "Books", "MIT Press");
