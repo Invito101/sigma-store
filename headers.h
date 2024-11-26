@@ -119,17 +119,20 @@ int is_valid_phone(char *phone);
 int is_valid_pincode(char *pincode);
 void get_valid_input(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
 
-// admin/View_all_products.c
+// admin/View_products.c
 int view_category_wise();
-void create_product1();
-void modify_product1();
-void delete_product1();
 void quit3();
-int selectany1(int n,const char *a[]);
 void view_particular();
 void view_all_products();
 void view_bestsellers();
 void view_highest_rated();
+
+
+//admin/pro_fun.c
+void create_product1();
+void modify_product1();
+void delete_product1();
+int selectany1(int n,const char *a[]);
 void complete_order1();
 void order_history1();
 void check_for_back(const char *input);
