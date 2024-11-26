@@ -147,14 +147,8 @@ void DisplayCart(int userId) {
     }
     refresh();
 
-    const char *a[1][2] = {
-        "BACK","PLACE ORDER"
-        
-    };
-    void (*b[1][2])() = {
-        menu1,PlaceOrder
-        
-    };
+    const char *a[1][2] = {{"BACK","PLACE ORDER"}};
+    void (*b[1][2])() = {{menu1,PlaceOrder}};
 
     // Clear the screen and show options
     buttonselect2d(1, 2, a, b,40,45);

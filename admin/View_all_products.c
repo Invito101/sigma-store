@@ -26,14 +26,14 @@ int view_category_wise()
         refresh();
         getch();
         endwin();
-        return;
+        return 0;
     }
 
     Product *products = get_all_products(&count);
     if (products == NULL) {
         endwin();
         fprintf(stderr, "Failed to retrieve products.\n");
-        return;
+        return 1;
     }
 
     // Extract unique categories
@@ -250,7 +250,7 @@ void view_particular()
     refresh();
     getch();
     endwin();
-    return NULL;
+    return;
 }
 
     
@@ -517,7 +517,7 @@ void modify_product1()
     get_valid_input_for_product(6, "New Price: ", new_price, max_len, is_numeric);
     get_valid_input_for_product(7, "New Description: ",new_description, max_len, NULL);
 
-    char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(new_category, categ[selected], max_len);
     for(int i=0;i<7;i++){
@@ -571,8 +571,6 @@ void modify_product1()
 }
 
 int selectany1(int n,const char *a[]) {
-  
-    int choice=0;
     int tco = 0; //the_chosen_one
     
     int sizea=n;
@@ -617,11 +615,7 @@ int selectany1(int n,const char *a[]) {
 
         ch=getch();
         
-        if(ch =='\n'){
-            choice=tco;
-            break;
-        }
-        else if(ch==KEY_DOWN){
+        if(ch==KEY_DOWN){
             if(tco==sizea-1)
                 tco=0;
                 else
