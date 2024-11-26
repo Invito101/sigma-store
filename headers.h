@@ -48,6 +48,7 @@ int create_product(char *name, int price, char *description, char *category, cha
 int delete_product(char *name);
 int modify_product(char *name, char *new_name, int new_price, char *new_description, char *new_category, char *new_manufacturedBy);
 int rate_product(char *name, int rating);
+Product* get_product_by_name(char *name);
 Product* get_product_by_id(int productId);
 Product* get_all_products(int *size);
 Product* get_all_category_products(int *size, char *cName);
@@ -89,6 +90,8 @@ int admin_home();
 int view_all();
 void quit2();
 void selectany1func(int n,const char *a[],void (*b[])());
+void bestseller();
+
 
 
 //signup helper functions
@@ -108,6 +111,9 @@ void quit3();
 int selectany1(int n,const char *a[]);
 void view_particular();
 void view_all_products();
+// void view_bestsellers();
+// void view_highest_rated();
+
 
 
 // admin/utilities.c
