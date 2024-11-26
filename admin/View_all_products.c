@@ -101,12 +101,21 @@ mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/
 
 refresh();
 
-
-    int count = count_all_products(); 
-
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
     init_pair(3, COLOR_BLUE , COLOR_BLACK);
+    int count = count_all_products();
+    if (count == 0) {
+        attron(COLOR_PAIR(2));
+        mvprintw(5, 10, "No products available.");
+        attroff(COLOR_PAIR(2));
+        refresh();
+        getch();
+        endwin();
+        return;
+    }
+
+
     attron(COLOR_PAIR(3));
     attron(A_BOLD);
     mvprintw(10,90,"%s","PRODUCT INFORMATION");
@@ -610,10 +619,203 @@ void quit3()
     exit(0);
 }
 
-// void view_bestsellers(){
+void view_bestsellers(){
+    
+    clear();
+    initscr();
+    raw();
+    noecho();
+    curs_set(0);
+    keypad(stdscr, TRUE);
+    start_color();
 
-// }
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
 
-// void view_highest_rated(){
+    int count = count_all_products();
+    if (count == 0) {
+        attron(COLOR_PAIR(2));
+        mvprintw(5, 10, "No products available.");
+        attroff(COLOR_PAIR(2));
+        refresh();
+        getch();
+        endwin();
+        return;
+    }
 
-// }
+
+
+    // Extract unique categories
+    const char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    int category_count = 7;
+
+
+    int category_choice = 0;
+    int ch;
+
+    while (true) {
+        clear();
+        attron(COLOR_PAIR(2));
+        mvprintw(1, 10, "Select a category:");
+        attroff(COLOR_PAIR(2));
+
+        // Display categories
+        for (int i = 0; i < category_count; i++) {
+            if (i == category_choice) {
+                attron(COLOR_PAIR(2));
+                mvprintw(3 + i, 10, "> %s", categories[i]);
+                attroff(COLOR_PAIR(2));
+            } else {
+                attron(COLOR_PAIR(1));
+                mvprintw(3 + i, 12, "%s", categories[i]);
+                attroff(COLOR_PAIR(1));
+            }
+        }
+
+        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to select, q to quit.");
+        refresh();
+
+        ch = getch();
+        if (ch == 'q') {
+            break;
+        }
+
+        switch (ch) {
+            case KEY_UP:
+                category_choice = (category_choice == 0) ? category_count - 1 : category_choice - 1;
+                break;
+            case KEY_DOWN:
+                category_choice = (category_choice == category_count - 1) ? 0 : category_choice + 1;
+                break;
+            case '\n': {
+                // Display products under the selected category
+                clear();
+                    int count2 = count_all_category_products(categories[category_choice]);
+                    Product *products = get_all_category_products_top_sold(&count2,categories[category_choice]);
+                    if (products == NULL) {
+                        endwin();
+                        fprintf(stderr, "Failed to retrieve products.\n");
+                        return;
+                    }
+
+
+
+                attron(COLOR_PAIR(2));
+                mvprintw(1, 10, "Bestsellers in %s", categories[category_choice]);
+                mvprintw(LINES - 1, 3, "Use arrow keys to navigate, Enter to go back.");
+                    refresh();
+                attroff(COLOR_PAIR(2));
+                refresh();
+                int filtered_indices[count];
+                int filtered_count = 0;
+
+                for (int i = 0; i < count; i++) {
+                    if (strcmp(products[i].category, categories[category_choice]) == 0) {
+                        filtered_indices[filtered_count++] = i;
+                    }
+                }
+
+                if (filtered_count == 0) {
+                    mvprintw(3, 10, "No products available in this category.");
+                    mvprintw(LINES - 1, 3, "Use arrow keys to navigate, Enter to delete, b to go back.");
+                    refresh();
+                    getch();
+                    break;
+                }
+                    int pad_rows = 2*count2+2;
+    int pad_cols = 200;
+    WINDOW *pad2 = newpad(pad_rows, pad_cols);
+    if (pad2 == NULL) {
+        endwin();
+        printf("Error creating pad.\n");
+        return;
+
+    }
+
+
+    for (int i = 0; i < count2; i++) {
+        int row = 2*i;
+
+
+        wattron(pad2,COLOR_PAIR(2));
+        if( strlen(products[i].name)<65)
+        {mvwprintw(pad2, row, 0,"%s", products[i].name);}
+        else{
+        mvwprintw(pad2, row, 0,"%.*s", 65, products[i].name);       // Print product name
+        }
+        mvwprintw(pad2, row , 70, "%d", products[i].price); 
+        mvwprintw(pad2, row , 80, "%d", products[i].id); // Print product category
+        mvwprintw(pad2, row , 97, "%d", products[i].amountBought);
+        mvwprintw(pad2, row , 117, "%d", products[i].noOfRatings);
+        mvwprintw(pad2, row , 135, "%.2f", products[i].rating);
+
+        wattroff(pad2,COLOR_PAIR(2));
+        
+    }
+
+
+    int start_row = 0, start_col = 0;
+    int display_rows = LINES < 30 ? LINES : 30;
+    int display_cols = COLS < 130 ? COLS : 130;
+    prefresh(pad2, start_row, start_col, 15, 0, 10 + display_rows - 1, display_cols - 1);
+
+    int ch;
+        
+        while(true){
+        attron(COLOR_PAIR(1));
+        attron(A_BOLD);
+        mvprintw( 14, 33, "NAME:");       // Print product name
+        mvprintw( 14, 70, "PRICE:"); 
+        mvprintw( 14, 80, "ID:"); 
+        mvprintw( 14, 90, "NUMBER OF BUYERS:");
+        mvprintw( 14, 110, "NUMBER OF RATINGS:");
+        mvprintw( 14, 135, "RATINGS:");
+        attroff(A_BOLD);
+        attroff(COLOR_PAIR(1));
+        refresh();
+        ch = getch();
+
+        if (ch=='\n') break;
+        else if (ch== KEY_PPAGE){
+                if (start_row > 0) start_row--;
+                prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
+        }
+        else if (ch == KEY_NPAGE){
+                if (start_row < (pad_rows - display_rows)) start_row++;
+                prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
+        }
+        else if (ch== KEY_LEFT){
+                if (start_col > 0) start_col--;
+                prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
+        }
+        else if(ch==KEY_RIGHT){
+                if (start_col < (pad_cols - display_cols)) start_col++;
+                prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
+        }
+        else continue;
+        }
+
+
+            clear();
+            delwin(pad2);
+            endwin();
+            admin_home();
+
+
+
+        }
+        }
+
+    }
+} 
+
+void view_highest_rated(){
+
+}
+
+void complete_order1(){
+
+}
+void order_history1(){
+
+}

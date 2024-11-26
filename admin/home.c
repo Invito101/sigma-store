@@ -32,21 +32,23 @@ void quit2() {
 int view_all()
 {
     clear();
-    const char *aa[3][2] = {
+    const char *aa[5][2] = {
         {"View products by category","View all products"},
         {"View a particular product","Create product"},
         {"Delete product","Modify product"},
-        // {"View bestsellers", "View highest rated products"}
+        {"View bestsellers", "View highest rated products"},
+        {"Complete order","Order History"}
     };
-    void (*bb[3][2])() = {
+    void (*bb[5][2])() = {
         {(void *)view_category_wise,view_all_products},
         {view_particular,create_product1},
         {delete_product1,modify_product1},
-        // {view_bestsellers,view_highest_rated}
+        {view_bestsellers,view_highest_rated},
+        {complete_order1,order_history1}
     };
 
 
-    int m = 3;
+    int m = 5;
     int n = 2;
     int choice[2]={0,0};
     int tco[2] = {0,0}; //the_chosen_one
@@ -97,6 +99,8 @@ refresh();
                 if (i==0) row = 20;
                 else if (i==1) row = 25;
                 else if (i==2) row = 30;
+                else if (i==3) row = 35;
+                else if (i==4) row = 40;
                 int col= j==0? 55:105;
 
                 if (i == tco[0] && j == tco[1]) {
