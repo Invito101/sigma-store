@@ -1076,6 +1076,50 @@ void view_highest_rated(){
 void complete_order1(){
 
 }
-void order_history1(){
+void order_history1()
+{
+    clear();
+    endwin();
+    initscr();
+    mvprintw(5, 10, "modify_product function called");
+    
+    create_tables();
+    raw();
+    clear();
+    start_color();
+    cbreak();
+    noecho();
+    curs_set(0); 
+    keypad(stdscr,TRUE);
 
+    mvprintw(1,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(2, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(3, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(4, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(5, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(6, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+    refresh();
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);  
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+
+    attron(COLOR_PAIR(1));
+    mvprintw(8,70,"-----------------");
+    mvprintw(9,70,"| ORDER HISTORY |");
+    mvprintw(10,70,"-----------------");
+    attroff(COLOR_PAIR(1));
+
+
+
+
+
+
+    attron(COLOR_PAIR(1));
+    mvprintw(15, 10, "Press any key to return to the menu.");
+    attroff(COLOR_PAIR(1));
+    refresh();
+    
+    getch();
+    endwin();
+    admin_home();
 }
