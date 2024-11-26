@@ -36,7 +36,7 @@ int view_all()
         {"View products by category","View all products"},
         {"View a particular product","Create product"},
         {"Delete product","Modify product"},
-        {"View bestsellers", "View highest rated products"},
+        {"View Bestselling Products", "View Top Rated Products"},
         {"Complete order","Order History"}
     };
     void (*bb[5][2])() = {
