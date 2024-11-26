@@ -36,7 +36,7 @@ int view_all()
         {"View products by category","View all products"},
         {"View a particular product","Create product"},
         {"Delete product","Modify product"},
-        {"View bestsellers", "View highest rated products"},
+        {"View Bestselling Products", "View Top Rated Products"},
         {"Complete order","Order History"}
     };
     void (*bb[5][2])() = {
@@ -72,7 +72,7 @@ int view_all()
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
     init_pair(3, COLOR_BLUE , COLOR_BLACK);
     attron(COLOR_PAIR(3));
-    mvprintw(10,5,"Press q to quit.");
+    mvprintw(LINES-2,5,"Press q to quit.");
     
     attroff(COLOR_PAIR(3));
     refresh();
@@ -96,11 +96,11 @@ refresh();
     for (int i = 0; i < sizer; i++) {
             for (int j = 0; j < sizec; j++) {
                 int row;
-                if (i==0) row = 20;
-                else if (i==1) row = 25;
-                else if (i==2) row = 30;
-                else if (i==3) row = 35;
-                else if (i==4) row = 40;
+                if (i==0) row = LINES - 25;
+                else if (i==1) row = LINES -20;
+                else if (i==2) row = LINES -15;
+                else if (i==3) row = LINES -10;
+                else if (i==4) row = LINES -5;
                 int col= j==0? 55:105;
 
                 if (i == tco[0] && j == tco[1]) {

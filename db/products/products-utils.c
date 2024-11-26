@@ -147,6 +147,7 @@ int increase_no_of_ratings_by_one(char *name){
 
     sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
 
+    sqlite3_step(stmt);
     sqlite3_finalize(stmt);
     close_db(db);
     return 0;

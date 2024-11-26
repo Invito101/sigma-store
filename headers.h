@@ -21,6 +21,7 @@ int is_valid_email_for_login(char *email);
 
 //login-signup.c
 extern User* userdetails;
+void authpage(void);
 
 // encryption.c
 char* encrypter(char *text);
@@ -57,6 +58,8 @@ Product* get_all_products(int *size);
 Product* get_all_category_products(int *size, char *cName);
 Product* get_all_category_products_top_sold(int *size, char *cName);
 Product* get_all_category_products_top_rated(int *size, char *cName);
+Product* get_all_category_products_price_desc(int *size, char *cName);
+Product* get_all_category_products_price_asc(int *size, char *cName);
 
 // db/products/products-utils.c
 int is_product_name_taken(char *name);
@@ -87,12 +90,17 @@ Order get_order(int orderId, int userId);
 Order* get_all_orders_of_user(int userId, int *size);
 Order* get_all_completed_orders(int *size);
 Order* get_all_pending_orders(int *size);
+int mark_order_as_delivered(int orderId);
 
 // db/orders/order-utils.c
 void cast_row_to_order_struct(Order *orderObject, char **values);
 
 // customer/customer-home.c
 void menu1(void);
+void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, int column);
+
+//customer-filters.c
+void filtertest();
 
 // admin/home.c
 int admin_home();
