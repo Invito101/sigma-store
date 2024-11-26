@@ -21,9 +21,30 @@ void cart() {
 
 void wallet() {
     clear();
-    mvprintw(5, 10, "Wallet function called.");
+    char *email = userdetails->email;
+    int current_money = get_money_of_user(email);
+    mvprintw(1, 5, "Wallet Balance: %d", current_money);
+    mvprintw(3, 5, "Solve the question to earn 1000!");
+    mvprintw(5, 5, "What is 2 + 2 / 2?");
+    mvprintw(7, 5, "Your Answer: ");
+    refresh();
+    char input[10];
+    echo();
+    getstr(input);
+    noecho();
+    if (strcmp(input, "3") == 0) {
+        current_money += 1000;
+        modify_money_of_user(email, current_money);
+        mvprintw(9, 5, "Correct! 1000 has been added to your wallet.");
+        mvprintw(10, 5, "New Wallet Balance: %d", current_money);
+    } else {
+        mvprintw(9, 5, "Incorrect! No money added.");
+    }
+    mvprintw(12, 5, "Press any key to return.");
     refresh();
     getch();
+    menu1();
+    clear();
 }
 
 void categories() {
