@@ -679,7 +679,7 @@ void modify_product1()
 int selectany1(int n,const char *a[]) {
     int choice = 0;
     int tco = 0; //the_chosen_one
-    int choice=0;
+    
     int sizea=n;
     int ch;
     //char opencircle[]="\u25EF";
