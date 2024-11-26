@@ -345,8 +345,7 @@ refresh();
     attron(A_BOLD);
     mvprintw(10,90,"%s","PRODUCT INFORMATION");
     attroff(A_BOLD);
-    mvprintw(12,3,"%s","Press Enter to return to home page.");
-    mvprintw(45,3,"%s","Use PAGE_UP and PAGE_DOWN to see all products.");
+    mvprintw(LINES - 2,10,"Use keys to see all products.Press Enter to return to home page.");
     attroff(COLOR_PAIR(3));
     refresh();
 
@@ -398,19 +397,19 @@ refresh();
     int start_row = 0, start_col = 0;
     int display_rows = LINES < 30 ? LINES : 30;
     int display_cols = COLS < 220 ? COLS : 220;
-    prefresh(pad2, start_row, start_col, 15, 0, 10 + display_rows - 1, display_cols - 1);
+    prefresh(pad2, start_row, start_col, 15, 10, 10 + display_rows - 1, display_cols - 1);
 
     int ch;
         
         while(true){
         attron(COLOR_PAIR(1));
         attron(A_BOLD);
-        mvprintw( 14, 33, "NAME:");       // Print product name
-        mvprintw( 14, 70, "PRICE:"); 
-        mvprintw( 14, 80, "ID:"); 
-        mvprintw( 14, 135, "NUMBER OF BUYERS:");
-        mvprintw( 14, 110, "NUMBER OF RATINGS:");
-        mvprintw( 14, 90, "RATINGS:");
+        mvprintw( 14, 10, "NAME:");       // Print product name
+        mvprintw( 14, 80, "PRICE:"); 
+        mvprintw( 14, 90, "ID:"); 
+        mvprintw( 14, 145, "NUMBER OF BUYERS:");
+        mvprintw( 14, 120, "NUMBER OF RATINGS:");
+        mvprintw( 14, 100, "RATINGS:");
         attroff(A_BOLD);
         attroff(COLOR_PAIR(1));
         refresh();
@@ -419,11 +418,11 @@ refresh();
         if (ch=='\n') break;
         else if (ch== KEY_UP){
                 if (start_row > 0) start_row--;
-                prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
+                prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
         }
         else if (ch == KEY_DOWN){
-                if (start_row < (pad_rows - display_rows)) start_row++;
-                prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
+                if (start_row < (pad_rows - display_rows)+10) start_row++;
+                prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
         }
         // else if (ch== KEY_LEFT){
         //         if (start_col > 0) start_col--;
@@ -1051,19 +1050,19 @@ void view_bestsellers(){
     int start_row = 0, start_col = 0;
     int display_rows = LINES < 30 ? LINES : 30;
     int display_cols = COLS < 220 ? COLS : 220;
-    prefresh(pad2, start_row, start_col, 15, 0, 10 + display_rows - 1, display_cols - 1);
+    prefresh(pad2, start_row, start_col, 15, 10, 10 + display_rows - 1, display_cols - 1);
 
     int ch;
         
         while(true){
         attron(COLOR_PAIR(1));
         attron(A_BOLD);
-        mvprintw( 14, 33, "NAME:");       // Print product name
-        mvprintw( 14, 70, "PRICE:"); 
-        mvprintw( 14, 80, "ID:"); 
-        mvprintw( 14, 90, "NUMBER OF BUYERS:");
-        mvprintw( 14, 110, "NUMBER OF RATINGS:");
-        mvprintw( 14, 135, "RATINGS:");
+        mvprintw( 14, 10, "NAME:");       // Print product name
+        mvprintw( 14, 80, "PRICE:"); 
+        mvprintw( 14, 90, "ID:"); 
+        mvprintw( 14, 100, "NUMBER OF BUYERS:");
+        mvprintw( 14, 120, "NUMBER OF RATINGS:");
+        mvprintw( 14, 145, "RATINGS:");
         attroff(A_BOLD);
         attroff(COLOR_PAIR(1));
         refresh();
@@ -1072,11 +1071,11 @@ void view_bestsellers(){
         if (ch=='\n') break;
         else if (ch== KEY_UP){
                 if (start_row > 0) start_row--;
-                prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
+                prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
         }
         else if (ch == KEY_DOWN){
-                if (start_row < (pad_rows - display_rows)) start_row++;
-                prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
+                if (start_row < (pad_rows - display_rows)+10) start_row++;
+                prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
         }
         // else if (ch== KEY_LEFT){
         //         if (start_col > 0) start_col--;
@@ -1248,19 +1247,19 @@ void view_highest_rated(){
     int start_row = 0, start_col = 0;
     int display_rows = LINES < 30 ? LINES : 30;
     int display_cols = COLS < 220 ? COLS : 220;
-    prefresh(pad2, start_row, start_col, 15, 0, 10 + display_rows - 1, display_cols - 1);
+    prefresh(pad2, start_row, start_col, 15, 10, 10 + display_rows - 1, display_cols - 1);
 
     int ch;
         
         while(true){
         attron(COLOR_PAIR(1));
         attron(A_BOLD);
-        mvprintw( 14, 33, "NAME:");       // Print product name
-        mvprintw( 14, 70, "PRICE:"); 
-        mvprintw( 14, 80, "ID:"); 
-        mvprintw( 14, 135, "NUMBER OF BUYERS:");
-        mvprintw( 14, 110, "NUMBER OF RATINGS:");
-        mvprintw( 14, 90, "RATINGS:");
+        mvprintw( 14, 10, "NAME:");       // Print product name
+        mvprintw( 14, 80, "PRICE:"); 
+        mvprintw( 14, 90, "ID:"); 
+        mvprintw( 14, 145, "NUMBER OF BUYERS:");
+        mvprintw( 14, 120, "NUMBER OF RATINGS:");
+        mvprintw( 14, 100, "RATINGS:");
         attroff(A_BOLD);
         attroff(COLOR_PAIR(1));
         refresh();
@@ -1269,11 +1268,11 @@ void view_highest_rated(){
         if (ch=='\n') break;
         else if (ch== KEY_UP){
                 if (start_row > 0) start_row--;
-                prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
+                prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
         }
         else if (ch == KEY_DOWN){
-                if (start_row < (pad_rows - display_rows)) start_row++;
-                prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
+                if (start_row < (pad_rows - display_rows)+10) start_row++;
+                prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
         }
         // else if (ch== KEY_LEFT){
         //         if (start_col > 0) start_col--;
