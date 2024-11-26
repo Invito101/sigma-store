@@ -73,16 +73,19 @@ int add_item_to_cart(int userId, int quantity, int productId);
 int modify_item_in_cart(int userId, int quantity, int productId);
 int delete_cart_item(int userId, int productId);
 Cart* get_cart_items(int userId, int* size);
+Cart* get_order_items(int orderId, int* size);
 int mark_cart_as_ordered(int userId, int orderId);
 
 // db/cart/cart-utils.c
 int count_cart_items_of_user(int userId);
+int count_cart_order_of_user(int orderId);
 void cast_row_to_cart_struct(Cart *cartObject, char **values);
 
 // db/orders/orders.c
 int place_order(int userId);
 Order get_order(int orderId, int userId);
 Order* get_all_orders_of_user(int userId, int *size);
+Order* get_all_orders(int *size);
 
 // db/orders/order-utils.c
 void cast_row_to_order_struct(Order *orderObject, char **values);

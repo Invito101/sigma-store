@@ -244,7 +244,7 @@ Product* get_all_category_products_top_rated(int *size, char *cName){
     ProductArrayWrapper wrapper = { .products = products, .currentIndex = 0 };
 
     sqlite3_stmt *stmt;
-    const char *sql = "SELECT * FROM Products WHERE category = ? ORDER BY rating * numberOfRatings DESC;";
+    const char *sql = "SELECT * FROM Products WHERE category = ? ORDER BY rating * noOfRatings DESC;";
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
