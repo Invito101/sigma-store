@@ -28,6 +28,34 @@ int count_cart_items_of_user(int userId){
     return count;
 }
 
+int count_cart_order_of_user(int orderId){
+    sqlite3 *db = open_db();
+
+    int count = 0;
+    sqlite3_stmt *stmt;
+
+    char *sql = "SELECT COUNT(*) FROM Cart WHERE orderId = ?;";
+
+    int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+
+    if(rc != SQLITE_OK){
+        fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
+        return 1;
+    }
+
+    sqlite3_bind_int(stmt, 1, orderId);
+
+    if (sqlite3_step(stmt) == SQLITE_ROW){
+        count = sqlite3_column_int(stmt, 0);
+    }
+
+    sqlite3_finalize(stmt);
+    close_db(db);
+
+    return count;
+}
+
 void cast_row_to_cart_struct(Cart *cartObject, char **values){
     cartObject->id = atoi(values[0]);
     cartObject->quantity = atoi(values[1]);

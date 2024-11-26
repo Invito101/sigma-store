@@ -22,7 +22,7 @@ int add_item_to_cart(int userId, int quantity, int productId){
 
     if(rc != SQLITE_DONE){
         fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
-        sqlite3_finalize(db);
+        sqlite3_finalize(stmt);
         close_db(db);
         return 1;
     }
@@ -120,6 +120,53 @@ Cart* get_cart_items(int userId, int* size){
     }
 
     sqlite3_bind_int(stmt, 1, userId);
+
+    while(sqlite3_step(stmt) == SQLITE_ROW){
+        Cart *cartObject = &(wrapper.items[wrapper.currentIndex]);
+
+        char *values[10];
+        for (int i = 0; i < 10; i++){
+            values[i] = (char *)sqlite3_column_text(stmt, i);
+        }
+
+        cast_row_to_cart_struct(cartObject, values);
+
+        wrapper.currentIndex++;
+    }
+
+    close_db(db);
+    *size = count;
+    return items;
+}
+
+Cart* get_order_items(int orderId, int* size){
+    int count = count_cart_order_of_user(orderId);
+    if (count <= 0) {
+        *size = 0;
+        return NULL;
+    }
+
+    sqlite3 *db = open_db();
+
+    Cart *items = malloc(count * sizeof(Cart));
+    if (!items) {
+        fprintf(stderr, "%s: Memory allocation failed\n", __func__);
+        close_db(db);
+        return NULL;
+    }
+
+    CartArrayWrapper wrapper = { .items = items, .currentIndex = 0 };
+
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT * FROM Cart WHERE orderId = ?";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
+        return NULL;
+    }
+
+    sqlite3_bind_int(stmt, 1, orderId);
 
     while(sqlite3_step(stmt) == SQLITE_ROW){
         Cart *cartObject = &(wrapper.items[wrapper.currentIndex]);
