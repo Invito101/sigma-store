@@ -96,11 +96,11 @@ refresh();
     for (int i = 0; i < sizer; i++) {
             for (int j = 0; j < sizec; j++) {
                 int row;
-                if (i==0) row = 15;
-                else if (i==1) row = 20;
-                else if (i==2) row = 25;
-                else if (i==3) row = 30;
-                else if (i==4) row = 35;
+                if (i==0) row = LINES - 25;
+                else if (i==1) row = LINES -20;
+                else if (i==2) row = LINES -15;
+                else if (i==3) row = LINES -10;
+                else if (i==4) row = LINES -5;
                 int col= j==0? 55:105;
 
                 if (i == tco[0] && j == tco[1]) {
