@@ -134,7 +134,7 @@ Order* get_all_orders(int *size){
     sqlite3 *db = open_db();
     sqlite3_stmt *stmt;
 
-    const char *sql = "SELECT * FROM Orders;";
+    const char *sql = "SELECT * FROM Orders WHERE delivered = 0;";
     int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
 
     if (rc != SQLITE_OK) {
