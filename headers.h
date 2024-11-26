@@ -18,7 +18,10 @@ int countCallback(void *count, int argc, char **argv, char **azColName);
 int getISTTime();
 void get_valid_login(int row, char *label, char *buffer, int max_length, int (*validate)(char *),void page());
 int is_valid_email_for_login(char *email);
+void selector(int n,const char *a[],void (*b[])());
 
+//login-signup.c
+extern User* userdetails;
 
 // encryption.c
 char* encrypter(char *text);
@@ -52,6 +55,8 @@ Product* get_product_by_name(char *name);
 Product* get_product_by_id(int productId);
 Product* get_all_products(int *size);
 Product* get_all_category_products(int *size, char *cName);
+Product* get_all_category_products_top_sold(int *size, char *cName);
+Product* get_all_category_products_top_rated(int *size, char *cName);
 
 // db/products/products-utils.c
 int is_product_name_taken(char *name);
@@ -84,6 +89,7 @@ void cast_row_to_order_struct(Order *orderObject, char **values);
 
 // customer/customer-home.c
 void menu1(void);
+void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, int column);
 
 // admin/home.c
 int admin_home();
@@ -91,6 +97,7 @@ int view_all();
 void quit2();
 void selectany1func(int n,const char *a[],void (*b[])());
 void bestseller();
+
 
 
 
