@@ -14,7 +14,6 @@ int view_category_wise()
 
 void view_particular()
 {   
-    
     clear();
     endwin();
     
@@ -28,45 +27,54 @@ void view_particular()
     curs_set(0);
    
     keypad(stdscr, TRUE);
+    mvprintw(2,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(3, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 33, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 33, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 33, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+    refresh();
     char name[max_len];
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-    
+    init_pair(3,COLOR_RED,COLOR_BLACK);
     attron(COLOR_PAIR(1));
-    mvprintw(1,10,"Search A Product By Name: ");
-    mvprintw(2,10,"Press Enter To Submit Each Field And Be Careful While Typing: ");
+    mvprintw(9,10,"Search A Product By Name: ");
+    mvprintw(10,10,"Press Enter To Submit Each Field And Be Careful While Typing: ");
     attroff(COLOR_PAIR(1));
     refresh();
     
-    get_valid_input_for_existing_product(4, "Name of the product: ", name, max_len, is_valid_name);
+    get_valid_input_for_existing_product(12, "Name of the product: ", name, max_len, is_valid_name);
     
-    Product *products=get_product_by_name(name);
+    Product *products = get_product_by_name(name);    
     
+    attron(COLOR_PAIR(1));
+    mvprintw(13, 10, "The Details Of Your Products Are: ");
+    mvprintw(14, 10, "Name: ");
+    mvprintw(15, 10, "Price: ");
+    mvprintw(16, 10, "Description: ");
+    mvprintw(17, 10, "Category: ");
+    mvprintw(18, 10, "Manufactured by: ");
+    mvprintw(19,10,"Rating: ");
+    mvprintw(20,10,"Number Of Ratings: ");
+    mvprintw(21,10,"Number Of Items Bought: ");
+    attroff(COLOR_PAIR(1));
+    attron(COLOR_PAIR(2));
+    mvprintw(14, 36, "%s", products->name);
+    mvprintw(15, 36, "%d", products->price);
+    mvprintw(16, 36, "%s", products->description);
+    mvprintw(17, 36, "%s", products->category);
+    mvprintw(18, 36, "%s", products->manufacturedBy);
+    mvprintw(19,36,"%f",products->rating);
+    mvprintw(20,36,"%d",products->noOfRatings);
+    mvprintw(21,36,"%d",products->amountBought);
+    attroff(COLOR_PAIR(2));
+    refresh();
     
-            attron(COLOR_PAIR(1));
-            mvprintw(5, 10, "The Details Of Your Products Are: ");
-            //mvprintw(6, 10, "Name:");
-            mvprintw(7, 10, "Price:");
-            //mvprintw(8, 10, "Description:");
-            //mvprintw(9, 10, "Category:");
-            //mvprintw(10, 10, "Manufactured by:");
-            attroff(COLOR_PAIR(1));
-            attron(COLOR_PAIR(2));
-            //getchar();
-            //mvprintw(6, 30, "%[^\n]", products->name);
-            mvprintw(7, 30, "%d", products->price);
-           // getchar();
-           // mvprintw(8, 30, "%[^\n]", products->description);
-            //getchar();
-            ////mvprintw(9, 30, "%[^\n]", products->category);
-            //getchar();
-            //mvprintw(10, 30, "%[^\n]", products->manufacturedBy);
-            attroff(COLOR_PAIR(2));
-            refresh();
-            
 
     attron(COLOR_PAIR(1));
-    mvprintw(15, 10, "Press any key to return to the menu.");
+    mvprintw(26, 10, "Press any key to return to the menu.");
     attroff(COLOR_PAIR(1));
     getch();
     endwin();
@@ -203,6 +211,14 @@ void create_product1()
     curs_set(0);     
 
     keypad(stdscr, TRUE);
+    // mvprintw(2,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    // mvprintw(3, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    // mvprintw(4, 33, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    // mvprintw(5, 33, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    // mvprintw(6, 33, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    // mvprintw(7, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+    // refresh();
 
     
     char name[max_len],price[max_len];
@@ -213,28 +229,28 @@ void create_product1()
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
 
     attron(COLOR_PAIR(1));
-    mvprintw(2, 10, "Create a new product:");
-    mvprintw(3, 10, "Press Enter to submit each field, and type carefully:");
+    mvprintw(9, 10, "Create a new product:");
+    mvprintw(10, 10, "Press Enter to submit each field, and type carefully:");
     attroff(COLOR_PAIR(1));
     refresh();
 
-    get_valid_input_for_product(5, "Name", name, max_len, is_valid_product_name);
-    get_valid_input_for_product(6, "Price", price, max_len, is_valid_price);
-    get_valid_input_for_product(7, "Description",description, max_len, NULL);
+    get_valid_input_for_product(11, "Name", name, max_len, is_valid_product_name);
+    get_valid_input_for_product(12, "Price", price, max_len, is_valid_price);
+    get_valid_input_for_product(13, "Description",description, max_len, NULL);
 
     const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(category, categ[selected], max_len);
 
     attron(COLOR_PAIR(1));
-    mvprintw(8,10, "Category");
+    mvprintw(14,10, "Category");
     attroff(COLOR_PAIR(1));
 
     attron(COLOR_PAIR(2));
-    mvprintw(8,20, "%s",category);
+    mvprintw(14,20, "%s",category);
     attroff(COLOR_PAIR(2));
     refresh();
-    get_valid_input_for_product(9, "Manufactured by",manufacturedBy, max_len, is_valid_manufacturedBy);
+    get_valid_input_for_product(15, "Manufactured by",manufacturedBy, max_len, is_valid_manufacturedBy);
 
     int sf = create_product(name,atoi(price),description,category, manufacturedBy);
 
