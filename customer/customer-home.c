@@ -34,7 +34,7 @@ void categories() {
         {"cat3", "cat4"},{"cat5","cat6"}
     };
     void (*b[3][2])() = {
-        {cart, wallet},
+        {filtertest, wallet},
         {categories, settings},{categories,categories}
     };
 
@@ -46,7 +46,17 @@ void categories() {
 
 void settings() {
     clear();
-    mvprintw(5, 10, "Settings function called.");
+
+    // Define the labels and corresponding functions for the buttons
+    const char *a[1][2] = {
+        {"BACK", "LOGOUT"}
+    };
+    void (*b[1][2])() = {
+        {menu1, authpage} // Map "Back" to menu1 and "Logout" to login1
+    };
+
+    // Use buttonselect2d to display the buttons
+    buttonselect2d(1, 2, a, b, 5, 50);
     refresh();
     getch();
 }
