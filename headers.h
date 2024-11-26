@@ -58,6 +58,8 @@ Product* get_all_products(int *size);
 Product* get_all_category_products(int *size, char *cName);
 Product* get_all_category_products_top_sold(int *size, char *cName);
 Product* get_all_category_products_top_rated(int *size, char *cName);
+Product* get_all_category_products_price_desc(int *size, char *cName);
+Product* get_all_category_products_price_asc(int *size, char *cName);
 
 // db/products/products-utils.c
 int is_product_name_taken(char *name);
