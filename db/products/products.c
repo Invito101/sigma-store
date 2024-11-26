@@ -96,8 +96,6 @@ int modify_product(char *name, char *new_name, int new_price, char *new_descript
 }
 
 int rate_product(char *name, int rating){
-    sqlite3 *db = open_db();
-
     increase_no_of_ratings_by_one(name);
     int n = get_product_no_of_rating(name);
     double prevRating = get_product_rating(name);
@@ -106,6 +104,8 @@ int rate_product(char *name, int rating){
 
     sqlite3_stmt *stmt;
     const char *sql = "UPDATE Products SET rating = ? WHERE name = ?;";
+
+    sqlite3 *db = open_db();
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
         fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
