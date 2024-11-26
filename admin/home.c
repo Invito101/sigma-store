@@ -169,6 +169,7 @@ refresh();
     bb[choice[0]][choice[1]]();
 
     endwin();
+    return 0;
 }
 
 
