@@ -137,6 +137,8 @@ void DisplayCart(int userId) {
         mvprintw(4 + i, 60, "Subtotal: %d", subtotal);
         attroff(COLOR_PAIR(2));
         }
+        
+
     }
 
     attron(COLOR_PAIR(3));
@@ -144,4 +146,18 @@ void DisplayCart(int userId) {
     attroff(COLOR_PAIR(3));
     }
     refresh();
+
+    const char *a[1][2] = {
+        "BACK","PLACE ORDER"
+        
+    };
+    void (*b[1][2])() = {
+        menu1,PlaceOrder
+        
+    };
+
+    // Clear the screen and show options
+    buttonselect2d(1, 2, a, b,40,45);
 }
+
+

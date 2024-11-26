@@ -216,7 +216,7 @@ int view_category_wise()
 }
 
 void view_particular()
-{   char *name;
+{   
     clear();
     endwin();
     
@@ -227,30 +227,57 @@ void view_particular()
     start_color();
     cbreak();
     noecho();
-    curs_set(0);     
-
+    curs_set(0);
+   
     keypad(stdscr, TRUE);
+    char name[max_len];
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
-    init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
-
-    move(2, 10);
-    clrtoeol();
-
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(3,COLOR_RED,COLOR_BLACK);
     attron(COLOR_PAIR(1));
-    mvprintw(2, 10, "%s: ", "Enter the name of the product: ");
+    mvprintw(1,10,"Search A Product By Name: ");
+    mvprintw(2,10,"Press Enter To Submit Each Field And Be Careful While Typing: ");
     attroff(COLOR_PAIR(1));
     refresh();
+    
+    get_valid_input_for_existing_product(4, "Name of the product: ", name, max_len, is_valid_product_name);
+    mvprintw(6, 30, "%s",name);
+    refresh();
+    
+    Product *products=get_product_by_name(name);
+    if (!products) {
+    mvprintw(6, 30, "Product not found!");
+    refresh();
+    getch();
+    endwin();
+    return NULL;
+}
 
-    attron(COLOR_PAIR(2));
-    echo();
-    getnstr(name, max_len);
-    noecho();
-    attroff(COLOR_PAIR(2));
+    
+            attron(COLOR_PAIR(1));
+            mvprintw(5, 10, "The Details Of Your Products Are: ");
+            mvprintw(6, 10, "Name:");
+            mvprintw(7, 10, "Price:");
+            mvprintw(8, 10, "Description:");
+            mvprintw(9, 10, "Category:");
+            mvprintw(10, 10, "Manufactured by:");
+            attroff(COLOR_PAIR(1));
+            attron(COLOR_PAIR(2));
+            mvprintw(6, 30, "%s", products->name);
+            mvprintw(7, 30, "%d", products->price);
+            mvprintw(8, 30, "%s", products->description);
+            mvprintw(9, 30, "%s", products->category);
+            mvprintw(10, 30, "%s", products->manufacturedBy);
+            attroff(COLOR_PAIR(2));
+            refresh();
+            
 
-    move(2 + 1, 10); // makes sure it doesnt clash with any error message
-    clrtoeol();
-
-
+    attron(COLOR_PAIR(1));
+    mvprintw(15, 10, "Press any key to return to the menu.");
+    attroff(COLOR_PAIR(1));
+    getch();
+    endwin();
+    admin_home();    
 }
 
 void view_all_products()
@@ -400,9 +427,13 @@ void create_product1()
     const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(category, categ[selected], max_len);
+    for(int i=0;i<7;i++){
+        move(8+i,10);
+        clrtoeol();
+    }
 
     attron(COLOR_PAIR(1));
-    mvprintw(8,10, "Category");
+    mvprintw(8,10, "Category:");
     attroff(COLOR_PAIR(1));
 
     attron(COLOR_PAIR(2));
@@ -489,6 +520,10 @@ void modify_product1()
     char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(new_category, categ[selected], max_len);
+    for(int i=0;i<7;i++){
+        move(8+i,10);
+        clrtoeol();
+    }
 
     attron(COLOR_PAIR(1));
     mvprintw(8,10, "Category: ");
@@ -802,3 +837,10 @@ void quit3()
     exit(0);
 }
 
+// void view_bestsellers(){
+
+// }
+
+// void view_highest_rated(){
+
+// }
