@@ -130,7 +130,55 @@ Order* get_all_orders_of_user(int userId, int *size){
     return orders;
 }
 
-Order* get_all_orders(int *size){
+Order* get_all_completed_orders(int *size){
+    sqlite3 *db = open_db();
+    sqlite3_stmt *stmt;
+
+    const char *sql = "SELECT * FROM Orders WHERE delivered = 1;";
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
+        *size = 0;
+        return NULL;
+    }
+
+    int rows = 0;
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        rows++;
+    }
+
+    Order *orders = malloc(rows * sizeof(Order));
+    if (!orders) {
+        fprintf(stderr, "Memory allocation failed for orders.\n");
+        sqlite3_finalize(stmt);
+        close_db(db);
+        *size = 0;
+        return NULL;
+    }
+
+    int index = 0;
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        char *values[3];
+        for (int i = 0; i < 3; i++) {
+            values[i] = (char *)sqlite3_column_text(stmt, i);
+        }
+
+        cast_row_to_order_struct(&orders[index], values);
+
+        orders[index].items = get_order_items(values[0], &orders[index].size);
+        index++;
+    }
+
+    sqlite3_finalize(stmt);
+    close_db(db);
+
+    *size = rows;
+    return orders;
+}
+
+Order* get_all_pending_orders(int *size){
     sqlite3 *db = open_db();
     sqlite3_stmt *stmt;
 
