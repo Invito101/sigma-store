@@ -21,6 +21,7 @@ void quit(void);
 int main(void) {
     create_tables();
     // Open a file to store stderr
+
     int file = open("stderr_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (file == -1) {
         perror("Error opening file");
