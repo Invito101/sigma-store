@@ -241,6 +241,14 @@ void view_particular()
     mvprintw(7, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
     refresh();
+    void check_for_back(const char *input) {
+        if (strcmp(input, "b") == 0) {
+            clear();
+            endwin();
+            admin_home();
+            exit(0); // Ensure the function exits immediately
+        }
+    }
     char name[max_len];
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
@@ -253,7 +261,12 @@ void view_particular()
     attroff(COLOR_PAIR(1));
     refresh();
     
+    attron(COLOR_PAIR(1));
+    mvprintw(25,10,"Press 'b' And Press Enter Key To Go Back To Main Menu.");
+    attroff(COLOR_PAIR(1));
+    
     get_valid_input_for_existing_product(12, "Name of the product: ", name, max_len, is_valid_name);
+    
     
     Product *products=get_product_by_name(name);
     if (!products) {
@@ -555,15 +568,33 @@ void modify_product1()
     
     attroff(COLOR_PAIR(1));
     refresh();
-    get_valid_input_for_existing_product(11, "Name Of The Product Do You Wanna Modify: ", name, max_len, is_valid_name);
-    
-    
+    void check_for_back(const char *input) {
+        if (strcmp(input, "b") == 0) {
+            clear();
+            endwin();
+            admin_home();
+            exit(0); // Ensure the function exits immediately
+        }
+    }
+    // char ch1=getch();
+    // check_for_back(&ch1);
 
+
+    attron(COLOR_PAIR(1));
+    mvprintw(25,10,"Press 'b' And Press Enter Key To Go Back To Main Menu.");
+    attroff(COLOR_PAIR(1));
+
+    get_valid_input_for_existing_product(11, "Name Of The Product Do You Wanna Modify: ", name, max_len, is_valid_name);
+    check_for_back(name);
+    
 
     get_valid_input_for_product(12, "New Name ", new_name, max_len, is_valid_name);
+    check_for_back(new_name);
 
     get_valid_input_for_product(13, "New Price ", new_price, max_len, is_numeric);
+    check_for_back(new_price);
     get_valid_input_for_product(14, "New Description ",new_description, max_len, NULL);
+    check_for_back(new_description);
 
     const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
@@ -582,6 +613,7 @@ void modify_product1()
     attroff(COLOR_PAIR(2));
     refresh();
     get_valid_input_for_product(16, "Manufactured by ",new_manufactured_by, max_len, is_valid_manufacturedBy);
+    check_for_back(new_manufactured_by);
 
     int sf = modify_product(name,new_name,atoi(new_price),new_description,new_category,new_manufactured_by);
     clear();
@@ -620,7 +652,7 @@ void modify_product1()
 
 int selectany1(int n,const char *a[]) {
     int tco = 0; //the_chosen_one
-    
+    int choice=0;
     int sizea=n;
     int ch;
     //char opencircle[]="\u25EF";
@@ -662,8 +694,11 @@ int selectany1(int n,const char *a[]) {
         refresh();
 
         ch=getch();
+        if(ch == '\n'){
+            choice =tco;
+            break;}
         
-        if(ch==KEY_DOWN){
+        else if(ch==KEY_DOWN){
             if(tco==sizea-1)
                 tco=0;
                 else
@@ -1110,27 +1145,39 @@ void order_history1()
     attroff(COLOR_PAIR(1));
     int size;
     Order *comp_orders=get_all_completed_orders(&size);
+    attron(COLOR_PAIR(1));
+    mvprintw(30,10,"Enter 'b' to return to the main menu");
+    attroff(COLOR_PAIR(1));
+    void check_for_back(const char *input) {
+        if (strcmp(input, "b") == 0) {
+            clear();
+            endwin();
+            admin_home();
+            exit(0); // Ensure the function exits immediately
+        }
+    }
+    char ch12=getch();
+    check_for_back(&ch12);
+
     int len=sizeof(comp_orders)/sizeof(comp_orders[0]);
     for (int i=0;i<len;i++)
     {
         attron(COLOR_PAIR(1));
-        mvprintw(11+i,10,"%d",comp_orders[i].items->quantity);
+        mvprintw(11+i,10,"Quantity: ");
+        mvprintw(11+i,20,"%d",comp_orders[i].items->quantity);
         attroff(COLOR_PAIR(1));
     }
-
-
-
-
-
-
-
-
-    attron(COLOR_PAIR(1));
-    mvprintw(20, 10, "Press any key to return to the menu.");
-    attroff(COLOR_PAIR(1));
-    refresh();
     
-    getch();
-    endwin();
-    admin_home();
+
+
+
+
+
+
+
+
+
+
+    
+    
 }

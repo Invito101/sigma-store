@@ -1,6 +1,7 @@
 #include "../headers.h"
 #include <time.h>
 #include <ctype.h>
+#include<string.h>
 #include <stdlib.h>
 
 int max_len = 100;
@@ -105,8 +106,13 @@ void get_valid_input_for_existing_product(int row, char *label, char *buffer, in
 
         move(row + 1, 10); // makes sure it doesnt clash with any error message
         clrtoeol();
-        
-
+        if (strcmp(buffer,"b")==0)
+        {
+            clear();
+            endwin();
+            admin_home();
+            exit(0);
+        }
         if (validate == NULL || validate(buffer)) { // Checks for valid input if required per the case.
             if(strcmp(label,"Name of the product do you wanna modify: ")==0 && is_product_name_taken(buffer)==1){
                 attron(COLOR_PAIR(1));
