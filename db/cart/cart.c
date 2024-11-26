@@ -124,8 +124,12 @@ Cart* get_cart_items(int userId, int* size){
     while(sqlite3_step(stmt) == SQLITE_ROW){
         Cart *cartObject = &(wrapper.items[wrapper.currentIndex]);
 
-        char *values[10];
-        for (int i = 0; i < 10; i++){
+        char *values[5];
+        for (int i = 0; i < 5; i++){
+            if (!sqlite3_column_text(stmt,i)){
+                values[i] = "NULL";
+                continue;
+            }
             values[i] = (char *)sqlite3_column_text(stmt, i);
         }
 
@@ -134,6 +138,7 @@ Cart* get_cart_items(int userId, int* size){
         wrapper.currentIndex++;
     }
 
+    sqlite3_finalize(stmt);
     close_db(db);
     *size = count;
     return items;
@@ -181,6 +186,7 @@ Cart* get_order_items(int orderId, int* size){
         wrapper.currentIndex++;
     }
 
+    sqlite3_finalize(stmt);
     close_db(db);
     *size = count;
     return items;

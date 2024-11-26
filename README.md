@@ -127,12 +127,12 @@ Once the project is installed and the dependencies are configured, you can use t
 
 ## Contributors
 
-1. [Akshay K M](https://github.com/Akshay-K-M)
-2. [Anurag Rao U](https://github.com/Invito101)
-3. [H Sanjay](https://github.com/Bit-by-bit-coder)
-4. [K Sai Amith](https://github.com/Dictator-00)
-5. [S Arjun Sai](https://github.com/broskitos)
-6. [Sumanth Y M](https://github.com/Sumanth-YM)
+1. [Akshay K M](https://github.com/Akshay-K-M) - IMT2024014
+2. [Anurag Rao U](https://github.com/Invito101) - IMT2024028
+3. [H Sanjay](https://github.com/Bit-by-bit-coder) - BT2024192
+4. [K Sai Amith](https://github.com/Dictator-00) - IMT2024004
+5. [S Arjun Sai](https://github.com/broskitos) - BT2024001
+6. [Sumanth Y M](https://github.com/Sumanth-YM) - BT2024072
 
 ## License
 

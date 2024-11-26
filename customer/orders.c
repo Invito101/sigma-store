@@ -115,31 +115,31 @@ void DisplayCart(int userId) {
         attroff(COLOR_PAIR(1));
     }
     else{
-    for (int i = 0; i < size; i++) {
-        Product* product = get_product_by_id(cartitems[i].productId);
-        if (product==NULL){
+        for (int i = 0; i < size; i++) {
+            Product* product = get_product_by_id(cartitems[i].productId);
+            if (product==NULL){
+                attron(COLOR_PAIR(2));
+                mvprintw(4,5,"ERROR: Product not found");
+                attroff(COLOR_PAIR(2));
+                break;
+            }
+            else{
+            char* name = product->name;
+            int price = product->price;
+            int quantity = cartitems[i].quantity;
+            int subtotal = price * quantity;
+            totalamt += subtotal;
+
             attron(COLOR_PAIR(2));
-            mvprintw(4,5,"ERROR: Product not found");
+            mvprintw(4 + i, 5, "%d. %s", i + 1, name);
+            mvprintw(4 + i, 30, "Price: %d", price);
+            mvprintw(4 + i, 45, "Qty: %d", quantity);
+            mvprintw(4 + i, 60, "Subtotal: %d", subtotal);
             attroff(COLOR_PAIR(2));
-            break;
-        }
-        else{
-        char* name = product->name;
-        int price = product->price;
-        int quantity = cartitems[i].quantity;
-        int subtotal = price * quantity;
-        totalamt += subtotal;
+            }
+            
 
-        attron(COLOR_PAIR(2));
-        mvprintw(4 + i, 5, "%d. %s", i + 1, name);
-        mvprintw(4 + i, 30, "Price: %d", price);
-        mvprintw(4 + i, 45, "Qty: %d", quantity);
-        mvprintw(4 + i, 60, "Subtotal: %d", subtotal);
-        attroff(COLOR_PAIR(2));
         }
-        
-
-    }
 
     attron(COLOR_PAIR(3));
     mvprintw(6 + size, 5, "Total Amount: %d", totalamt);

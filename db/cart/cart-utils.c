@@ -61,5 +61,5 @@ void cast_row_to_cart_struct(Cart *cartObject, char **values){
     cartObject->quantity = atoi(values[1]);
     cartObject->userId = atoi(values[2]);
     cartObject->productId = atoi(values[3]);
-    cartObject->orderId = atoi(values[4]);
+    cartObject->orderId = strcmp(values[4], "NULL") == 0 ? atoi(values[4]) : 0;
 }

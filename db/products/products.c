@@ -224,6 +224,104 @@ Product* get_all_category_products(int *size, char *cName){
     return products;
 }
 
+Product* get_all_category_products_price_desc(int *size, char *cName){
+    sqlite3 *db = open_db();
+
+    int count = count_all_category_products(cName);
+    if (count <= 0) {
+        *size = 0;
+        close_db(db);
+        return NULL;
+    }
+
+    Product *products = malloc(count * sizeof(Product));
+    if (!products) {
+        fprintf(stderr, "%s: Memory allocation failed\n", __func__);
+        close_db(db);
+        return NULL;
+    }
+
+    ProductArrayWrapper wrapper = { .products = products, .currentIndex = 0 };
+
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT * FROM Products WHERE category = ? ORDER BY price DESC";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
+        return NULL;
+    }
+
+    sqlite3_bind_text(stmt, 1, cName, -1, SQLITE_STATIC);
+
+    while(sqlite3_step(stmt) == SQLITE_ROW){
+        Product *productObject = &(wrapper.products[wrapper.currentIndex]);
+
+        char *values[10];
+        for (int i = 0; i < 10; i++){
+            values[i] = (char *)sqlite3_column_text(stmt, i);
+        }
+
+        cast_row_to_product_struct(productObject, values);
+
+        wrapper.currentIndex++;
+    }
+
+    sqlite3_finalize(stmt);
+    close_db(db);
+    *size = count;
+    return products;
+}
+
+Product* get_all_category_products_price_asc(int *size, char *cName){
+    sqlite3 *db = open_db();
+
+    int count = count_all_category_products(cName);
+    if (count <= 0) {
+        *size = 0;
+        close_db(db);
+        return NULL;
+    }
+
+    Product *products = malloc(count * sizeof(Product));
+    if (!products) {
+        fprintf(stderr, "%s: Memory allocation failed\n", __func__);
+        close_db(db);
+        return NULL;
+    }
+
+    ProductArrayWrapper wrapper = { .products = products, .currentIndex = 0 };
+
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT * FROM Products WHERE category = ? ORDER BY price ASC";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
+        return NULL;
+    }
+
+    sqlite3_bind_text(stmt, 1, cName, -1, SQLITE_STATIC);
+
+    while(sqlite3_step(stmt) == SQLITE_ROW){
+        Product *productObject = &(wrapper.products[wrapper.currentIndex]);
+
+        char *values[10];
+        for (int i = 0; i < 10; i++){
+            values[i] = (char *)sqlite3_column_text(stmt, i);
+        }
+
+        cast_row_to_product_struct(productObject, values);
+
+        wrapper.currentIndex++;
+    }
+
+    sqlite3_finalize(stmt);
+    close_db(db);
+    *size = count;
+    return products;
+}
+
 Product* get_all_category_products_top_rated(int *size, char *cName){
     sqlite3 *db = open_db();
 
