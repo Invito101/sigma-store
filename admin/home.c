@@ -35,12 +35,14 @@ int view_all()
     const char *aa[3][2] = {
         {"View products by category","View all products"},
         {"View a particular product","Create product"},
-        {"Delete product","Modify product"}
+        {"Delete product","Modify product"},
+        // {"View bestsellers", "View highest rated products"}
     };
     void (*bb[3][2])() = {
         {(void *)view_category_wise,view_all_products},
         {view_particular,create_product1},
-        {delete_product1,modify_product1}
+        {delete_product1,modify_product1},
+        // {view_bestsellers,view_highest_rated}
     };
 
 
@@ -74,15 +76,18 @@ int view_all()
     refresh();
 
 
-mvprintw(2,5, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
-mvprintw(3, 10, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
-mvprintw(4, 10, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
-mvprintw(5, 10, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
-mvprintw(6, 10, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
-mvprintw(7, 10, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+
+mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
 refresh();
 
+    
 
     while(true){
     
@@ -92,7 +97,7 @@ refresh();
                 if (i==0) row = 20;
                 else if (i==1) row = 25;
                 else if (i==2) row = 30;
-                int col= j==0? 5:55;
+                int col= j==0? 55:105;
 
                 if (i == tco[0] && j == tco[1]) {
                     // Highlight the selected button
@@ -151,7 +156,6 @@ refresh();
             exit(0);
         }
 
-
         
         else
         continue;
@@ -159,6 +163,7 @@ refresh();
     } 
 
     bb[choice[0]][choice[1]]();
+
     endwin();
 }
 

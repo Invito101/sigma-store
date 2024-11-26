@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+User* userdetails;
 
 // Function declarations
 void authpage(void);
@@ -15,6 +16,7 @@ void selector(int n,const char *a[],void (*b[])());  //Function allows user to i
 void signup(void);
 void login1(void);
 void quit(void);
+
 
 int main(void) {
     create_tables();
@@ -244,7 +246,6 @@ void login1(){
     attron(COLOR_PAIR(2));
     noecho();
     int ch, index = 0;
-    static User *details;
 
     while (1) {
         int ch, index = 0;
@@ -284,8 +285,8 @@ void login1(){
         attroff(COLOR_PAIR(2));
         echo();
 
-        details = login(email, password);
-        if (details == NULL) {
+        userdetails = login(email, password);
+        if (userdetails == NULL) {
             // Wrong password
             attron(COLOR_PAIR(3));
             mvprintw(8, 10, "Wrong password, please try again.");
@@ -306,14 +307,14 @@ void login1(){
     echo();
 
     clear();
-    if(strcmp(details->role,"Admin")==0){
+    if(strcmp(userdetails->role,"Admin")==0){
         admin_home();
     }
-    else if(strcmp(details->role,"Customer")==0){
+    else if(strcmp(userdetails->role,"Customer")==0){
         menu1();
     }
     flag=0;
-    free(details); // Clean up simulated user
+    free(userdetails); // Clean up simulated user
 }
 
 

@@ -8,7 +8,211 @@
 
 int view_category_wise()
 {
+    clear();
+    initscr();
+    raw();
+    noecho();
+    curs_set(0);
+    keypad(stdscr, TRUE);
+    start_color();
 
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+
+    int count = count_all_products();
+    if (count == 0) {
+        attron(COLOR_PAIR(2));
+        mvprintw(5, 10, "No products available to delete.");
+        attroff(COLOR_PAIR(2));
+        refresh();
+        getch();
+        endwin();
+        return;
+    }
+
+    Product *products = get_all_products(&count);
+    if (products == NULL) {
+        endwin();
+        fprintf(stderr, "Failed to retrieve products.\n");
+        return;
+    }
+
+    // Extract unique categories
+    const char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    int category_count = 7;
+
+
+    int category_choice = 0;
+    int ch;
+
+    while (true) {
+        clear();
+        attron(COLOR_PAIR(2));
+        mvprintw(10, 55, "Select a category:");
+        attroff(COLOR_PAIR(2));
+
+        mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+        mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+        mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+        mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+        mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+        mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+        refresh();
+        // Display categories
+        for (int i = 0; i < category_count; i++) {
+            if (i == category_choice) {
+                attron(COLOR_PAIR(2));
+                mvprintw(12 + i, 55, "> %s", categories[i]);
+                attroff(COLOR_PAIR(2));
+            } else {
+                attron(COLOR_PAIR(1));
+                mvprintw(12 + i, 57, "%s", categories[i]);
+                attroff(COLOR_PAIR(1));
+            }
+        }
+
+        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to select, q to quit.");
+        refresh();
+
+        ch = getch();
+        if (ch == 'q') {
+            break;
+        }
+
+        switch (ch) {
+            case KEY_UP:
+                category_choice = (category_choice == 0) ? category_count - 1 : category_choice - 1;
+                break;
+            case KEY_DOWN:
+                category_choice = (category_choice == category_count - 1) ? 0 : category_choice + 1;
+                break;
+            case '\n': {
+                // Display products under the selected category
+                clear();
+                attron(COLOR_PAIR(2));
+                mvprintw(9, 10, "Select a product to delete from category: %s", categories[category_choice]);
+                attroff(COLOR_PAIR(2));
+
+                int filtered_indices[count];
+                int filtered_count = 0;
+
+                for (int i = 0; i < count; i++) {
+                    if (strcmp(products[i].category, categories[category_choice]) == 0) {
+                        filtered_indices[filtered_count++] = i;
+                    }
+                }
+
+                if (filtered_count == 0) {
+                    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+                    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+                    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+                    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+                    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+                    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+                    mvprintw(15, 10, "No products available in this category.");
+                    mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to delete, b to go back.");
+                    refresh();
+                    getch();
+                    break;
+                }
+
+                int product_choice = 0;
+
+                while (true) {
+                    clear();
+                    attron(COLOR_PAIR(2));
+                    mvprintw(10, 55, "Select a product to view detail from '%s' category.", categories[category_choice]);
+                    attroff(COLOR_PAIR(2));
+
+                    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+                    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+                    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+                    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+                    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+                    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+                    refresh();
+
+                    for (int i = 0; i < filtered_count; i++) {
+                        int index = filtered_indices[i];
+                        if (i == product_choice) {
+                            attron(COLOR_PAIR(2));
+                            mvprintw(12 + i, 55, "> %s", products[index].name);
+                            attroff(COLOR_PAIR(2));
+                        } else {
+                            attron(COLOR_PAIR(1));
+                            mvprintw(12 + i, 57, "%s", products[index].name);
+                            attroff(COLOR_PAIR(1));
+                        }
+                    }
+
+                    mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to view, b to go back.");
+                    refresh();
+
+                    ch = getch();
+                    if (ch == 'b') break;
+
+                    switch (ch) {
+                        case KEY_UP:
+                            product_choice = (product_choice == 0) ? filtered_count - 1 : product_choice - 1;
+                            break;
+                        case KEY_DOWN:
+                            product_choice = (product_choice == filtered_count - 1) ? 0 : product_choice + 1;
+                            break;
+                        case '\n': {
+                            int view_index = filtered_indices[product_choice];
+                            attron(COLOR_PAIR(2));
+                            mvprintw(LINES - 4, 10, "Do you want to view details of '%s'? (y/n)", products[view_index].name);
+                            attroff(COLOR_PAIR(2));
+                            refresh();
+                            ch = getch();
+                            if (ch == 'y' || ch == 'Y') {
+                                clear();
+                                mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+                                mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+                                mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+                                mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+                                mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+                                mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+                                
+                                int row = 10;
+                                attron(COLOR_PAIR(1));
+                                mvprintw(row, 55, "Name:");       // Print product name
+                                mvprintw(row + 1, 55, "Price:"); // Print product category
+                                mvprintw(row + 2, 55, "Description:");
+                                mvprintw(row + 3, 55, "Category:");
+                                mvprintw(row + 4, 55, "Manufactured by:");
+                                attroff(COLOR_PAIR(1));
+
+                                attron(COLOR_PAIR(2));
+                                mvprintw(row, 72, "%s", products[view_index].name);       // Print product name
+                                mvprintw(row + 1, 72, "%d", products[view_index].price); // Print product category
+                                mvprintw(row + 2, 72, "%s", products[view_index].description);
+                                mvprintw(row + 3, 72, "%s", products[view_index].category);
+                                mvprintw(row + 4, 72, "%s", products[view_index].manufacturedBy);
+                                attroff(COLOR_PAIR(2));
+                                move(LINES-4,10);
+                                clrtoeol();
+                                mvprintw(LINES - 2, 9, "Enter b to go back.");
+                                getch();
+                                clear();
+                                admin_home();
+                                break;
+                            }
+                            refresh();
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    // Clean up
+    endwin();
+    free(products);    
     return 0;
 }
 
@@ -26,6 +230,8 @@ void view_particular()
     noecho();
     curs_set(0);
    
+    curs_set(0);
+   
     keypad(stdscr, TRUE);
     mvprintw(2,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
     mvprintw(3, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
@@ -37,6 +243,8 @@ void view_particular()
     refresh();
     char name[max_len];
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(3,COLOR_RED,COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
     init_pair(3,COLOR_RED,COLOR_BLACK);
     attron(COLOR_PAIR(1));
@@ -102,11 +310,11 @@ void view_all_products()
     keypad(stdscr, TRUE);
 
     mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
-mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
-mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
-mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
-mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
-mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
 refresh();
 
@@ -241,6 +449,10 @@ void create_product1()
     const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(category, categ[selected], max_len);
+    for(int i=0;i<7;i++){
+        move(8+i,10);
+        clrtoeol();
+    }
 
     attron(COLOR_PAIR(1));
     mvprintw(14,10, "Category");
@@ -330,6 +542,10 @@ void modify_product1()
     char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
     strncpy(new_category, categ[selected], max_len);
+    for(int i=0;i<7;i++){
+        move(8+i,10);
+        clrtoeol();
+    }
 
     attron(COLOR_PAIR(1));
     mvprintw(8,10, "Category: ");
@@ -493,15 +709,23 @@ void delete_product1() {
         mvprintw(1, 10, "Select a category:");
         attroff(COLOR_PAIR(2));
 
+        mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+        mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+        mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+        mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+        mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+        mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+        refresh();
         // Display categories
         for (int i = 0; i < category_count; i++) {
             if (i == category_choice) {
                 attron(COLOR_PAIR(2));
-                mvprintw(3 + i, 10, "> %s", categories[i]);
+                mvprintw(12 + i, 10, "> %s", categories[i]);
                 attroff(COLOR_PAIR(2));
             } else {
                 attron(COLOR_PAIR(1));
-                mvprintw(3 + i, 12, "%s", categories[i]);
+                mvprintw(12 + i, 12, "%s", categories[i]);
                 attroff(COLOR_PAIR(1));
             }
         }
@@ -525,7 +749,7 @@ void delete_product1() {
                 // Display products under the selected category
                 clear();
                 attron(COLOR_PAIR(2));
-                mvprintw(1, 10, "Select a product to delete from category: %s", categories[category_choice]);
+                mvprintw(9, 10, "Select a product to delete from category: %s", categories[category_choice]);
                 attroff(COLOR_PAIR(2));
 
                 int filtered_indices[count];
@@ -538,7 +762,13 @@ void delete_product1() {
                 }
 
                 if (filtered_count == 0) {
-                    mvprintw(3, 10, "No products available in this category.");
+                    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+                    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+                    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+                    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+                    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+                    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+                    mvprintw(15, 10, "No products available in this category.");
                     mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to delete, b to go back.");
                     refresh();
                     getch();
@@ -550,18 +780,27 @@ void delete_product1() {
                 while (true) {
                     clear();
                     attron(COLOR_PAIR(2));
-                    mvprintw(1, 10, "Select a product to delete from category: %s", categories[category_choice]);
+                    mvprintw(9, 10, "Select a product to delete from category: %s", categories[category_choice]);
                     attroff(COLOR_PAIR(2));
+
+                    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+                    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+                    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+                    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+                    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+                    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+                    refresh();
 
                     for (int i = 0; i < filtered_count; i++) {
                         int index = filtered_indices[i];
                         if (i == product_choice) {
                             attron(COLOR_PAIR(2));
-                            mvprintw(3 + i, 10, "> %s", products[index].name);
+                            mvprintw(12 + i, 10, "> %s", products[index].name);
                             attroff(COLOR_PAIR(2));
                         } else {
                             attron(COLOR_PAIR(1));
-                            mvprintw(3 + i, 12, "%s", products[index].name);
+                            mvprintw(12 + i, 12, "%s", products[index].name);
                             attroff(COLOR_PAIR(1));
                         }
                     }
@@ -586,8 +825,8 @@ void delete_product1() {
                             attroff(COLOR_PAIR(2));
                             refresh();
                             ch = getch();
-                            if (ch == 'y') {
-                                delete_product(products[delete_index].name); // Assume a delete_product function exists
+                            if (ch == 'y' || ch == 'Y') {
+                                delete_product(products[delete_index].name);
                                 move(LINES-4,10);
                                 clrtoeol();
                                 attron(COLOR_PAIR(2));
@@ -620,3 +859,10 @@ void quit3()
     exit(0);
 }
 
+// void view_bestsellers(){
+
+// }
+
+// void view_highest_rated(){
+
+// }
