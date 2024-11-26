@@ -1108,7 +1108,17 @@ void order_history1()
     mvprintw(9,70,"| ORDER HISTORY |");
     mvprintw(10,70,"-----------------");
     attroff(COLOR_PAIR(1));
-    
+    int size;
+    Order *comp_orders=get_all_completed_orders(&size);
+    int len=sizeof(comp_orders)/sizeof(comp_orders[0]);
+    for (int i=0;i<len;i++)
+    {
+        attron(COLOR_PAIR(1));
+        mvprintw(11+i,10,"%d",comp_orders[i].items->quantity);
+        attroff(COLOR_PAIR(1));
+    }
+
+
 
 
 
@@ -1116,7 +1126,7 @@ void order_history1()
 
 
     attron(COLOR_PAIR(1));
-    mvprintw(15, 10, "Press any key to return to the menu.");
+    mvprintw(20, 10, "Press any key to return to the menu.");
     attroff(COLOR_PAIR(1));
     refresh();
     
