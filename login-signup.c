@@ -19,6 +19,7 @@ void quit(void);
 
 
 int main(void) {
+    
     create_tables();
     // Open a file to store stderr
     int file = open("stderr_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
