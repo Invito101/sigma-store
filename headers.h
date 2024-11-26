@@ -87,6 +87,7 @@ Order get_order(int orderId, int userId);
 Order* get_all_orders_of_user(int userId, int *size);
 Order* get_all_completed_orders(int *size);
 Order* get_all_pending_orders(int *size);
+int mark_order_as_delivered(int orderId);
 
 // db/orders/order-utils.c
 void cast_row_to_order_struct(Order *orderObject, char **values);

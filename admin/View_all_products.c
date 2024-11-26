@@ -645,6 +645,7 @@ void modify_product1()
 }
 
 int selectany1(int n,const char *a[]) {
+    int choice = 0;
     int tco = 0; //the_chosen_one
     
     int sizea=n;
@@ -689,7 +690,10 @@ int selectany1(int n,const char *a[]) {
 
         ch=getch();
         
-        if(ch==KEY_DOWN){
+        if(ch == '\n'){
+            choice =tco;
+            break;
+        } else if(ch==KEY_DOWN){
             if(tco==sizea-1)
                 tco=0;
                 else
@@ -703,8 +707,6 @@ int selectany1(int n,const char *a[]) {
                 tco-=1;
                 
         }
-        else
-        continue;
     }
 
     endwin();
