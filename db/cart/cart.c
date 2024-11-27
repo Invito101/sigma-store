@@ -196,8 +196,7 @@ int mark_cart_as_ordered(int userId, int orderId){
     sqlite3 *db = open_db();
 
     sqlite3_stmt *stmt;
-
-    const char *sql = "UPDATE Cart SET orderID = ? WHERE userId = ?;";
+    const char *sql = "UPDATE Cart SET orderId = ? WHERE userId = ? AND orderId IS NULL;";
 
     int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
 
