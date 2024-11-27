@@ -12,6 +12,7 @@ void cart(void);
 void wallet(void);
 void categories(void);
 void settings(void);
+void exitprogram(void);
 void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, int column);
 
 void cart() {
@@ -85,6 +86,10 @@ void settings() {
     getch();
 }
 
+void exitprogram(){
+    //ends the program
+}
+
 void menu1(void){
 
     initscr();
@@ -98,17 +103,19 @@ mvprintw(10, 10, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____
 
 refresh();
 
-    const char *a[2][2] = {
+    const char *a[3][2] = {
         {"CART", "WALLET"},
-        {"CATEGORIES", "SETTINGS"}
+        {"CATEGORIES", "SETTINGS"},
+        {"Quit",""}
     };
-    void (*b[2][2])() = {
+    void (*b[3][2])() = {
         {cart, wallet},
-        {categories, settings}
+        {categories, settings},
+        {exitprogram,exitprogram}
     };
 
     // Clear the screen and show options
-    buttonselect2d(2, 2, a, b,5,90);
+    buttonselect2d(3, 2, a, b,5,90);
     // Cleanup ncurses
 
 refresh();
@@ -145,7 +152,26 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
     for (int i = 0; i < sizer; i++) {
             for (int j = 0; j < sizec; j++) {
                 
+                if(strcmp(a[i][1],"")==0){
+                    if (i == tco[0]) {
+                    // Highlight the selected button
+                    attron(COLOR_PAIR(2));
+                    mvprintw(i*4+row+30,column-5, "+--------------------------------+");
+                    mvprintw(i*4+row+31,column-5, "|            %-18s  |", a[i][j]);
+                    mvprintw(i*4+row+32,column-5, "+--------------------------------+");
+                    attroff(COLOR_PAIR(2));
+                } else {
+                    // Render the non-selected buttons
+                    attron(COLOR_PAIR(1));
+                    mvprintw(i*4+row+30, column-5, "+--------------------------------+");
+                    mvprintw(i*4+row+31, column-5, "|            %-18s  |", a[i][j]);
+                    mvprintw(i*4+row+32, column-5, "+--------------------------------+");
+                    attroff(COLOR_PAIR(1));
+                }
+                break;
 
+                }
+                else{
                 if (i == tco[0] && j == tco[1]) {
                     // Highlight the selected button
                     attron(COLOR_PAIR(2));
@@ -160,6 +186,7 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
                     mvprintw(i*4+row+1, j*50+column, "|            %-18s  |", a[i][j]);
                     mvprintw(i*4+row+2, j*50+column, "+--------------------------------+");
                     attroff(COLOR_PAIR(1));
+                }
                 }
             }
         }

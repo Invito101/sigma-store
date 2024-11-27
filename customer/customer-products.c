@@ -2,17 +2,21 @@
 #include <ncurses.h>
 #include "../headers.h"
 
-void cart(void);
-void wallet(void);
-void categories(void);
-void settings(void);
-void showproducts(int count,Product* b, int row, int col);
+void showproducts(int count,Product* b, int row, int col,int starter,int chooser);
 
 
-void showproducts(int count,Product* b, int row, int col) {
+void showproducts(int count,Product* b, int row, int col,int starter,int chooser) {
+    
+    clear();
+
     int (*c[2])(int,int)={AddItemToOrder,DecreaseItemQuantity};
     int choice[2] = {0, 0};
     int tco[2] = {0, 0}; // the_chosen_one
+    
+    if(chooser==0)
+    tco[0]=starter;
+    else if(chooser==1)
+    tco[0]=starter+4;
 
     int sizer = count;
     int sizec = 2;
@@ -31,6 +35,7 @@ void showproducts(int count,Product* b, int row, int col) {
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
     init_pair(3, COLOR_BLUE,COLOR_BLACK);
+
 
     const char *box[] = {
         "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n",
@@ -65,35 +70,35 @@ void showproducts(int count,Product* b, int row, int col) {
     while (true) {
         clear();
         attron(COLOR_PAIR(1));
-        mvprintw(5, 10, "Welcome to %s:",selected_cat);
+        mvprintw(1,2, "Welcome to %s. Press 'b' to go back to menu.",selected_cat);
         attroff(COLOR_PAIR(1));
 
-        for (int i = 0; i < sizer; i++) {
+        for (int i = starter; i < starter+5; i++) {
         
             char buffer[1000];
             if (i == tco[0]&&tco[1]==0) {
                 attron(COLOR_PAIR(2));
                 for (int j = 0; j < 9; j++) { // Render the main box
                     if(j==1){
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name);
 
                     }
                     if(j==2){
                         snprintf(buffer,sizeof(buffer),"%d",b[i].price);
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],buffer);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],buffer);
                     }
                     if(j==4){
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].description);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description);
                     }
                     if(j==6){
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].manufacturedBy);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].manufacturedBy);
                     }
                     if(j==7){
                         char* ptr =get_date_from_time(b[i].createdAt);
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],ptr);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],ptr);
                     }
                     else{
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j]);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j]);
 
                     }
 
@@ -105,7 +110,7 @@ void showproducts(int count,Product* b, int row, int col) {
                 attron(COLOR_PAIR(3));
 
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, plus[k]);
+                    mvprintw(row * (1 + 2 * (i-starter)) + k + 1, col + 160, plus[k]);
 
                 }
                 
@@ -114,7 +119,7 @@ void showproducts(int count,Product* b, int row, int col) {
                 attron(COLOR_PAIR(2));
                 
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 180, minus[k]);
+                    mvprintw(row * (1 + 2 * (i-starter)) + k + 1, col + 180, minus[k]);
 
                 }
                 attroff(COLOR_PAIR(2));
@@ -125,32 +130,32 @@ void showproducts(int count,Product* b, int row, int col) {
                 for (int j = 0; j < 9; j++) { // Render the main box
 
                     if(j==1){
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name);
 
                     }
                     if(j==2){
                         snprintf(buffer,sizeof(buffer),"%d",b[i].price);
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],buffer);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],buffer);
                     }
                     if(j==4){
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].description);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description);
                     }
                     if(j==6){
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].manufacturedBy);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].manufacturedBy);
                     }
                     if(j==7){
                         char* ptr =get_date_from_time(b[i].createdAt);
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],ptr);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],ptr);
                     }
                     else{
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j]);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j]);
 
                     }
                 }
 
                 // Render the plus box on the right side of the non-selected box
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, plus[k]);
+                    mvprintw(row * (1 + 2 * (i-starter)) + k + 1, col + 160, plus[k]);
 
                 }
                 attroff(COLOR_PAIR(2));
@@ -158,7 +163,7 @@ void showproducts(int count,Product* b, int row, int col) {
 
                 // Render the minus box below the plus box
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 180, minus[k]);
+                    mvprintw(row * (1 + 2 * (i-starter)) + k + 1, col + 180, minus[k]);
 
                 }
                 attroff(COLOR_PAIR(3));
@@ -170,39 +175,39 @@ void showproducts(int count,Product* b, int row, int col) {
                 
                 for (int j = 0; j < 9; j++) { // Render the main box
                     if(j==1){
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name);
 
                     }
                     if(j==2){
                         snprintf(buffer,sizeof(buffer),"%d",b[i].price);
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],buffer);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],buffer);
                     }
                     if(j==4){
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].description);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description);
                     }
                     if(j==6){
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].manufacturedBy);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].manufacturedBy);
                     }
                     if(j==7){
                         char* ptr =get_date_from_time(b[i].createdAt);
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j],ptr);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],ptr);
                     }
                     else{
-                        mvprintw(row * (1 + 2 * i) + j, col, box[j]);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j]);
 
                     }
                 }
 
                 // Render the plus box on the right side of the non-selected box
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, plus[k]);
+                    mvprintw(row * (1 + 2 * (i-starter)) + k + 1, col + 160, plus[k]);
 
                 }
                 
 
                 // Render the minus box below the plus box
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 180, minus[k]);
+                    mvprintw(row * (1 + 2 * (i-starter)) + k + 1, col + 180, minus[k]);
 
                 }
                 attroff(COLOR_PAIR(1));
@@ -235,14 +240,35 @@ refresh();*/
             choice[1] = tco[1];
             break;
         } else if (ch == KEY_DOWN) {
-            if (tco[0] == sizer - 1)
-                tco[0] = 0;
+            if (tco[0] == starter + 4){
+                if(tco[0]==sizer-1){
+                    showproducts(count,b,row,col,0,0);
+                    return;
+                }
+                else{
+                    
+                    showproducts(count,b,row,col,starter+1,1);
+                    return;
+                }
+
+            }
             else
                 tco[0] += 1;
 
         } else if (ch == KEY_UP) {
-            if (tco[0] == 0)
-                tco[0] = sizer - 1;
+            if (tco[0] == starter){
+                if(tco[0]==0){
+                    
+                    showproducts(count,b,row,col,sizer-5,1);
+                    return;
+                }
+                else{
+                    
+                    showproducts(count,b,row,col,starter-1,0);
+                    return;
+                }
+
+            }
             else
                 tco[0] -= 1;
 

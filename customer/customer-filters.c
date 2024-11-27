@@ -105,7 +105,7 @@ void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,cha
 
     //Product* products = get_all_category_products(numberofprods,selected_cat);
     
-    showproducts(*numberofprods,products,5,1);
+    showproducts(*numberofprods,products,5,1,0,0);
     
 
     endwin();

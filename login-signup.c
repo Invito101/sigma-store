@@ -28,6 +28,10 @@ int main(void) {
     //create_product("Sapiens: A Brief History of Humankind", 799, "By Yuval Noah Harari", "Books", "Harper Perennial");
     //create_product("Atomic Habits", 599, "Practical guide to building good habits", "Books", "Penguin Random House");
     create_product("yoo hoo", 69, "skibidi", "Books", "among us");
+        create_product("yoo loo", 69, "skibidi", "Books", "among us");
+    create_product("yoo boo", 69, "skibidi", "Books", "among us");
+    create_product("yoo zoo", 69, "skibidi", "Books", "among us");
+
 
     // // Electronics
     //create_product("Wireless Headphones", 1999, "Bluetooth over-ear headphones", "Electronics", "Sony");
