@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "../headers.h"
 #include <ncurses.h>
-
+int totalamt;
 static OrderLL order;
 void LoadLL(int userId){ //first free anything if something is there, then extract from sql
     OrderItem* current = order.nextitem;
@@ -77,21 +77,57 @@ int DecreaseItemQuantity(int id, int userId) { // returns 0 if successful, retur
 }
 
 void PlaceOrder(int userId) {
-    LoadLL(userId);
-    OrderItem* current = order.nextitem;
-    OrderItem* temp;
-    place_order(userId);
-    while (current != NULL) {
-        temp = current;
-        current = current->nextitem;
-        free(temp);
+    char *email = userdetails->email;
+    int current_money = get_money_of_user(email);
+    if(totalamt==0){
+        initscr();
+        raw();
+        clear();
+        mvprintw(5, 5, "You cannot place an order without adding anything to your cart!");
+        mvprintw(7, 5, "Press any key to return to the main menu...");
+        refresh();
+        getch(); 
+        endwin();
+        menu1(); 
     }
-    order.nextitem = NULL;
+    else if (current_money >= totalamt) {
+        modify_money_of_user(email,current_money-totalamt);
+        LoadLL(userId);
+        OrderItem* current = order.nextitem;
+        OrderItem* temp;
+        place_order(userId);
+        // free linked list
+        while (current != NULL) {
+            temp = current;
+            current = current->nextitem;
+            free(temp);
+        }
+        order.nextitem = NULL;
+        initscr();
+        raw();
+        clear();
+        mvprintw(5, 5, "Order placed successfully!");
+        mvprintw(7, 5, "Press any key to return to the main menu...");
+        refresh();
+        getch(); 
+        endwin();
+        menu1();
+    } else {
+        initscr();
+        raw();
+        clear();
+        mvprintw(5, 5, "Insufficient funds to place the order.");
+        mvprintw(7, 5, "Press any key to return to the main menu...");
+        refresh();
+        getch(); 
+        endwin();
+        menu1(); 
+    }
 }
 
 void DisplayCart(int userId) {
     int size;
-    int totalamt = 0;
+    totalamt=0;
     Cart* cartitems = get_cart_items(userId, &size);
     initscr();
     raw();
