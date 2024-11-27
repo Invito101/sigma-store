@@ -1,3 +1,1 @@
 This error message will go to stderr_output.txt
-get_all_pending_orders: Preparation of Statement : no such column: delivered
-get_all_pending_orders: Preparation of Statement : no such column: delivered

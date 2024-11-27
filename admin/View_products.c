@@ -275,10 +275,19 @@ void view_particular(){
     endwin();
     return;
     }
+    else{
+        clear();
 
-    
+    mvprintw(2,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(3, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 33, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 33, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 33, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+    refresh();
     attron(COLOR_PAIR(1));
-    mvprintw(13, 10, "The Details Of Your Products Are: ");
+    mvprintw(10, 10, "The Details Of Your Products Are: ");
     mvprintw(14, 10, "Name: ");
     mvprintw(15, 10, "Price: ");
     mvprintw(16, 10, "Description: ");
@@ -306,7 +315,7 @@ void view_particular(){
     attroff(COLOR_PAIR(1));
     getch();
     endwin();
-    admin_home();
+    admin_home();}
 
 
     

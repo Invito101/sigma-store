@@ -6,6 +6,14 @@
 #include <ncurses.h> // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 #define max_len 100
+void check_for_back(const char *input) {
+        if (strcmp(input, "b") == 0) {
+            clear();
+            endwin();
+            admin_home();
+            exit(0); // Ensure the function exits immediately
+        }
+    }
 
 
 void create_product1(){   
@@ -140,14 +148,7 @@ void modify_product1(){
     
     attroff(COLOR_PAIR(1));
     refresh();
-    void check_for_back(const char *input) {
-        if (strcmp(input, "b") == 0) {
-            clear();
-            endwin();
-            admin_home();
-            exit(0); // Ensure the function exits immediately
-        }
-    }
+    
     // char ch1=getch();
     // check_for_back(&ch1);
 
@@ -667,24 +668,27 @@ void order_history1(){
     attron(COLOR_PAIR(1));
     mvprintw(30,10,"Enter 'b' to return to the main menu");
     attroff(COLOR_PAIR(1));
-    void check_for_back(const char *input) {
-        if (strcmp(input, "b") == 0) {
-            clear();
-            endwin();
-            admin_home();
-            exit(0); // Ensure the function exits immediately
-        }
-    }
+    
     char ch12=getch();
     check_for_back(&ch12);
-
-    int len=sizeof(comp_orders)/sizeof(comp_orders[0]);
-    for (int i=0;i<len;i++)
+    mvprintw(11,10,"%d",size);
+    
+    if (size==0)
     {
         attron(COLOR_PAIR(1));
-        mvprintw(11+i,10,"Quantity: ");
-        mvprintw(11+i,20,"%d",comp_orders[i].items->quantity);
+        mvprintw(12,10,"Your History Is Empty");
         attroff(COLOR_PAIR(1));
+    }
+    else{
+        for (int i=0;i<size;i++)
+        {
+            attron(COLOR_PAIR(1));
+            
+            mvprintw(11+i,10,"Quantity: ");
+
+            mvprintw(11+i,20,"%d",comp_orders[i].items->quantity);
+            attroff(COLOR_PAIR(1));
+        }
     }
     
 
