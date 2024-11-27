@@ -6,6 +6,14 @@
 #include <ncurses.h> // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 #define max_len 100
+void check_for_back(const char *input) {
+        if (strcmp(input, "b") == 0) {
+            clear();
+            endwin();
+            admin_home();
+            exit(0); // Ensure the function exits immediately
+        }
+    }
 
 
 void create_product1(){   
@@ -140,14 +148,7 @@ void modify_product1(){
     
     attroff(COLOR_PAIR(1));
     refresh();
-    void check_for_back(const char *input) {
-        if (strcmp(input, "b") == 0) {
-            clear();
-            endwin();
-            admin_home();
-            exit(0); // Ensure the function exits immediately
-        }
-    }
+    
     // char ch1=getch();
     // check_for_back(&ch1);
 
@@ -667,14 +668,7 @@ void order_history1(){
     attron(COLOR_PAIR(1));
     mvprintw(30,10,"Enter 'b' to return to the main menu");
     attroff(COLOR_PAIR(1));
-    void check_for_back(const char *input) {
-        if (strcmp(input, "b") == 0) {
-            clear();
-            endwin();
-            admin_home();
-            exit(0); // Ensure the function exits immediately
-        }
-    }
+    
     char ch12=getch();
     check_for_back(&ch12);
 
