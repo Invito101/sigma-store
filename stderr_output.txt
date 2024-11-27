@@ -1,1 +1,2 @@
 This error message will go to stderr_output.txt
+mark_order_as_delivered: Preparation of Statement : near "Order": syntax error
