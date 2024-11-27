@@ -166,12 +166,13 @@ void DisplayCart(int userId) {
             int subtotal = price * quantity;
             totalamt += subtotal;
 
-            attron(COLOR_PAIR(2));
-            mvprintw(4 + i, 5, "%d. %s", i + 1, name);
-            mvprintw(4 + i, 30, "Price: %d", price);
-            mvprintw(4 + i, 45, "Qty: %d", quantity);
-            mvprintw(4 + i, 60, "Subtotal: %d", subtotal);
-            attroff(COLOR_PAIR(2));
+                attron(COLOR_PAIR(2));
+                mvprintw(4 + i, 5, "%-50.50s", name);         
+                mvprintw(4 + i, 60, "Price: %-5d", price);     
+                mvprintw(4 + i, 75, "Qty: %-3d", quantity);   
+                mvprintw(4 + i, 85, "Subtotal: %-7d", subtotal); 
+                attroff(COLOR_PAIR(2));
+
             }
             
 

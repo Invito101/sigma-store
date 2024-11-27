@@ -34,13 +34,13 @@ void showproducts(int count,Product* b, int row, int col) {
 
     const char *box[] = {
         "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n",
-        "|                       %s                                                                                                                                                                                 |\n",
+        "|                  %s                                                                                                                                                                               |\n",
+        "|                  Rs.%s                                                                                                                                                                               |\n",
         "|                                                                                                                                                                                                        |\n",
+        "|                  %s                                                                                                                                                                                     |\n",
         "|                                                                                                                                                                                                        |\n",
-        "|                                                                                                                                                                                                        |\n",
-        "|                                                                                                                                                                                                        |\n",
-        "|                                                                                                                                                                                                        |\n",
-        "|                                                                                                                                                                                                        |\n",
+        "|                  Manufactured by: %s                                                                                                                                                                                      |\n",
+        "|                  Release date: %s                                                                                                                                                                                     |\n",
         "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n"};
 
     const char *plus[] = {
@@ -60,7 +60,8 @@ void showproducts(int count,Product* b, int row, int col) {
         "cart  |       |\n",
         "      |       |\n",
         "      +-------+\n"};
-
+    while(true){
+        int flag=0;
     while (true) {
         clear();
         attron(COLOR_PAIR(1));
@@ -68,11 +69,33 @@ void showproducts(int count,Product* b, int row, int col) {
         attroff(COLOR_PAIR(1));
 
         for (int i = 0; i < sizer; i++) {
-
+        
+            char buffer[1000];
             if (i == tco[0]&&tco[1]==0) {
                 attron(COLOR_PAIR(2));
                 for (int j = 0; j < 9; j++) { // Render the main box
-                    mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);   //get_product_by_id(b[i]->id)->name
+                    if(j==1){
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);
+
+                    }
+                    if(j==2){
+                        snprintf(buffer,sizeof(buffer),"%d",b[i].price);
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],buffer);
+                    }
+                    if(j==4){
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].description);
+                    }
+                    if(j==6){
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].manufacturedBy);
+                    }
+                    if(j==7){
+                        char* ptr =get_date_from_time(b[i].createdAt);
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],ptr);
+                    }
+                    else{
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j]);
+
+                    }
 
                 }
                 attroff(COLOR_PAIR(2));
@@ -99,10 +122,30 @@ void showproducts(int count,Product* b, int row, int col) {
                 } 
                 else if(tco[0]==i&&tco[1]==1){
                 attron(COLOR_PAIR(2));
-
                 for (int j = 0; j < 9; j++) { // Render the main box
-                    mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);
 
+                    if(j==1){
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);
+
+                    }
+                    if(j==2){
+                        snprintf(buffer,sizeof(buffer),"%d",b[i].price);
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],buffer);
+                    }
+                    if(j==4){
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].description);
+                    }
+                    if(j==6){
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].manufacturedBy);
+                    }
+                    if(j==7){
+                        char* ptr =get_date_from_time(b[i].createdAt);
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],ptr);
+                    }
+                    else{
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j]);
+
+                    }
                 }
 
                 // Render the plus box on the right side of the non-selected box
@@ -126,8 +169,28 @@ void showproducts(int count,Product* b, int row, int col) {
                 attron(COLOR_PAIR(1));
                 
                 for (int j = 0; j < 9; j++) { // Render the main box
-                    mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);
+                    if(j==1){
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);
 
+                    }
+                    if(j==2){
+                        snprintf(buffer,sizeof(buffer),"%d",b[i].price);
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],buffer);
+                    }
+                    if(j==4){
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].description);
+                    }
+                    if(j==6){
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].manufacturedBy);
+                    }
+                    if(j==7){
+                        char* ptr =get_date_from_time(b[i].createdAt);
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j],ptr);
+                    }
+                    else{
+                        mvprintw(row * (1 + 2 * i) + j, col, box[j]);
+
+                    }
                 }
 
                 // Render the plus box on the right side of the non-selected box
@@ -193,15 +256,25 @@ refresh();*/
                 tco[1] = sizec - 1;
             else
                 tco[1] -= 1;
-        } else
-            continue;
+        } else if(ch== 'b'){
+            flag=1;
+            break;
+            }
+        else
+        continue;
     }
     
 
     //Product* selected_product = b[choice[0]];
 
 
-    c[choice[1]](b[choice[0]].id, userdetails->id);  
+    c[choice[1]](b[choice[0]].id, userdetails->id);
+
+    if(flag==1){
+        break;
+    }  
+    }
+    menu1();
 
     endwin();
 }
