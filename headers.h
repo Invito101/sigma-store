@@ -21,6 +21,7 @@ int is_valid_email_for_login(char *email);
 
 //login-signup.c
 extern User* userdetails;
+void authpage(void);
 
 // encryption.c
 char* encrypter(char *text);
@@ -57,6 +58,8 @@ Product* get_all_products(int *size);
 Product* get_all_category_products(int *size, char *cName);
 Product* get_all_category_products_top_sold(int *size, char *cName);
 Product* get_all_category_products_top_rated(int *size, char *cName);
+Product* get_all_category_products_price_desc(int *size, char *cName);
+Product* get_all_category_products_price_asc(int *size, char *cName);
 
 // db/products/products-utils.c
 int is_product_name_taken(char *name);
@@ -87,12 +90,17 @@ Order get_order(int orderId, int userId);
 Order* get_all_orders_of_user(int userId, int *size);
 Order* get_all_completed_orders(int *size);
 Order* get_all_pending_orders(int *size);
+int mark_order_as_delivered(int orderId);
 
 // db/orders/order-utils.c
 void cast_row_to_order_struct(Order *orderObject, char **values);
 
 // customer/customer-home.c
 void menu1(void);
+void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, int column);
+
+//customer-filters.c
+void filtertest();
 
 // admin/home.c
 int admin_home();
@@ -111,19 +119,23 @@ int is_valid_phone(char *phone);
 int is_valid_pincode(char *pincode);
 void get_valid_input(int row, char *label, char *buffer, int max_length, int (*validate)(char *));
 
-// admin/View_all_products.c
+// admin/View_products.c
 int view_category_wise();
-void create_product1();
-void modify_product1();
-void delete_product1();
 void quit3();
-int selectany1(int n,const char *a[]);
 void view_particular();
 void view_all_products();
 void view_bestsellers();
 void view_highest_rated();
+
+
+//admin/pro_fun.c
+void create_product1();
+void modify_product1();
+void delete_product1();
+int selectany1(int n,const char *a[]);
 void complete_order1();
 void order_history1();
+void check_for_back(const char *input);
 
 
 

@@ -119,7 +119,7 @@ Order* get_all_orders_of_user(int userId, int *size){
 
         cast_row_to_order_struct(&orders[index], values);
 
-        orders[index].items = get_order_items(values[0], &orders[index].size);
+        orders[index].items = get_order_items(atoi(values[0]), &orders[index].size);
         index++;
     }
 
@@ -167,7 +167,7 @@ Order* get_all_completed_orders(int *size){
 
         cast_row_to_order_struct(&orders[index], values);
 
-        orders[index].items = get_order_items(values[0], &orders[index].size);
+        orders[index].items = get_order_items(atoi(values[0]), &orders[index].size);
         index++;
     }
 
@@ -210,12 +210,12 @@ Order* get_all_pending_orders(int *size){
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         char *values[3];
         for (int i = 0; i < 3; i++) {
-            values[i] = (char *)sqlite3_column_text(stmt, i);
+            values[i] = (int *)sqlite3_column_text(stmt, i);
         }
 
         cast_row_to_order_struct(&orders[index], values);
 
-        orders[index].items = get_order_items(values[0], &orders[index].size);
+        orders[index].items = get_order_items(atoi(values[0]), &orders[index].size);
         index++;
     }
 
@@ -224,4 +224,35 @@ Order* get_all_pending_orders(int *size){
 
     *size = rows;
     return orders;
+}
+
+int mark_order_as_delivered(int orderId){
+    sqlite3 *db = open_db();
+
+    sqlite3_stmt *stmt;
+
+    const char *sql = "UPDATE Order SET delivered = 1 WHERE id = ?;";
+
+    int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
+
+    if(rc != SQLITE_OK){
+        fprintf(stderr, "%s: Preparation of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
+        return 1;
+    }
+
+    sqlite3_bind_int(stmt, 1, orderId);
+
+    rc = sqlite3_step(stmt);
+
+    if(rc != SQLITE_DONE){
+        fprintf(stderr, "%s: Execution of Statement : %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
+        return 1;
+    }
+
+    sqlite3_finalize(stmt);
+    close_db(db);
+
+    return 0;
 }

@@ -1,27 +1,27 @@
 #include <stdio.h>
 #include <ncurses.h>
+#include "../headers.h"
 
 void cart(void);
 void wallet(void);
 void categories(void);
 void settings(void);
-void cartselect(int m, int n, const char *a[m][n], void (*b[m][n])(), int row, int col);
+void cartselect(int count,Product* b, int row, int col);
 
-int main(){
-    const char *a[2][2] = {
-        {"CART","WALLET"},{"CART","WALLET"}};
-    void (*b[2][2])() = {
-        {cart,wallet},{cart,wallet}};
+void filtertest(){
+    int count;
+    Product* b=get_all_products(&count);
 
-    // Clear the screen and show options
-    cartselect(2, 2, a, b,5,1);
+    cartselect(count,b,5,1);
 }
-void cartselect(int m, int n, const char *a[m][n], void (*b[m][n])(), int row, int col) {
+
+void cartselect(int count,Product* b, int row, int col) {
+    int (*c[2])()={AddItemToOrder,DecreaseItemQuantity};
     int choice[2] = {0, 0};
     int tco[2] = {0, 0}; // the_chosen_one
 
-    int sizer = m;
-    int sizec = n;
+    int sizer = count;
+    int sizec = 2;
     int ch;
 
     initscr();
@@ -39,15 +39,15 @@ void cartselect(int m, int n, const char *a[m][n], void (*b[m][n])(), int row, i
     init_pair(3, COLOR_BLUE,COLOR_BLACK);
 
     const char *box[] = {
-        "+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n",
-        "|                                                                                                                                                                               |\n",
-        "|                                                                                                                                                                               |\n",
-        "|                                                                                                                                                                               |\n",
-        "|                                                                                                                                                                               |\n",
-        "|                                                                                                                                                                               |\n",
-        "|                                                                                                                                                                               |\n",
-        "|                                                                                                                                                                               |\n",
-        "+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n"};
+        "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n",
+        "|                                                                                                                                                                                                        |\n",
+        "|                                                                                                                                                                                                        |\n",
+        "|                                                                                                                                                                                                      |\n",
+        "|                                                                                                                                                                                                        |\n",
+        "|                                                                                                                                                                                                        |\n",
+        "|                                                                                                                                                                                                        |\n",
+        "|                                                                                                                                                                                                        |\n",
+        "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n"};
 
     const char *plus[] = {
         "     +-------+\n",
@@ -77,7 +77,7 @@ void cartselect(int m, int n, const char *a[m][n], void (*b[m][n])(), int row, i
             if (i == tco[0]&&tco[1]==0) {
                 attron(COLOR_PAIR(2));
                 for (int j = 0; j < 9; j++) { // Render the main box
-                    mvprintw(row * (1 + 2 * i) + j, col, box[j]);
+                    mvprintw(row * (1 + 2 * i) + j, col, box[j]);   //get_product_by_id(b[i]->id)->name
 
                 }
                 attroff(COLOR_PAIR(2));
@@ -87,7 +87,7 @@ void cartselect(int m, int n, const char *a[m][n], void (*b[m][n])(), int row, i
                 attron(COLOR_PAIR(3));
 
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 140, plus[k]);
+                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, plus[k]);
 
                 }
                 
@@ -96,7 +96,7 @@ void cartselect(int m, int n, const char *a[m][n], void (*b[m][n])(), int row, i
                 attron(COLOR_PAIR(2));
                 
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, minus[k]);
+                    mvprintw(row * (1 + 2 * i) + k + 1, col + 180, minus[k]);
 
                 }
                 attroff(COLOR_PAIR(2));
@@ -112,7 +112,7 @@ void cartselect(int m, int n, const char *a[m][n], void (*b[m][n])(), int row, i
 
                 // Render the plus box on the right side of the non-selected box
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 140, plus[k]);
+                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, plus[k]);
 
                 }
                 attroff(COLOR_PAIR(2));
@@ -120,7 +120,7 @@ void cartselect(int m, int n, const char *a[m][n], void (*b[m][n])(), int row, i
 
                 // Render the minus box below the plus box
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, minus[k]);
+                    mvprintw(row * (1 + 2 * i) + k + 1, col + 180, minus[k]);
 
                 }
                 attroff(COLOR_PAIR(3));
@@ -137,14 +137,14 @@ void cartselect(int m, int n, const char *a[m][n], void (*b[m][n])(), int row, i
 
                 // Render the plus box on the right side of the non-selected box
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 140, plus[k]);
+                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, plus[k]);
 
                 }
                 
 
                 // Render the minus box below the plus box
                 for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, minus[k]);
+                    mvprintw(row * (1 + 2 * i) + k + 1, col + 180, minus[k]);
 
                 }
                 attroff(COLOR_PAIR(1));
@@ -190,43 +190,7 @@ void cartselect(int m, int n, const char *a[m][n], void (*b[m][n])(), int row, i
     }
     
 
-    b[choice[0]][choice[1]]();
+    c[choice[1]](b[choice[0]].id,userdetails->id);
     endwin();
 }
 
-
-
-void cart() {
-    clear();
-    mvprintw(5, 10, "Cart function called.");
-    refresh();
-    getch();
-}
-
-void wallet() {
-    clear();
-    mvprintw(5, 10, "Wallet function called.");
-    refresh();
-    getch();
-}
-
-void categories() {
-    clear();
-    //mvprintw(5, 10, "Categories function called.");
-    const char *a[2][2] = {
-        {"CART","WALLET"},{"CART","WALLET"}};
-    void (*b[2][2])() = {
-        {cart,wallet},{cart,wallet}};
-
-    // Clear the screen and show options
-    cartselect(2, 2, a, b,5,50);
-    refresh();
-    getch();
-}
-
-void settings() {
-    clear();
-    mvprintw(5, 10, "Settings function called.");
-    refresh();
-    getch();
-}
