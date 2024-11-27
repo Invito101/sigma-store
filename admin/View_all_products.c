@@ -363,7 +363,7 @@ refresh();
 
                 }
                     int pad_rows = 2*count+2;
-    int pad_cols = 200;
+    int pad_cols = 500;
     WINDOW *pad2 = newpad(pad_rows, pad_cols);
     if (pad2 == NULL) {
         endwin();
@@ -383,36 +383,54 @@ refresh();
         mvwprintw(pad2, row, 0,"%.*s", 65, products[i].name);       // Print product name
         mvwprintw(pad2, row, 66 , "...");
         }
-        mvwprintw(pad2, row , 70, "%d", products[i].price); 
-        mvwprintw(pad2, row , 80, "%d", products[i].id); // Print product category
-        mvwprintw(pad2, row , 142, "%d", products[i].amountBought);
-        mvwprintw(pad2, row , 117, "%d", products[i].noOfRatings);
-        mvwprintw(pad2, row , 90, "%.2f", products[i].rating);
+        mvwprintw(pad2, row , 90, "%d", products[i].price); 
+        mvwprintw(pad2, row , 100, "%d", products[i].id); // Print product category
+
+        mvwprintw(pad2, row , 152, "%d", products[i].amountBought);
+        mvwprintw(pad2, row , 132, "%d", products[i].noOfRatings);
+        mvwprintw(pad2, row , 110, "%.2f", products[i].rating);
+        mvwprintw(pad2, row , 70, "%s", products[i].category);
+                if( strlen(products[i].manufacturedBy)<=20)
+        {mvwprintw(pad2, row, 167,"%s", products[i].manufacturedBy);}
+        else{
+        mvwprintw(pad2, row, 167,"%.*s", 20, products[i].manufacturedBy);       // Print product name
+        mvwprintw(pad2, row, 187 , "...");
+        }
+        mvwprintw(pad2, row , 190, "%s", products[i].description);
 
         wattroff(pad2,COLOR_PAIR(2));
         
     }
 
 
-    int start_row = 0, start_col = 0;
+    int start_row = 0, start_col = 0 ,start_col2 = 0;
     int display_rows = LINES < 30 ? LINES : 30;
     int display_cols = COLS < 220 ? COLS : 220;
-    prefresh(pad2, start_row, start_col, 15, 10, 10 + display_rows - 1, display_cols - 1);
+    prefresh(pad2, start_row, start_col, 14, 10, 10 + display_rows - 1, display_cols - 1);
 
     int ch;
+    WINDOW *header = newpad( 1, 500); // 1-row height, display_cols width, position at (14, 10)
+
         
         while(true){
-        attron(COLOR_PAIR(1));
-        attron(A_BOLD);
-        mvprintw( 14, 10, "NAME:");       // Print product name
-        mvprintw( 14, 80, "PRICE:"); 
-        mvprintw( 14, 90, "ID:"); 
-        mvprintw( 14, 145, "NUMBER OF BUYERS:");
-        mvprintw( 14, 120, "NUMBER OF RATINGS:");
-        mvprintw( 14, 100, "RATINGS:");
-        attroff(A_BOLD);
-        attroff(COLOR_PAIR(1));
-        refresh();
+        // Create a window for the fixed header row
+
+
+// Draw the fixed header row in the 'header' window
+wattron(header, COLOR_PAIR(1) | A_BOLD);
+mvwprintw(header, 0, 0, "NAME:");
+mvwprintw(header, 0, 90, "PRICE:");
+mvwprintw(header, 0, 100, "ID:");
+mvwprintw(header, 0, 145, "NUMBER OF BUYERS:");
+mvwprintw(header, 0, 123, "NUMBER OF RATINGS:");
+mvwprintw(header, 0, 110, "RATINGS:");
+mvwprintw(header, 0, 70, "CATEGORY:");
+mvwprintw(header, 0, 167, "MANUFACTURED BY:");
+mvwprintw(header, 0, 190, "DESCRIPTION:");
+wattroff(header, COLOR_PAIR(1) | A_BOLD);
+prefresh(header, 0, start_col2, 14, 10, 14, display_cols - 1);
+
+        prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
         ch = getch();
 
         if (ch=='\n') break;
@@ -424,14 +442,16 @@ refresh();
                 if (start_row < (pad_rows - display_rows)+10) start_row++;
                 prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
         }
-        // else if (ch== KEY_LEFT){
-        //         if (start_col > 0) start_col--;
-        //         prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
-        // }
-        // else if(ch==KEY_RIGHT){
-        //         if (start_col < (pad_cols - display_cols)) start_col++;
-        //         prefresh(pad2, start_row, start_col, 15, 0, 10+display_rows - 1, display_cols - 1);
-        // }
+        else if (ch== KEY_LEFT){
+                if (start_col > 0) {start_col--;start_col2--;}
+                prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
+                prefresh(header, 0, start_col2, 14, 10, 14, display_cols - 1);
+        }
+        else if(ch==KEY_RIGHT){
+                if (start_col < (pad_cols - display_cols)) {start_col++;start_col2++;}
+                prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
+                prefresh(header, 0, start_col2, 14, 10, 14, display_cols - 1);
+        }
         else continue;
         }
 
@@ -461,12 +481,13 @@ void create_product1()
     curs_set(0);     
 
     keypad(stdscr, TRUE);
-    mvprintw(2,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
-    mvprintw(3, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
-    mvprintw(4, 33, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
-    mvprintw(5, 33, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
-    mvprintw(6, 33, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
-    mvprintw(7, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
 
     refresh();
 
@@ -477,9 +498,12 @@ void create_product1()
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
+    init_pair(3, COLOR_BLUE, COLOR_BLACK);
 
+    attron(COLOR_PAIR(3));
+    mvprintw(9, 90, "CREATE A NEW PRODUCT");
+    attroff(COLOR_PAIR(3));
     attron(COLOR_PAIR(1));
-    mvprintw(9, 10, "Create a new product:");
     mvprintw(10, 10, "Press Enter to submit each field, and type carefully:");
     attroff(COLOR_PAIR(1));
     refresh();
@@ -559,12 +583,13 @@ void modify_product1()
     curs_set(0); 
     keypad(stdscr,TRUE);
 
-    mvprintw(1,28, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
-    mvprintw(2, 33, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
-    mvprintw(3, 33, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
-    mvprintw(4, 33, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
-    mvprintw(5, 33, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
-    mvprintw(6, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
 
     refresh();
     
