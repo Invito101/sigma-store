@@ -205,14 +205,7 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
 
     } 
     if(strcmp(a[choice[0]][choice[1]],"PLACE ORDER")==0){
-        printw("Order has been placed. Press any key to continue");
-        refresh();
-        getch();
-        clear();
-        endwin();
         PlaceOrder(userdetails->id);
-        
-
     }
     else if(strcmp(a[choice[0]][choice[1]],"BACK")==0){
         endwin();
