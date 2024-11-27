@@ -34,7 +34,7 @@ void showproducts(int count,Product* b, int row, int col) {
 
     const char *box[] = {
         "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n",
-        "|                                                                                                                                                                                                        |\n",
+        "|                       %s                                                                                                                                                                                 |\n",
         "|                                                                                                                                                                                                        |\n",
         "|                                                                                                                                                                                                        |\n",
         "|                                                                                                                                                                                                        |\n",
@@ -68,11 +68,11 @@ void showproducts(int count,Product* b, int row, int col) {
         attroff(COLOR_PAIR(1));
 
         for (int i = 0; i < sizer; i++) {
-            
+
             if (i == tco[0]&&tco[1]==0) {
                 attron(COLOR_PAIR(2));
                 for (int j = 0; j < 9; j++) { // Render the main box
-                    mvprintw(row * (1 + 2 * i) + j, col, box[j]);   //get_product_by_id(b[i]->id)->name
+                    mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);   //get_product_by_id(b[i]->id)->name
 
                 }
                 attroff(COLOR_PAIR(2));
@@ -101,7 +101,7 @@ void showproducts(int count,Product* b, int row, int col) {
                 attron(COLOR_PAIR(2));
 
                 for (int j = 0; j < 9; j++) { // Render the main box
-                    mvprintw(row * (1 + 2 * i) + j, col, box[j]);
+                    mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);
 
                 }
 
@@ -124,9 +124,9 @@ void showproducts(int count,Product* b, int row, int col) {
             else{
 
                 attron(COLOR_PAIR(1));
-
+                
                 for (int j = 0; j < 9; j++) { // Render the main box
-                    mvprintw(row * (1 + 2 * i) + j, col, box[j]);
+                    mvprintw(row * (1 + 2 * i) + j, col, box[j],b[i].name);
 
                 }
 
