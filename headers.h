@@ -18,7 +18,7 @@ int countCallback(void *count, int argc, char **argv, char **azColName);
 int getISTTime();
 void get_valid_login(int row, char *label, char *buffer, int max_length, int (*validate)(char *),void page());
 int is_valid_email_for_login(char *email);
-
+char* get_date_from_time(time_t timestamp);
 //login-signup.c
 extern User* userdetails;
 void authpage(void);
@@ -98,9 +98,15 @@ void cast_row_to_order_struct(Order *orderObject, char **values);
 // customer/customer-home.c
 void menu1(void);
 void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, int column);
+extern char *selected_cat;
 
 //customer-filters.c
-void filtertest();
+extern int *numberofprods;
+void filter1(void);
+
+//customer-products.c
+void filtertest(Product* prods,int* count);
+void showproducts(int count,Product* b, int row, int col);
 
 // admin/home.c
 int admin_home();

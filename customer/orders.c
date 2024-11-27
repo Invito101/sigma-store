@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "../headers.h"
 #include <ncurses.h>
-
+int totalamt;
 static OrderLL order;
 void LoadLL(int userId){ //first free anything if something is there, then extract from sql
     OrderItem* current = order.nextitem;
@@ -77,21 +77,57 @@ int DecreaseItemQuantity(int id, int userId) { // returns 0 if successful, retur
 }
 
 void PlaceOrder(int userId) {
-    LoadLL(userId);
-    OrderItem* current = order.nextitem;
-    OrderItem* temp;
-    place_order(userId);
-    while (current != NULL) {
-        temp = current;
-        current = current->nextitem;
-        free(temp);
+    char *email = userdetails->email;
+    int current_money = get_money_of_user(email);
+    if(totalamt==0){
+        initscr();
+        raw();
+        clear();
+        mvprintw(5, 5, "You cannot place an order without adding anything to your cart!");
+        mvprintw(7, 5, "Press any key to return to the main menu...");
+        refresh();
+        getch(); 
+        endwin();
+        menu1(); 
     }
-    order.nextitem = NULL;
+    else if (current_money >= totalamt) {
+        modify_money_of_user(email,current_money-totalamt);
+        LoadLL(userId);
+        OrderItem* current = order.nextitem;
+        OrderItem* temp;
+        place_order(userId);
+        // free linked list
+        while (current != NULL) {
+            temp = current;
+            current = current->nextitem;
+            free(temp);
+        }
+        order.nextitem = NULL;
+        initscr();
+        raw();
+        clear();
+        mvprintw(5, 5, "Order placed successfully!");
+        mvprintw(7, 5, "Press any key to return to the main menu...");
+        refresh();
+        getch(); 
+        endwin();
+        menu1();
+    } else {
+        initscr();
+        raw();
+        clear();
+        mvprintw(5, 5, "Insufficient funds to place the order.");
+        mvprintw(7, 5, "Press any key to return to the main menu...");
+        refresh();
+        getch(); 
+        endwin();
+        menu1(); 
+    }
 }
 
 void DisplayCart(int userId) {
     int size;
-    int totalamt = 0;
+    totalamt=0;
     Cart* cartitems = get_cart_items(userId, &size);
     initscr();
     raw();
@@ -130,12 +166,13 @@ void DisplayCart(int userId) {
             int subtotal = price * quantity;
             totalamt += subtotal;
 
-            attron(COLOR_PAIR(2));
-            mvprintw(4 + i, 5, "%d. %s", i + 1, name);
-            mvprintw(4 + i, 30, "Price: %d", price);
-            mvprintw(4 + i, 45, "Qty: %d", quantity);
-            mvprintw(4 + i, 60, "Subtotal: %d", subtotal);
-            attroff(COLOR_PAIR(2));
+                attron(COLOR_PAIR(2));
+                mvprintw(4 + i, 5, "%-50.50s", name);         
+                mvprintw(4 + i, 60, "Price: %-5d", price);     
+                mvprintw(4 + i, 75, "Qty: %-3d", quantity);   
+                mvprintw(4 + i, 85, "Subtotal: %-7d", subtotal); 
+                attroff(COLOR_PAIR(2));
+
             }
             
 

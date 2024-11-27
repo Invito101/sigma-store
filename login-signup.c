@@ -22,15 +22,16 @@ int main(void) {
     
     create_tables();
     // // Books
-    // create_product("The Great Gatsby", 299, "A classic novel by F. Scott Fitzgerald", "Books", "Penguin Classics");
-    // create_product("Introduction to Algorithms", 1500, "Comprehensive guide on algorithms", "Books", "MIT Press");
-    // create_product("Harry Potter and the Philosopher's Stone", 499, "Fantasy novel by J.K. Rowling", "Books", "Bloomsbury");
-    // create_product("Sapiens: A Brief History of Humankind", 799, "By Yuval Noah Harari", "Books", "Harper Perennial");
-    // create_product("Atomic Habits", 599, "Practical guide to building good habits", "Books", "Penguin Random House");
+    //create_product("The Great Gatsby", 299, "A classic novel by F. Scott Fitzgerald", "Books", "Penguin Classics");
+    //create_product("Introduction to Algorithms", 1500, "Comprehensive guide on algorithms", "Books", "MIT Press");
+    //create_product("Harry Potter and the Philosopher's Stone", 499, "Fantasy novel by J.K. Rowling", "Books", "Bloomsbury");
+    //create_product("Sapiens: A Brief History of Humankind", 799, "By Yuval Noah Harari", "Books", "Harper Perennial");
+    //create_product("Atomic Habits", 599, "Practical guide to building good habits", "Books", "Penguin Random House");
+    create_product("yoo hoo", 69, "skibidi", "Books", "among us");
 
     // // Electronics
-    // create_product("Wireless Headphones", 1999, "Bluetooth over-ear headphones", "Electronics", "Sony");
-    // create_product("Smartphone", 24999, "Android device with 128GB storage", "Electronics", "Samsung");
+    //create_product("Wireless Headphones", 1999, "Bluetooth over-ear headphones", "Electronics", "Sony");
+    //create_product("Smartphone", 24999, "Android device with 128GB storage", "Electronics", "Samsung");
     // create_product("Laptop", 54999, "15-inch laptop with 8GB RAM", "Electronics", "Dell");
     // create_product("Smartwatch", 9999, "Fitness tracker with heart rate monitoring", "Electronics", "Apple");
     // create_product("Bluetooth Speaker", 3499, "Portable speaker with deep bass", "Electronics", "JBL");
