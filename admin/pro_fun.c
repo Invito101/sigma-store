@@ -62,16 +62,16 @@ void create_product1(){
     int selected = selectany1(7,categ);
     strncpy(category, categ[selected], max_len);
     for(int i=0;i<7;i++){
-        move(15+i,10);
+        move(15+i,60);
         clrtoeol();
     }
 
     attron(COLOR_PAIR(1));
-    mvprintw(15,10, "Category: ");
+    mvprintw(15,60, "Category: ");
     attroff(COLOR_PAIR(1));
 
     attron(COLOR_PAIR(2));
-    mvprintw(15,20, "%s",category);
+    mvprintw(15,70, "%s",category);
     attroff(COLOR_PAIR(2));
     refresh();
     get_valid_input_for_product(16, "Manufactured by",manufacturedBy, max_len, is_valid_manufacturedBy);
@@ -175,7 +175,7 @@ void modify_product1(){
     int selected = selectany1(7,categ);
     strncpy(new_category, categ[selected], max_len);
     for(int i=0;i<7;i++){
-        move(15+i,10);
+        move(15+i,60);
         clrtoeol();
     }
 
@@ -184,7 +184,7 @@ void modify_product1(){
     attroff(COLOR_PAIR(1));
 
     attron(COLOR_PAIR(2));
-    mvprintw(15,60, "%s",new_category);
+    mvprintw(15,70, "%s",new_category);
     attroff(COLOR_PAIR(2));
     refresh();
     get_valid_input_for_product(16, "Manufactured by ",new_manufactured_by, max_len, is_valid_manufacturedBy);
@@ -261,13 +261,13 @@ int selectany1(int n,const char *a[]) {
         for(int i=0;i<sizea;i++){
             if(i==tco){
                 attron(COLOR_PAIR(2));
-                mvprintw(15+i,20,"> %s",a[i]);
+                mvprintw(15+i,70,"> %s",a[i]);
                 attroff(COLOR_PAIR(2));
                 refresh();
             }
             else{
                 attron(COLOR_PAIR(1));
-                mvprintw(15+i,20,"  %s",a[i]);
+                mvprintw(15+i,70,"  %s",a[i]);
                 attroff(COLOR_PAIR(1));
                 refresh();
             }
