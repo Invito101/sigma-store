@@ -671,13 +671,14 @@ void order_history1(){
     
     char ch12=getch();
     check_for_back(&ch12);
-    mvprintw(11,10,"%d",size);
+    
     
     if (size==0)
     {
         attron(COLOR_PAIR(1));
         mvprintw(12,10,"Your History Is Empty");
         attroff(COLOR_PAIR(1));
+        refresh();
     }
     else{
         for (int i=0;i<size;i++)
@@ -688,6 +689,7 @@ void order_history1(){
 
             mvprintw(11+i,20,"%d",comp_orders[i].items->quantity);
             attroff(COLOR_PAIR(1));
+            refresh();
         }
     }
     

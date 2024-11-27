@@ -240,14 +240,7 @@ void view_particular(){
     mvprintw(7, 33, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
     refresh();
-    void check_for_back(const char *input) {
-        if (strcmp(input, "b") == 0) {
-            clear();
-            endwin();
-            admin_home();
-            exit(0); // Ensure the function exits immediately
-        }
-    }
+    
     char name[max_len];
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
