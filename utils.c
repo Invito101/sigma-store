@@ -84,9 +84,9 @@ void get_valid_input(int row, char *label, char *buffer, int max_length, int (*v
         move(row, 10);
         clrtoeol();
 
-        attron(COLOR_PAIR(1));
+        attron(COLOR_PAIR(1)|A_BOLD);
         mvprintw(row, 10, "%s: ", label);
-        attroff(COLOR_PAIR(1));
+        attroff(COLOR_PAIR(1)|A_BOLD);
         refresh();
 
         attron(COLOR_PAIR(2));
@@ -119,9 +119,9 @@ void get_valid_login(int row, char *label, char *buffer, int max_length, int (*v
         move(row, 10);
         clrtoeol();
 
-        attron(COLOR_PAIR(1));
+        attron(COLOR_PAIR(1)|A_BOLD);
         mvprintw(row, 10, "%s: ", label);
-        attroff(COLOR_PAIR(1));
+        attroff(COLOR_PAIR(1)|A_BOLD);
         refresh();
 
         attron(COLOR_PAIR(2));
@@ -139,9 +139,9 @@ void get_valid_login(int row, char *label, char *buffer, int max_length, int (*v
 
         if (validate == NULL || validate(buffer)) { // Checks for valid input if required per the case.
             if(is_email_taken(buffer)==0){
-                attron(COLOR_PAIR(1));
+                attron(COLOR_PAIR(1)|A_BOLD);
                 mvprintw(row + 1, 10, "This account does not exist. Please sign up.");
-                attroff(COLOR_PAIR(1));
+                attroff(COLOR_PAIR(1)|A_BOLD);
                 refresh();
                 getch();
                 page();

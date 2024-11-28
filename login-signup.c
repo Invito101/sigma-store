@@ -3,12 +3,12 @@
 void authpage(void){
     initscr();
     clear();
-    mvprintw(5, 75, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
-mvprintw(6, 80, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
-mvprintw(7, 80, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
-mvprintw(8, 80, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
-mvprintw(9, 80, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
-mvprintw(10, 80, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+    mvprintw(5, 65, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+mvprintw(6, 70, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+mvprintw(7, 70, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+mvprintw(8, 70, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+mvprintw(9, 70, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+mvprintw(10, 70, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
 refresh();
 
@@ -24,7 +24,7 @@ refresh();
     };
 
     // Clear the screen and show options
-    buttonselect2d(3, 2, a, b,-10,105);
+    buttonselect2d(3, 2, a, b,-10,95);
     // Cleanup ncurses
 
 refresh();
@@ -120,18 +120,31 @@ void signup() {
     start_color();
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
+    init_pair(3, COLOR_BLUE , COLOR_BLACK);
 
+
+    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+    attron(COLOR_PAIR(3));
+    attron(A_BOLD);
+    mvprintw(10, 10, "SIGNUP FORM (Press Escape To Exit)");
+    attroff(A_BOLD);
+    attroff(COLOR_PAIR(3));
     attron(COLOR_PAIR(1));
-    mvprintw(2, 10, "Signup Form (Press Escape To Exit)");
-    mvprintw(3, 10, "Press Enter to submit each field, and type carefully:");
+    mvprintw(12, 10, "Press Enter to submit each field, and type carefully:");
     attroff(COLOR_PAIR(1));
     refresh();
 
-    get_valid_input(5, "Name", name, max_length, is_valid_name);
-    get_valid_input(6, "Email", email, max_length, is_valid_email);
-    attron(COLOR_PAIR(1));
-    mvprintw(7, 10, "Password: ");
-    attroff(COLOR_PAIR(1));
+    get_valid_input(14, "Name", name, max_length, is_valid_name);
+    get_valid_input(16, "Email", email, max_length, is_valid_email);
+    attron(COLOR_PAIR(1)|A_BOLD);
+    mvprintw(18, 10, "Password: ");
+    attroff(COLOR_PAIR(1)|A_BOLD);
     refresh();
     attron(COLOR_PAIR(2));
     noecho();
@@ -140,12 +153,12 @@ void signup() {
         if (ch == KEY_BACKSPACE || ch == 127) {
             if (index > 0) {
                 index--;
-                mvaddch(7, 20 + index, ' '); 
-                move(7, 20 + index);
+                mvaddch(18, 20 + index, ' '); 
+                move(18, 20 + index);
             }
         } else if (index < max_length - 1) {
             password[index++] = ch;
-            mvaddch(7, 20 + index - 1, '*'); 
+            mvaddch(18, 20 + index - 1, '*'); 
         }
     }
     password[index] = '\0';
@@ -155,10 +168,10 @@ void signup() {
     attroff(COLOR_PAIR(2));
     echo();
 
-    get_valid_input(8, "Phone Number", phoneNumber, max_length, is_valid_phone);
-    get_valid_input(9, "Address", address, max_length, NULL);
-    get_valid_input(10, "Pincode", pincode, max_length, is_valid_pincode);
-    get_valid_input(11, "State", state, max_length, NULL);
+    get_valid_input(20, "Phone Number", phoneNumber, max_length, is_valid_phone);
+    get_valid_input(22, "Address", address, max_length, NULL);
+    get_valid_input(24, "Pincode", pincode, max_length, is_valid_pincode);
+    get_valid_input(26, "State", state, max_length, NULL);
     clear();
 
     char *admin_domain = "@sigmastore.in";
@@ -167,30 +180,45 @@ void signup() {
     } else {
         create_customer(name, email, password, phoneNumber, address, atoi(pincode), state);
     }
-    attron(COLOR_PAIR(1));
-    mvprintw(5, 10, "Signup Successful! Here's the data you entered:");
-    mvprintw(6, 10, "Name:");
-    mvprintw(7, 10, "Email:");
-    mvprintw(8, 10, "Password:");
-    mvprintw(9, 10, "Phone Number:");
-    mvprintw(10, 10, "Address:");
-    mvprintw(11, 10, "Pincode:");
-    mvprintw(12, 10, "State:");
-    attroff(COLOR_PAIR(1));
+   
+
+    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+
+
+    
+
+  attron(COLOR_PAIR(3)| A_BOLD);
+    mvprintw(10, 10, "Signup Successful! Here's the data you entered:");
+     attron(COLOR_PAIR(3) | A_BOLD);
+     attron(COLOR_PAIR(1)|A_BOLD);
+    mvprintw(14, 10, "Name:");
+    mvprintw(16, 10, "Email:");
+    mvprintw(18, 10, "Password:");
+    mvprintw(20, 10, "Phone Number:");
+    mvprintw(22, 10, "Address:");
+    mvprintw(24, 10, "Pincode:");
+    mvprintw(26, 10, "State:");
+    attroff(COLOR_PAIR(1)|A_BOLD);
     attron(COLOR_PAIR(2));
-    mvprintw(6, 30, "%s", name);
-    mvprintw(7, 30, "%s", email);
-    mvprintw(8, 30, "%s (hidden during entry)", password);
-    mvprintw(9, 30, "%s", phoneNumber);
-    mvprintw(10, 30, "%s", address);
-    mvprintw(11, 30, "%s", pincode);
-    mvprintw(12, 30, "%s", state);
+    mvprintw(14, 30, "%s", name);
+    mvprintw(16, 30, "%s", email);
+    mvprintw(18, 30, "%s (hidden during entry)", password);
+    mvprintw(20, 30, "%s", phoneNumber);
+    mvprintw(22, 30, "%s", address);
+    mvprintw(24, 30, "%s", pincode);
+    mvprintw(26, 30, "%s", state);
     attroff(COLOR_PAIR(2));
     refresh();
 
-    attron(COLOR_PAIR(1));
-    mvprintw(15, 10, "Press any key to return to the menu.");
-    attroff(COLOR_PAIR(1));
+
+    mvprintw(LINES - 2, 10, "Press any key to return to the menu.");
+
     getch();
     main();
 }
@@ -207,19 +235,30 @@ void login1(){
     start_color();
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
-    init_pair(3,COLOR_RED,COLOR_BLACK);
+    init_pair(3, COLOR_BLUE , COLOR_BLACK);
+    init_pair(4, COLOR_RED , COLOR_BLACK);
 
+    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+    attron(COLOR_PAIR(3)|A_BOLD);
+    mvprintw(10, 10, "Login (Press Escape To Exit)");
+    attroff(COLOR_PAIR(3)|A_BOLD);
     attron(COLOR_PAIR(1));
-    mvprintw(2, 10, "Login (Press Escape To Exit)");
-    mvprintw(3, 10, "Press Enter to submit each field:");
+    mvprintw(12, 10, "Press Enter to submit each field:");
     attroff(COLOR_PAIR(1));
 
     refresh();
-    get_valid_login(5, "Email", email, max_length, is_valid_email_for_login,authpage);
-    attron(COLOR_PAIR(1));
-    refresh();
+    get_valid_login(14, "Email", email, max_length, is_valid_email_for_login,authpage);
     
-    mvprintw(7, 10, "Password: ");
+    refresh();
+    attron(COLOR_PAIR(1)|A_BOLD);
+    mvprintw(16, 10, "Password: ");
+    attroff(COLOR_PAIR(1)|A_BOLD);
     refresh();
     attron(COLOR_PAIR(2));
     noecho();
@@ -229,17 +268,17 @@ void login1(){
         int ch, index = 0;
 
         
-        attron(COLOR_PAIR(1));
-        mvprintw(7, 10, "Password: ");
-        attroff(COLOR_PAIR(1));
+        attron(COLOR_PAIR(1)|A_BOLD);
+        mvprintw(16, 10, "Password: ");
+        attroff(COLOR_PAIR(1)|A_BOLD);
         refresh();
 
         
         attron(COLOR_PAIR(2));
         for (int i = 0; i < max_length; i++) {
-            mvaddch(7, 20 + i, ' ');
+            mvaddch(16, 20 + i, ' ');
         }
-        move(7, 20);
+        move(16, 20);
         refresh();
         attroff(COLOR_PAIR(2));
 
@@ -251,12 +290,12 @@ void login1(){
             if (ch == KEY_BACKSPACE || ch == 127) {
                 if (index > 0) {
                     index--;
-                    mvaddch(7, 20 + index, ' '); 
-                    move(7, 20 + index);
+                    mvaddch(16, 20 + index, ' '); 
+                    move(16, 20 + index);
                 }
             } else if (index < max_length - 1) {
                 password[index++] = ch;
-                mvaddch(7, 20 + index - 1, '*'); 
+                mvaddch(16, 20 + index - 1, '*'); 
             }
         }
         password[index] = '\0'; // adding null terminator
@@ -269,16 +308,16 @@ void login1(){
         userdetails = login(email, password);
         if (userdetails == NULL) {
             // Wrong password
-            attron(COLOR_PAIR(3));
-            mvprintw(8, 10, "Wrong password, please try again.");
-            attroff(COLOR_PAIR(3));
+            attron(COLOR_PAIR(4));
+            mvprintw(18, 10, "Wrong password, please try again.");
+            attroff(COLOR_PAIR(4));
             refresh();
         } else {
             // Correct password
             move(8,10);
             clrtoeol();
             refresh();
-            mvprintw(8, 10, "Login successful! Press any key to continue.");
+            mvprintw(18, 10, "Login successful! Press any key to continue.");
             refresh();
             getch();
             break;
@@ -301,4 +340,5 @@ void login1(){
 void quit(){
 
     clear();
+
 }

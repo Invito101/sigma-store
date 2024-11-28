@@ -541,8 +541,23 @@ void complete_order1(){
         return;
     }
 
+                    int pad_rows = 2*count+2;
+    int pad_cols = 500;
+    WINDOW *pad2 = newpad(pad_rows, pad_cols);
+    if (pad2 == NULL) {
+        endwin();
+        printf("Error creating pad.\n");
+        return;
+
+    }
+
+
     int choice=0;
     int ch;
+            int start_row = 0, start_col = 0 ,start_col2 = 0;
+    int display_rows = LINES < 30 ? LINES : 30;
+    int display_cols = COLS < 220 ? COLS : 220;
+
 
     while (true) {
         clear();
@@ -562,19 +577,23 @@ void complete_order1(){
         attroff(COLOR_PAIR(1));
         refresh();
         // Display categories
+
         for (int i = 0; i < count; i++) {
             if (i == choice) {
-                attron(COLOR_PAIR(2));
-                mvprintw(12 + i, 53, "> %d", orders[i].id);
-                mvprintw(12 + i, 70, "%d", orders[i].userId);
-                attroff(COLOR_PAIR(2));
+                wattron(pad2,COLOR_PAIR(2));
+                mvwprintw(pad2,i, 53, "> %d", orders[i].id);
+                mvwprintw( pad2,i, 70, "%d", orders[i].userId);
+                wattroff(pad2,COLOR_PAIR(2));
             } else {
-                attron(COLOR_PAIR(1));
-                mvprintw(12 + i, 55, "%d", orders[i].id);
-                mvprintw(12 + i, 70, "%d", orders[i].userId);
-                attroff(COLOR_PAIR(1));
+                wattron(pad2,COLOR_PAIR(1));
+                mvwprintw(pad2, i, 53, "  %d", orders[i].id);
+                mvwprintw( pad2,i, 70, "%d", orders[i].userId);
+                wattroff(pad2,COLOR_PAIR(1));
             }
         }
+
+            prefresh(pad2, start_row, start_col, 12, 0, 10 + display_rows - 1, display_cols - 1);
+
 
         mvprintw(LINES - 2, 3, "Use arrow keys to navigate | Enter to select | b to go back | q to quit.");
         refresh();
@@ -591,12 +610,27 @@ void complete_order1(){
 
         switch (ch) {
             case KEY_UP:
-                choice = (choice == 0) ? count - 1 : choice - 1;
+                
+                choice = (choice == 0) ? 0 : choice - 1;
+                
+                start_row--;
+                prefresh(pad2, start_row , start_col, 12, 0, 10 + display_rows - 1, display_cols - 1);
+                
+                
+
                 break;
             case KEY_DOWN:
-                choice = (choice == count - 1) ? 0 : choice + 1;
+                choice = (choice == count - 1) ? count - 1: choice + 1;
+                
+                start_row++;
+                prefresh(pad2,start_row, start_col, 12, 0, 10 + display_rows - 1, display_cols - 1);
+                
                 break;
+
+
+
             case '\n': {
+                delwin(pad2);
                 clear();
                 // Validate choice and items
                 if (choice < 0 || choice >= count) {
@@ -619,14 +653,17 @@ void complete_order1(){
                     getch();
 
                     if (ch == 'b' || ch == 'B'){
+                       
                         break;
                     }
                     if (ch == 'q' || ch == 'Q'){
                         endwin();
+                        
                         exit(0);
                     }
                 }
                 // Display order details
+                
                 while (true) {
                     clear();
                     attron(COLOR_PAIR(2));

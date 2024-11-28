@@ -268,15 +268,7 @@ void view_particular(){
     attron(COLOR_PAIR(1));
     mvprintw(25,10,"Press 'b' And Press Enter Key To Go Back To Main Menu.");
     attroff(COLOR_PAIR(1));
-    int ch11=getch();
-    if(ch11==27)
-    {
-        clear();
-        endwin();
-        admin_home();
-        exit(0);
-
-    }
+   
     
     get_valid_input_for_existing_product(12, "Name of the product: ", name, max_len, is_valid_name);
     
@@ -500,6 +492,7 @@ prefresh(header, 0, start_col2, 14, 10, 14, display_cols - 1);
             delwin(pad2);
             delwin(header);
             endwin();
+            free(products);
             admin_home();
 }
 
@@ -712,6 +705,7 @@ void view_bestsellers(){
             clear();
             delwin(pad2);
             endwin();
+            free(products);
             admin_home();
 
 
@@ -923,6 +917,7 @@ void view_highest_rated(){
             clear();
             delwin(pad2);
             endwin();
+            free(products);
             admin_home();
 
 
