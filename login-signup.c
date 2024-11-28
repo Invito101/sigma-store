@@ -295,10 +295,10 @@ void login1(){
         menu1();
     }
     flag=0;
-    free(userdetails); // Clean up simulated user
 }
 
 void quit(){
 
     clear();
+    exit(0);
 }
