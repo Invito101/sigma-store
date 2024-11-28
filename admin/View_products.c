@@ -378,7 +378,7 @@ void view_all_products(){
     attron(A_BOLD);
     mvprintw(10,90,"%s","PRODUCT INFORMATION");
     attroff(A_BOLD);
-    mvprintw(LINES - 2,10,"Use keys to see all products.Press Enter to return to home page.");
+    mvprintw(LINES - 2,10,"Use keys to see all products. Press Enter to return to home page.");
     attroff(COLOR_PAIR(3));
     refresh();
 
