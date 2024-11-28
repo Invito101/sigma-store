@@ -3,14 +3,7 @@
 User* userdetails;
 
 int main(){
-
-    
-    // for (int hh=0;hh<20;hh++)
-    // {
-    //     add_item_to_cart(1,10,10);
-    // }
-    // place_order(1);
-    // mark_order_as_delivered(2);
+    srand(time(NULL));
 
     int file = open("stderr_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (file == -1) {
