@@ -616,6 +616,7 @@ void view_bestsellers(){
 
                 for (int i = 0; i < count2; i++) {
                     if (strcmp(products[i].category, categories[category_choice]) == 0) {
+                        int filtered_indices[count2];
                         filtered_indices[filtered_count++] = i;
                     }
                 }
@@ -822,11 +823,11 @@ void view_highest_rated(){
                 attroff(A_BOLD);
                 attroff(COLOR_PAIR(3));
                 refresh();
-                int filtered_indices[count2];
                 int filtered_count = 0;
 
                 for (int i = 0; i < count2; i++) {
                     if (strcmp(products[i].category, categories[category_choice]) == 0) {
+                        int filtered_indices[count2];
                         filtered_indices[filtered_count++] = i;
                     }
                 }
