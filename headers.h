@@ -39,7 +39,6 @@ char* decrypt(char *text);
 sqlite3* open_db(void);
 void close_db(sqlite3 *db);
 int create_tables(void);
-int init_db(void);
 
 // db/users/users-utils.c
 void cast_row_to_user_struct(User *userObject, char **values);
@@ -54,6 +53,7 @@ int get_money_of_user(char *email);
 int modify_money_of_user(char *email, int new_money);
 int get_id_of_user_by_email(char *email);
 User* login(char *email, char *password);
+User* get_user_by_id(int userId);
 
 // db/products/products.c
 int create_product(char *name, int price, char *description, char *category, char *manufacturedBy);
