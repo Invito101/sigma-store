@@ -333,12 +333,13 @@ refresh();*/
 
     //Product* selected_product = b[choice[0]];
 
+    if(flag==1){
+        break;
+    }
 
     c[choice[1]](b[choice[0]].id, userdetails->id);
 
-    if(flag==1){
-        break;
-    }  
+    
     }
     menu1();
 
