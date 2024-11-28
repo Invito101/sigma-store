@@ -472,6 +472,7 @@ prefresh(header, 0, start_col2, 14, 10, 14, display_cols - 1);
 
             clear();
             delwin(pad2);
+            delwin(header);
             endwin();
             admin_home();
 }
@@ -559,7 +560,19 @@ void view_bestsellers(){
                 // Display products under the selected category
                 clear();
                     int count2 = count_all_category_products(categories[category_choice]);
+                                    if (count2 == 0) {
+                    clear();
+                    mvprintw(3, 10, "No products available.");
+                    mvprintw(LINES - 1, 3, "Press Enter to go back.");
+                    refresh();
+                    getch();
+                    clear();
+                    endwin();
+                    admin_home();
+
+                }
                     Product *products = get_all_category_products_top_sold(&count2,categories[category_choice]);
+
                     if (products == NULL) {
                         endwin();
                         fprintf(stderr, "Failed to retrieve products.\n");
@@ -633,19 +646,21 @@ void view_bestsellers(){
     prefresh(pad2, start_row, start_col, 15, 10, 10 + display_rows - 1, display_cols - 1);
 
     int ch;
+    WINDOW *header = newpad( 1, 500); 
         
         while(true){
-        attron(COLOR_PAIR(1));
-        attron(A_BOLD);
-        mvprintw( 14, 10, "NAME:");       // Print product name
-        mvprintw( 14, 80, "PRICE:"); 
-        mvprintw( 14, 90, "ID:"); 
-        mvprintw( 14, 100, "NUMBER OF BUYERS:");
-        mvprintw( 14, 120, "NUMBER OF RATINGS:");
-        mvprintw( 14, 145, "RATINGS:");
-        attroff(A_BOLD);
-        attroff(COLOR_PAIR(1));
-        refresh();
+        wattron(header,COLOR_PAIR(1));
+        wattron(header,A_BOLD);
+        mvwprintw( header,0, 10, "NAME:");       // Print product name
+        mvwprintw( header,0, 80, "PRICE:"); 
+        mvwprintw( header,0, 90, "ID:"); 
+        mvwprintw( header,0, 100, "NUMBER OF BUYERS:");
+        mvwprintw( header,0, 120, "NUMBER OF RATINGS:");
+        mvwprintw( header,0, 145, "RATINGS:");
+        wattroff(header,A_BOLD);
+        wattroff(header,COLOR_PAIR(1));
+        prefresh(header, 0, 0, 14, 0, 14, display_cols - 1);
+        
         ch = getch();
 
         if (ch=='\n') break;
@@ -671,6 +686,7 @@ void view_bestsellers(){
 
             clear();
             delwin(pad2);
+            delwin(header);
             endwin();
             admin_home();
 
@@ -716,6 +732,7 @@ void view_highest_rated(){
 
     int category_choice = 0;
     int ch;
+    
 
     while (true) {
         clear();
@@ -757,6 +774,17 @@ void view_highest_rated(){
                 // Display products under the selected category
                 clear();
                     int count2 = count_all_category_products(categories[category_choice]);
+                                    if (count == 0) {
+                    clear();
+                    mvprintw(3, 10, "No products available.");
+                    mvprintw(LINES - 1, 3, "Press Enter to go back.");
+                    refresh();
+                    getch();
+                    clear();
+                    endwin();
+                    admin_home();
+
+                }
                     Product *products = get_all_category_products_top_rated(&count2,categories[category_choice]);
                     if (products == NULL) {
                         endwin();
@@ -831,19 +859,21 @@ void view_highest_rated(){
     prefresh(pad2, start_row, start_col, 15, 10, 10 + display_rows - 1, display_cols - 1);
 
     int ch;
+    WINDOW *header = newpad( 1, 500); 
         
         while(true){
-        attron(COLOR_PAIR(1));
-        attron(A_BOLD);
-        mvprintw( 14, 10, "NAME:");       // Print product name
-        mvprintw( 14, 80, "PRICE:"); 
-        mvprintw( 14, 90, "ID:"); 
-        mvprintw( 14, 145, "NUMBER OF BUYERS:");
-        mvprintw( 14, 120, "NUMBER OF RATINGS:");
-        mvprintw( 14, 100, "RATINGS:");
-        attroff(A_BOLD);
-        attroff(COLOR_PAIR(1));
-        refresh();
+        wattron(header, COLOR_PAIR(1));
+        wattron(header, A_BOLD);
+        mvwprintw(header, 0, 10, "NAME:");       // Print product name
+        mvwprintw(header, 0, 80, "PRICE:"); 
+        mvwprintw(header, 0, 90, "ID:"); 
+        mvwprintw(header, 0, 145, "NUMBER OF BUYERS:");
+        mvwprintw(header, 0, 120, "NUMBER OF RATINGS:");
+        mvwprintw( header,0, 100, "RATINGS:");
+        wattroff(header, A_BOLD);
+        wattroff(header, COLOR_PAIR(1));
+        prefresh(header, 0, 0, 14, 0, 14, display_cols - 1);
+
         ch = getch();
 
         if (ch=='\n') break;
@@ -869,6 +899,7 @@ void view_highest_rated(){
 
             clear();
             delwin(pad2);
+            delwin(header);
             endwin();
             admin_home();
 
