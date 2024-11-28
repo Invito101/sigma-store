@@ -2,10 +2,7 @@
 #include <ncurses.h>
 #include "../headers.h"
 
-void showproducts(int count,Product* b, int row, int col,int starter,int chooser);
-
-
-void showproducts(int count,Product* b, int row, int col,int starter,int chooser) {
+void showproducts(int count, Product* b, int row, int col,int starter,int chooser) {
     
     clear();
 
