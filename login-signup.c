@@ -71,6 +71,9 @@ int main(void) {
     // create_product("Air Purifier", 12999, "HEPA filter air purifier", "Home and Kitchen", "Philips");
     // create_product("Electric Kettle", 1299, "1.5L stainless steel kettle", "Home and Kitchen", "Borosil");
     // Open a file to store stderr
+    add_item_to_cart(1,30,1);
+    place_order(1);
+    mark_order_as_delivered(1);
 
     int file = open("stderr_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (file == -1) {
