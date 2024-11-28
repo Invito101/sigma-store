@@ -38,7 +38,7 @@ int main(void) {
     //create_product("Smartphone", 24999, "Android device with 128GB storage", "Electronics", "Samsung");
     // create_product("Laptop", 54999, "15-inch laptop with 8GB RAM", "Electronics", "Dell");
     // create_product("Smartwatch", 9999, "Fitness tracker with heart rate monitoring", "Electronics", "Apple");
-    // create_product("Bluetooth Speaker", 3499, "Portable speaker with deep bass", "Electronics", "JBL");
+     create_product("Bluetooth Speaker", 3499, "Portable speaker with deep bass", "Electronics", "JBL");
 
     // // Fashion
     // create_product("Leather Jacket", 3999, "Men's black leather jacket", "Fashion", "Zara");

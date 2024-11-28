@@ -77,7 +77,7 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
         mvprintw(1,2, "Welcome to %s. Press 'b' to go back to menu.",selected_cat);
         attroff(COLOR_PAIR(1));
 
-        for (int i = starter; i < starter+5; i++) {
+        for (int i = starter; i < stopper; i++) {
         
             char buffer[1000];
             if (i == tco[0]&&tco[1]==0) {

@@ -129,8 +129,8 @@ void filter1(void){
         {"Sort by price(Low to high)"}
     };
     Product* (*b[2][1])(int*,char*) = {
-        {get_all_category_products},
-        {get_all_category_products}
+        {get_all_category_products_price_desc},
+        {get_all_category_products_price_asc}
     };
 
     // Clear the screen and show options
