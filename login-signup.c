@@ -96,7 +96,7 @@ void signup() {
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
 
     attron(COLOR_PAIR(1));
-    mvprintw(2, 10, "Signup Form");
+    mvprintw(2, 10, "Signup Form (Press Escape To Exit)");
     mvprintw(3, 10, "Press Enter to submit each field, and type carefully:");
     attroff(COLOR_PAIR(1));
     refresh();
@@ -111,6 +111,9 @@ void signup() {
     noecho();
     int ch, index = 0;
     while ((ch = getch()) != '\n') {
+        if(ch==27){
+            main();
+        }
         if (ch == KEY_BACKSPACE || ch == 127) {
             if (index > 0) {
                 index--;
@@ -181,7 +184,7 @@ void login1(){
     init_pair(3,COLOR_RED,COLOR_BLACK);
 
     attron(COLOR_PAIR(1));
-    mvprintw(2, 10, "Login");
+    mvprintw(2, 10, "Login (Press Escape To Exit)");
     mvprintw(3, 10, "Press Enter to submit each field:");
     attroff(COLOR_PAIR(1));
 
@@ -219,6 +222,9 @@ void login1(){
         attron(COLOR_PAIR(2));
         index = 0; 
         while ((ch = getch()) != '\n') {
+            if(ch==27){
+                main();
+            }
             if (ch == KEY_BACKSPACE || ch == 127) {
                 if (index > 0) {
                     index--;
