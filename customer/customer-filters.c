@@ -136,8 +136,8 @@ void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,cha
 
 void filter1(void){
     const char* a[2][2] = {
-    {"Sort by price(High to low)", "Sort by price(Low to high)"},
-    {"Sort by number of sales(High to low)", "Sort by ratings(High to low)"}
+    {"Sort by Price (Descending)", "Sort by Price (Ascending)"},
+    {"Sort by Number of Sales (Descending)", "Sort by Ratings(Descending)"}
 };
 
     Product* (*b[2][2])(int*, char*) = {
