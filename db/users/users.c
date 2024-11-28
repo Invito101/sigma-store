@@ -243,7 +243,7 @@ User* get_user_by_id(int userId){
     }
 
     char *values[11];
-    for (int i = 0; i < 1; i++){
+    for (int i = 0; i < 11; i++){
         values[i] = (char *) sqlite3_column_text(stmt, i);
     }
 

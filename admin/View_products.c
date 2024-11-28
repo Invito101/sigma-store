@@ -47,7 +47,9 @@ int view_category_wise(){
     while (true) {
         clear();
         attron(COLOR_PAIR(2));
+        attron(A_BOLD);
         mvprintw(10, 55, "Select a category:");
+        attroff(A_BOLD);
         attroff(COLOR_PAIR(2));
 
         mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
