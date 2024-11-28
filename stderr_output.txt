@@ -1,1 +1,5 @@
+<<<<<<< HEAD
+This error message will go to stderr_output.txt
+=======
 Errors:
+>>>>>>> origin/main

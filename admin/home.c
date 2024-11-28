@@ -7,7 +7,6 @@
 int view_all(void);
 void quit2(void);
 int admin_home(void) {
-    create_tables();
     // Initialize ncurses
     initscr();
     
@@ -32,23 +31,25 @@ void quit2() {
 int view_all()
 {
     clear();
-    const char *aa[5][2] = {
+    const char *aa[6][2] = {
         {"View products by category","View all products"},
         {"View a particular product","Create product"},
         {"Delete product","Modify product"},
         {"View Bestselling Products", "View Top Rated Products"},
-        {"Complete order","Order History"}
+        {"Complete order","Order History"},
+        {"Settings","Quit"}
     };
-    void (*bb[5][2])() = {
+    void (*bb[6][2])() = {
         {(void *)view_category_wise,view_all_products},
         {view_particular,create_product1},
         {delete_product1,modify_product1},
         {view_bestsellers,view_highest_rated},
-        {complete_order1,order_history1}
+        {complete_order1,order_history1},
+        {settings2,quit2}
     };
 
 
-    int m = 5;
+    int m = 6;
     int n = 2;
     int choice[2]={0,0};
     int tco[2] = {0,0}; //the_chosen_one
@@ -72,10 +73,7 @@ int view_all()
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
     init_pair(3, COLOR_BLUE , COLOR_BLACK);
     init_pair(4, COLOR_YELLOW , COLOR_YELLOW);
-    attron(COLOR_PAIR(3));
-    mvprintw(LINES-2,5,"Press q to quit.");
-    
-    attroff(COLOR_PAIR(3));
+
     refresh();
 
 char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
@@ -170,10 +168,11 @@ refresh();
             for (int j = 0; j < sizec; j++) {
                 int row;
                 if (i==0) row = 36 - 20;
-                else if (i==1) row = 36 - 15;
-                else if (i==2) row = 36 - 10;
-                else if (i==3) row = 36 - 5;
-                else if (i==4) row = 36;
+                else if (i==1) row = 36 - 16;
+                else if (i==2) row = 36 - 12;
+                else if (i==3) row = 36 - 8;
+                else if (i==4) row = 36 - 4;
+                else if (i==5) row = 36;
                 int col= j==0? 5:55;
 
                 if (i == tco[0] && j == tco[1]) {
@@ -228,10 +227,7 @@ refresh();
             else
                 tco[1]-=1;
         }
-        else if(ch == 'Q'|| ch == 'q'){
-            endwin();
-            exit(0);
-        }
+
 
         
         else
@@ -324,3 +320,19 @@ void selectany1func(int n,const char *a[],void (*b[])()) {
     endwin();
 }
 
+void settings2() {
+    clear();
+
+    // Define the labels and corresponding functions for the buttons
+    const char *a[1][2] = {
+        {"BACK", "LOGOUT"}
+    };
+    void (*b[1][2])() = {
+        {admin_home, authpage} // Map "Back" to menu1 and "Logout" to login1
+    };
+
+    // Use buttonselect2d to display the buttons
+    buttonselect2d(1, 2, a, b, 5, 50);
+    refresh();
+    getch();
+}
