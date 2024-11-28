@@ -19,8 +19,6 @@ void quit(void);
 
 
 int main(void) {
-    
-    create_tables();
     // Books
     create_product("The Great Gatsby", 299, "A classic novel by F. Scott Fitzgerald", "Books", "Penguin Classics");
     create_product("Introduction to Algorithms", 1500, "Comprehensive guide on algorithms", "Books", "MIT Press");
@@ -112,11 +110,27 @@ int main(void) {
     create_product("Hiking Backpack", 4499, "50L trekking backpack", "Sports and Fitness", "Osprey");
 
     // Games
-    // create_product("Chess Set", 999, "Wooden chess board with pieces", "Games", "Handcrafted Creations");
-    // create_product("Playing Cards", 199, "Standard deck of 52 cards", "Games", "Bicycle");
-    // create_product("Board Game - Monopoly", 1499, "Classic property trading game", "Games", "Hasbro");
-    // create_product("Jigsaw Puzzle", 499, "1000-piece nature scenery puzzle", "Games", "Ravensburger");
-    // create_product("Video Game - Elden Ring", 3999, "Action role-playing game", "Games", "Bandai Namco");
+    create_product("Chess Set", 999, "Wooden chess board with pieces", "Games", "Handcrafted Creations");
+    create_product("Playing Cards", 199, "Standard deck of 52 cards", "Games", "Bicycle");
+    create_product("Board Game - Monopoly", 1499, "Classic property trading game", "Games", "Hasbro");
+    create_product("Jigsaw Puzzle", 499, "1000-piece nature scenery puzzle", "Games", "Ravensburger");
+    create_product("Video Game - Elden Ring", 3999, "Action role-playing game", "Games", "Bandai Namco");
+    create_product("Rubik's Cube", 499, "3x3 classic cube puzzle", "Games", "Rubik's");
+    create_product("Puzzle Cube Set", 899, "Set of 5 unique cubes", "Games", "Gan");
+    create_product("UNO Cards", 399, "Fun card game for all ages", "Games", "Mattel");
+    create_product("Scrabble", 1499, "Word-building board game", "Games", "Hasbro");
+    create_product("Clue", 1299, "Mystery solving board game", "Games", "Hasbro");
+    create_product("Snakes and Ladders", 499, "Classic board game", "Games", "Funskool");
+    create_product("Dart Board", 1999, "Professional dartboard set", "Games", "Winmau");
+    create_product("Toy Train Set", 2999, "Electric toy train set", "Games", "Fisher-Price");
+    create_product("Racing Game", 3999, "Car racing video game", "Games", "Electronic Arts");
+    create_product("Role-Playing Dice Set", 999, "7-dice set for tabletop RPGs", "Games", "Chessex");
+    create_product("Beyblade", 799, "Spinning battle top", "Games", "Takara Tomy");
+    create_product("Model Building Kit", 1999, "Build and paint model set", "Games", "Tamiya");
+    create_product("Magic: The Gathering Cards", 2999, "Fantasy card deck", "Games", "Wizards of the Coast");
+    create_product("Catan", 2499, "Strategy board game", "Games", "Catan Studio");
+    create_product("Laser Tag Guns", 4999, "Indoor laser tag set", "Games", "Nerf");
+
 
     // // Edibles
     // create_product("Dark Chocolate", 299, "Rich and creamy chocolate", "Edibles", "Lindt");
@@ -131,6 +145,8 @@ int main(void) {
     // create_product("Non-Stick Cookware Set", 2999, "5-piece cookware set", "Home and Kitchen", "Prestige");
     // create_product("Air Purifier", 12999, "HEPA filter air purifier", "Home and Kitchen", "Philips");
     // create_product("Electric Kettle", 1299, "1.5L stainless steel kettle", "Home and Kitchen", "Borosil");
+
+    
     // Open a file to store stderr
 
     int file = open("stderr_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
