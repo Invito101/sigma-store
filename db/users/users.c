@@ -211,3 +211,45 @@ int modify_money_of_user(char *email, int new_money){
 
     return 0;
 }
+
+User* get_user_by_id(int userId){
+    sqlite3 *db = open_db();
+
+    User *user = malloc(sizeof(User));
+    if (!user) {
+        fprintf(stderr, "%s: Memory allocation failed\n", __func__);
+        close_db(db);
+        return NULL;
+    }
+
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT * FROM Users WHERE id = ?";
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
+        fprintf(stderr, "%s : Failed to prepare statement: %s\n", __func__, sqlite3_errmsg(db));
+        close_db(db);
+        free(user);
+        return NULL;
+    }
+
+    sqlite3_bind_int(stmt, 1, userId);
+
+    if (sqlite3_step(stmt) != SQLITE_ROW){
+        fprintf(stderr, "%s : Failed to get record: %s\n", __func__, sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        close_db(db);
+        free(user);
+        return NULL;
+    }
+
+    char *values[11];
+    for (int i = 0; i < 1; i++){
+        values[i] = (char *) sqlite3_column_text(stmt, i);
+    }
+
+    cast_row_to_user_struct(user, values);
+
+    sqlite3_finalize(stmt);
+    close_db(db);
+    return user;
+}

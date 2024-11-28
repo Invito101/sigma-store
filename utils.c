@@ -93,6 +93,10 @@ void get_valid_input(int row, char *label, char *buffer, int max_length, int (*v
         echo();
         getnstr(buffer, max_length);
         noecho();
+        if (buffer[0] == 27 && buffer[1] == '\0') { // check for escape + enter
+        main(); 
+        return;
+        }
         attroff(COLOR_PAIR(2));
 
         move(row + 1, 10); // makes sure it doesnt clash with any error message
@@ -124,6 +128,10 @@ void get_valid_login(int row, char *label, char *buffer, int max_length, int (*v
         echo();
         getnstr(buffer, max_length);
         noecho();
+        if (buffer[0] == 27 && buffer[1] == '\0') { //escape+enter
+        main(); 
+        return;
+}
         attroff(COLOR_PAIR(2));
 
         move(row + 1, 10); // makes sure it doesnt clash with any error message

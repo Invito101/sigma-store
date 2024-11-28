@@ -26,8 +26,7 @@ int main(){
 
     fprintf(stderr, "Errors:\n");
 
-    create_tables();
-    init_db();
+    // create_tables();
 
     initscr();
     clear();

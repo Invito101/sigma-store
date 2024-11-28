@@ -512,7 +512,7 @@ void complete_order1(){
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
 
-    int count;
+    int count=0;
     Order *orders = get_all_pending_orders(&count);
     if (count == 0) {
         attron(COLOR_PAIR(2));
@@ -530,13 +530,13 @@ void complete_order1(){
         return;
     }
 
-    int choice;
+    int choice=0;
     int ch;
 
     while (true) {
         clear();
         attron(COLOR_PAIR(2));
-        mvprintw(10, 55, "Select the order and press Enter to view order details.");
+        mvprintw(9, 55, "Select the order and press Enter to view order details.");
         attroff(COLOR_PAIR(2));
 
         mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
@@ -546,7 +546,7 @@ void complete_order1(){
         mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
         mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
         attron(COLOR_PAIR(1));
-        mvprintw(9, 55, "Order ID");
+        mvprintw(10, 55, "Order ID");
         mvprintw(10, 70, "User ID");
         attroff(COLOR_PAIR(1));
         refresh();
@@ -554,12 +554,12 @@ void complete_order1(){
         for (int i = 0; i < count; i++) {
             if (i == choice) {
                 attron(COLOR_PAIR(2));
-                mvprintw(12 + i, 55, "> %d", orders[i].id);
+                mvprintw(12 + i, 53, "> %d", orders[i].id);
                 mvprintw(12 + i, 70, "%d", orders[i].userId);
                 attroff(COLOR_PAIR(2));
             } else {
                 attron(COLOR_PAIR(1));
-                mvprintw(12 + i, 57, "%d", orders[i].id);
+                mvprintw(12 + i, 55, "%d", orders[i].id);
                 mvprintw(12 + i, 70, "%d", orders[i].userId);
                 attroff(COLOR_PAIR(1));
             }
@@ -581,11 +581,33 @@ void complete_order1(){
                 choice = (choice == count - 1) ? 0 : choice + 1;
                 break;
             case '\n': {
+                clear();
+                // Validate choice and items
+                if (choice < 0 || choice >= count) {
+                    mvprintw(LINES - 2, 3, "Invalid choice.");
+                    refresh();
+                    getch();
+                    break;
+                }
+
+                if (orders[choice].items == NULL || orders[choice].size <= 0) {
+                     mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+                    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+                    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+                    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+                    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+                    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+                    mvprintw(15, 60, "No items in this order.");
+                    mvprintw(LINES-2, 3, "Press b to go back.");
+                    refresh();
+                    getch();
+                    break;
+                }
                 // Display order details
                 while (true) {
                     clear();
                     attron(COLOR_PAIR(2));
-                    mvprintw(9, 10, "Do you want to approve the order of '%d'? (y/n)", orders[choice].userId);
+                    mvprintw(9, 55, "Do you want to approve the order of '%d'? (y/n)", orders[choice].userId);
                     attroff(COLOR_PAIR(2));
 
                     mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
@@ -598,16 +620,16 @@ void complete_order1(){
                     refresh();
 
                     attron(COLOR_PAIR(1));
-                    mvprintw(9, 55, "Order ID: '%d'",orders[choice].id);
-                    mvprintw(9, 70, "User ID: '%d'",orders[choice].userId);
+                    mvprintw(10, 10, "Order ID: '%d'",orders[choice].id);
+                    mvprintw(10, 70, "User ID: '%d'",orders[choice].userId);
                     mvprintw(11,55,"Product ID");
                     mvprintw(11,70,"Quantity");
                     attroff(COLOR_PAIR(1));
 
                     for (int i=0; i<orders[choice].size; i++){
                         attron(COLOR_PAIR(2));
-                        mvprintw(13+i,55,"%d. %d",i+1,orders[choice].items->productId);
-                        mvprintw(13+i,70,"%d. %d",i+1,orders[choice].items->quantity);
+                        mvprintw(13+i,55,"%d. %d",i+1,orders[choice].items[i].productId);
+                        mvprintw(13+i,70,"%d. %d",i+1,orders[choice].items[i].quantity);
                         attroff(COLOR_PAIR(2));
                     }
 

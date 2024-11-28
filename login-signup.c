@@ -96,7 +96,7 @@ void signup() {
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
 
     attron(COLOR_PAIR(1));
-    mvprintw(2, 10, "Signup Form");
+    mvprintw(2, 10, "Signup Form (Press Escape To Exit)");
     mvprintw(3, 10, "Press Enter to submit each field, and type carefully:");
     attroff(COLOR_PAIR(1));
     refresh();
@@ -123,6 +123,9 @@ void signup() {
         }
     }
     password[index] = '\0';
+    if (password[0]==27 && password[1]=='\0'){//escape case
+    main();
+    }
     attroff(COLOR_PAIR(2));
     echo();
 
@@ -181,7 +184,7 @@ void login1(){
     init_pair(3,COLOR_RED,COLOR_BLACK);
 
     attron(COLOR_PAIR(1));
-    mvprintw(2, 10, "Login");
+    mvprintw(2, 10, "Login (Press Escape To Exit)");
     mvprintw(3, 10, "Press Enter to submit each field:");
     attroff(COLOR_PAIR(1));
 
@@ -232,6 +235,9 @@ void login1(){
         }
         password[index] = '\0'; // adding null terminator
         attroff(COLOR_PAIR(2));
+        if(password[0]==27 && password[1]=='\0'){// escape case
+            main();
+        }
         echo();
 
         userdetails = login(email, password);
