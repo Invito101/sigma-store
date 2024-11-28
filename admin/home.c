@@ -7,7 +7,6 @@
 int view_all(void);
 void quit2(void);
 int admin_home(void) {
-    create_tables();
     // Initialize ncurses
     initscr();
     
