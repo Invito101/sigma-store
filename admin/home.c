@@ -328,7 +328,7 @@ void settings2() {
         {"BACK", "LOGOUT"}
     };
     void (*b[1][2])() = {
-        {admin_home, authpage} // Map "Back" to menu1 and "Logout" to login1
+        {(void*)admin_home, authpage} // Map "Back" to menu1 and "Logout" to login1
     };
 
     // Use buttonselect2d to display the buttons

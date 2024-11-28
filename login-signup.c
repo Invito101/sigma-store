@@ -2,7 +2,10 @@
 
 void authpage(void){
     initscr();
+        start_color();
+
     clear();
+
     mvprintw(5, 75, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
 mvprintw(6, 80, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
 mvprintw(7, 80, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
@@ -298,7 +301,8 @@ void login1(){
 }
 
 void quit(){
-
+    initscr();
     clear();
+    endwin();
     exit(0);
 }

@@ -91,7 +91,7 @@ void exitprogram(){
     clear();
     endwin();
     exit(0);
-}
+    }
 
 void menu1(void){
 
