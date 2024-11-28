@@ -106,7 +106,7 @@ void filter1(void);
 
 //customer-products.c
 void filtertest(Product* prods,int* count);
-void showproducts(int count,Product* b, int row, int col,int starter,int chooser);
+void showproducts(int count, Product* b, int row, int col,int starter,int chooser);
 
 // admin/home.c
 int admin_home();
