@@ -10,9 +10,9 @@ int admin_home(void) {
     // Initialize ncurses
     initscr();
     
-    
     // Clear the screen and show options
     clear();
+    
 
     view_all();
 
@@ -134,11 +134,8 @@ refresh();
   }
 
 
-
-
     int start_row = 0, start_col = 0 ;
     int display_rows = LINES < 30 ? LINES : 30;
-    int display_cols = COLS < 100 ? COLS : 100;
     prefresh(pad2, start_row, start_col, 8, 126,  10 +display_rows - 4, COLS - 2);
 
 
@@ -328,7 +325,7 @@ void settings2() {
         {"BACK", "LOGOUT"}
     };
     void (*b[1][2])() = {
-        {admin_home, authpage} // Map "Back" to menu1 and "Logout" to login1
+        {(void*)admin_home, authpage} // Map "Back" to menu1 and "Logout" to login1
     };
 
     // Use buttonselect2d to display the buttons

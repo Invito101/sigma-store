@@ -11,7 +11,7 @@ int *numberofprods=&zero;
 
 
 void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,char*),int row, int column) {
-  
+    int flag=0;
     int choice[2]={0,0};
     int tco[2] = {0,0}; //the_chosen_one
     
@@ -19,8 +19,6 @@ void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,cha
     int sizec=n;
     int ch;
 
-    //char opencircle[]="\u25EF";
-    //char closedcircle[]="\u2B24";
 
     initscr();
     raw();
@@ -33,6 +31,10 @@ void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,cha
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+
+    attron(COLOR_PAIR(1));
+    mvprintw(5,75,"Select a filter. Press 'b' to go back to menu");
+    attroff(COLOR_PAIR(1));
 
     while(true){
     
@@ -92,13 +94,17 @@ void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,cha
             else
                 tco[1]-=1;
         }
+        else if(ch=='b'){
+            flag=1;
+            break;
+        }
 
 
         else
         continue;
 
     } 
-    
+    if(flag==0){
     clear();
     
     Product* products= (b[choice[0]][choice[1]])(numberofprods,selected_cat);
@@ -121,20 +127,28 @@ void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,cha
 
     endwin();
     }
+    }
+    else{
+        menu1();
+        return;
+    }
 }
 
 void filter1(void){
     const char* a[2][2] = {
-        "Sort by price(High to low)",
-        "Sort by price(Low to high)","Sort by number of sales(High to low)","Sort by ratings(High to low)"
-    };
-    Product* (*b[2][2])(int*,char*) = {
-        get_all_category_products_price_desc,
-        get_all_category_products_price_asc,get_all_category_products_top_sold,get_all_category_products_top_rated
-    };
+    {"Sort by Price (Descending)", "Sort by Price (Ascending)"},
+    {"Sort by Number of Sales (Descending)", "Sort by Ratings(Descending)"}
+};
+
+    Product* (*b[2][2])(int*, char*) = {
+    {get_all_category_products_price_desc, get_all_category_products_price_asc},
+    {get_all_category_products_top_sold, get_all_category_products_top_rated}
+};
+
 
     // Clear the screen and show options
     
 
-    filterselect2d(2, 2, a, b,25,40);
+    filterselect2d(2, 2, a, b,15,40);
 }
+

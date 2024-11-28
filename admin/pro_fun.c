@@ -6,15 +6,7 @@
 #include <ncurses.h> // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 #define max_len 100
-void check_for_back(int input) {
-        if (input==27) {
-            clear();
-            endwin();
-            admin_home();
-            exit(0); // Ensure the function exits immediately
-        }
-        
-    }
+
 
 
 void create_product1(){   
@@ -46,12 +38,16 @@ void create_product1(){
 
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
-    init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+    
 
     attron(COLOR_PAIR(1));
-    mvprintw(9, 10, "Create a new product:");
-    mvprintw(10, 10, "Press Enter to submit each field, and type carefully:");
+    mvprintw(9, 10, "Create A New Product:");
+    mvprintw(10, 10, "Press Enter To Submit Each Field, And Type Carefully:");
     attroff(COLOR_PAIR(1));
+    
+    mvprintw(LINES-2,10,"Press ESC and ENTER to go back to main menu");
+    
     refresh();
 
     get_valid_input_for_product(12, "Name", name, max_len, is_valid_product_name);
@@ -89,19 +85,19 @@ void create_product1(){
     refresh();
     if (sf==0){
     attron(COLOR_PAIR(1));
-    mvprintw(5, 60, "Product created successfully! Here's the data you entered:");
-    mvprintw(6, 60, "Name:");
-    mvprintw(7, 60, "Price:");
-    mvprintw(8, 60, "Description:");
-    mvprintw(9, 60, "Category:");
-    mvprintw(10, 60, "Manufactured by:");
+    mvprintw(9, 60, "Product created successfully! Here's the data you entered:");
+    mvprintw(10, 60, "Name:");
+    mvprintw(11, 60, "Price:");
+    mvprintw(12, 60, "Description:");
+    mvprintw(13, 60, "Category:");
+    mvprintw(14, 60, "Manufactured by:");
     attroff(COLOR_PAIR(1));
     attron(COLOR_PAIR(2));
-    mvprintw(6, 80, "%s", name);
-    mvprintw(7, 80, "%s", price);
-    mvprintw(8, 80, "%s", description);
-    mvprintw(9, 80, "%s", category);
-    mvprintw(10, 80, "%s", manufacturedBy);
+    mvprintw(10, 80, "%s", name);
+    mvprintw(11, 80, "%s", price);
+    mvprintw(12, 80, "%s", description);
+    mvprintw(13, 80, "%s", category);
+    mvprintw(14, 80, "%s", manufacturedBy);
     attroff(COLOR_PAIR(2));
     refresh();
     }
@@ -111,12 +107,12 @@ void create_product1(){
     mvprintw(10, 10, "Product not created.");
     attroff(COLOR_PAIR(1));
     }
-    attron(COLOR_PAIR(1));
-    mvprintw(15, 10, "Press any key to return to the menu.");
-    attroff(COLOR_PAIR(1));
-    getch();
+    
+    mvprintw(LINES-2, 10, "Press 'b' to go back to main menu");
+
+    if (getch()=='b'){
     endwin();
-    admin_home();
+    admin_home();}
     
 }
 
@@ -151,7 +147,7 @@ void modify_product1(){
     char new_description[max_len], new_category[max_len], new_manufactured_by[max_len];
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
     init_pair(2, COLOR_YELLOW, COLOR_BLACK); 
-    init_pair(3,COLOR_BLUE,COLOR_BLACK);
+    
     attron(COLOR_PAIR(3));
     mvprintw(8, 60, "Modify The Product :");
     mvprintw(9, 60, "Press Enter To Submit Each Field, And Type Carefully: ");
@@ -163,21 +159,21 @@ void modify_product1(){
     // check_for_back(&ch1);
 
 
-    attron(COLOR_PAIR(3));
-    mvprintw(25,60,"Press 'b' And Press Enter Key To Go Back To Main Menu.");
-    attroff(COLOR_PAIR(3));
+   
+    mvprintw(LINES-2,60,"Press ESC And Press Enter Key To Go Back To Main Menu.");
+    
 
     get_valid_input_for_existing_product(11, "Name Of The Product Do You Wanna Modify: ", name, max_len, is_valid_name);
-    check_for_back(name);
+    
     
 
     get_valid_input_for_product(12, "New Name ", new_name, max_len, is_valid_name);
-    check_for_back(new_name);
+    
 
     get_valid_input_for_product(13, "New Price ", new_price, max_len, is_numeric);
-    check_for_back(new_price);
+    
     get_valid_input_for_product(14, "New Description ",new_description, max_len, NULL);
-    check_for_back(new_description);
+    
 
     const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
@@ -196,7 +192,7 @@ void modify_product1(){
     attroff(COLOR_PAIR(2));
     refresh();
     get_valid_input_for_product(16, "Manufactured by ",new_manufactured_by, max_len, is_valid_manufacturedBy);
-    check_for_back(new_manufactured_by);
+    
 
     int sf = modify_product(name,new_name,atoi(new_price),new_description,new_category,new_manufactured_by);
     clear();
@@ -232,9 +228,9 @@ void modify_product1(){
     mvprintw(10, 60, "Product not created.");
     attroff(COLOR_PAIR(1));
     }
-    attron(COLOR_PAIR(1));
-    mvprintw(20, 60, "Press any key to return to the menu.");
-    attroff(COLOR_PAIR(1));
+   
+    mvprintw(LINES-2, 60, "Press 'b' To go back to main menu");
+   
     
     getch();
     endwin();
@@ -353,7 +349,9 @@ void delete_product1() {
     while (true) {
         clear();
         attron(COLOR_PAIR(2));
+        attron(A_BOLD);
         mvprintw(9, 55, "Select a category:");
+        attroff(A_BOLD);
         attroff(COLOR_PAIR(2));
 
         mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
@@ -573,22 +571,35 @@ void complete_order1(){
         mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
         attron(COLOR_PAIR(1));
         mvprintw(10, 55, "Order ID");
-        mvprintw(10, 70, "User ID");
+        mvprintw(10, 75, "Name");
+        mvprintw(10, 95, "Email ID");
+        mvprintw(10, 135, "Phone number");
+        mvprintw(10, 150, "Order placed on");
         attroff(COLOR_PAIR(1));
         refresh();
         // Display categories
 
         for (int i = 0; i < count; i++) {
             if (i == choice) {
-                wattron(pad2,COLOR_PAIR(2));
-                mvwprintw(pad2,i, 53, "> %d", orders[i].id);
-                mvwprintw( pad2,i, 70, "%d", orders[i].userId);
-                wattroff(pad2,COLOR_PAIR(2));
+                attron(COLOR_PAIR(2));
+                mvprintw(12 + i, 53, "> %d", orders[i].id);
+                User *user = get_user_by_id(orders[i].userId);
+                mvprintw(12 + i, 75, "%s", user->name);
+                mvprintw(12 + i, 95, "%s", user->email);
+                mvprintw(12 + i, 135, "%s",user->phoneNumber);
+                char*p = get_date_from_time(user->createdAt);
+                mvprintw(12 + i, 150, "%s",p);
+                attroff(COLOR_PAIR(2));
             } else {
-                wattron(pad2,COLOR_PAIR(1));
-                mvwprintw(pad2, i, 53, "  %d", orders[i].id);
-                mvwprintw( pad2,i, 70, "%d", orders[i].userId);
-                wattroff(pad2,COLOR_PAIR(1));
+                attron(COLOR_PAIR(1));
+                mvprintw(12 + i, 55, "%d", orders[i].id);
+                User *user = get_user_by_id(orders[i].userId);
+                mvprintw(12 + i, 75, "%s", user->name);
+                mvprintw(12 + i, 95, "%s", user->email);
+                mvprintw(12 + i, 135, "%s",user->phoneNumber);
+                char*p = get_date_from_time(user->createdAt);
+                mvprintw(12 + i, 150, "%s",p);
+                attroff(COLOR_PAIR(1));
             }
         }
 
@@ -667,7 +678,10 @@ void complete_order1(){
                 while (true) {
                     clear();
                     attron(COLOR_PAIR(2));
-                    mvprintw(9, 55, "Do you want to approve the order of '%d'? (y/n)", orders[choice].userId);
+                    attron(A_BOLD);
+                    User *user = get_user_by_id(orders[choice].userId);
+                    mvprintw(9, 55, "Do you want to approve the order of '%s'? (y/n)", user->name);
+                    attroff(A_BOLD);
                     attroff(COLOR_PAIR(2));
 
                     mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
@@ -680,16 +694,20 @@ void complete_order1(){
                     refresh();
 
                     attron(COLOR_PAIR(1));
-                    mvprintw(10, 55, "Order ID: '%d'",orders[choice].id);
-                    mvprintw(10, 85, "User ID: '%d'",orders[choice].userId);
-                    mvprintw(12,55,"Product ID");
-                    mvprintw(12,70,"Quantity");
+                    attron(A_BOLD);
+                    mvprintw(11, 55, "Order ID: %d",orders[choice].id);
+                    mvprintw(11, 75, "Phone number: %s", user->phoneNumber);
+                    mvprintw(13,55,"Product");
+                    mvprintw(13,105,"Quantity");
+                    attroff(A_BOLD);
                     attroff(COLOR_PAIR(1));
 
                     for (int i=0; i<orders[choice].size; i++){
                         attron(COLOR_PAIR(2));
-                        mvprintw(13+i,55,"%d. %d",i+1,orders[choice].items[i].productId);
-                        mvprintw(13+i,70,"%d. %d",i+1,orders[choice].items[i].quantity);
+                        Product *product = get_product_by_id(orders[choice].items[i].productId);
+                        mvprintw(14+i,55,"%d. %s",i+1,product->name);
+                        mvprintw(14+i,105,"%d",orders[choice].items[i].quantity);
+
                         attroff(COLOR_PAIR(2));
                     }
 
@@ -762,12 +780,16 @@ void order_history1(){
     refresh();
     init_pair(1, COLOR_GREEN, COLOR_BLACK);  
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+    
 
     attron(COLOR_PAIR(1));
     mvprintw(8,70,"-----------------");
     mvprintw(9,70,"| ORDER HISTORY |");
     mvprintw(10,70,"-----------------");
     attroff(COLOR_PAIR(1));
+    
+    mvprintw(35,10,"Press 'b' to go back to main menu");
+    
     int size;
     Order *comp_orders=get_all_completed_orders(&size);
     
@@ -795,7 +817,9 @@ void order_history1(){
     for (int i = 0; i < size; i++) {
         wattron(pad2, COLOR_PAIR(2));
         mvwprintw(pad2, i + k, 0, "%d", comp_orders[i].id);
-        mvwprintw(pad2,  i + k, 10, "%d", comp_orders[i].items->userId);
+        User *users=get_user_by_id(comp_orders[i].userId);
+        mvwprintw(pad2,  i + k, 10, "%s", users->name);
+        free(users);
 
         for (int j = 0; j < comp_orders[i].size; j++) {
             Product *p11 = get_product_by_id(comp_orders[i].items[j].productId);
@@ -805,7 +829,7 @@ void order_history1(){
                 free(p11);  // Free product after use
             }
         }
-        mvwprintw(pad2, i + k, 100, "%d", comp_orders[i].createdAt);
+        mvwprintw(pad2, i + k, 100, "%s", get_date_from_time(comp_orders[i].createdAt));
         wattroff(pad2, COLOR_PAIR(2));
         k += comp_orders[i].size;
     
@@ -815,7 +839,7 @@ void order_history1(){
     }
 
     int start_row = 0, start_col = 0 ,start_col2 = 0;
-    int display_rows = LINES < 15 ? LINES : 15;
+    int display_rows = LINES < 20 ? LINES : 20;
     int display_cols = COLS < 220 ? COLS : 220;
     prefresh(pad2, start_row, start_col, 14, 30, 10 + display_rows - 1, display_cols - 1);
     int ch;
@@ -823,13 +847,17 @@ void order_history1(){
     {
         attron(COLOR_PAIR(1));
         mvprintw(12,30,"Order ID");
-        mvprintw(12,40,"User ID");
+        mvprintw(12,40,"Name");
         mvprintw(12,60,"Product Name");
         mvprintw(12,110,"Quantity");
-        mvprintw(12,130,"Created At");
+        mvprintw(12,130,"Order Placed On");
         prefresh(pad2, start_row, start_col, 14, 30, 10+display_rows - 1, display_cols - 1);
         ch=getch();
-        if (ch=='\n') break;
+        if (ch=='b') {
+            clear();
+            endwin();
+            delwin(pad2);
+            admin_home();}
         else if (ch== KEY_UP){
                 if (start_row > 0) start_row--;
                 prefresh(pad2, start_row, start_col, 14, 30, 10+display_rows - 1, display_cols - 1);
@@ -850,19 +878,16 @@ void order_history1(){
         }
         else continue;
     }
+
     
 
-    int  ch12 = getch();
-    check_for_back(ch12);
+    
 
    
     if (comp_orders) {
         free(comp_orders);
     }
-    clear();
-    endwin();
-    delwin(pad2);
-    admin_home();
+    
 }
     
 

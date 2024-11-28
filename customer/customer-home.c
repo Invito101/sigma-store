@@ -24,8 +24,10 @@ void wallet() {
     clear();
      char *email = userdetails->email;
     int current_money = get_money_of_user(email);
+    float random_float = (float)rand() / (float)RAND_MAX;
+    int final_money = (int) (random_float * 1000000);
     mvprintw(1, 5, "Wallet Balance: %d", current_money);
-    mvprintw(3, 5, "Solve the question to earn 1000!");
+    mvprintw(3, 5, "Solve the question to earn %d!", final_money);
     mvprintw(5, 5, "What is 2 + 2 / 2?");
     mvprintw(7, 5, "Your Answer: ");
     refresh();
@@ -34,9 +36,9 @@ void wallet() {
     getstr(input);
     noecho();
     if (strcmp(input, "3") == 0) {
-        current_money += 1000;
+        current_money += final_money;
         modify_money_of_user(email, current_money);
-        mvprintw(9, 5, "Correct! 1000 has been added to your wallet.");
+        mvprintw(9, 5, "Correct! %d has been added to your wallet.", final_money);
         mvprintw(10, 5, "New Wallet Balance: %d", current_money);
     } else {
         mvprintw(9, 5, "Incorrect! No money added.");
@@ -87,8 +89,11 @@ void settings() {
 }
 
 void exitprogram(){
-    //ends the program
-}
+    initscr();
+    clear();
+    endwin();
+    exit(0);
+    }
 
 void menu1(void){
 
@@ -115,7 +120,7 @@ refresh();
     };
 
     // Clear the screen and show options
-    buttonselect2d(3, 2, a, b,5,90);
+    buttonselect2d(3, 2, a, b,5,102);
     // Cleanup ncurses
 
 refresh();

@@ -11,7 +11,7 @@
 #include <ctype.h>
 #include <wchar.h>
 
-#ifndef HEADERS_H   // Prevents multiple inclusion
+#ifndef HEADERS_H
 #define HEADERS_H
 
 //main.c
@@ -19,7 +19,6 @@ int main();
 
 
 // utils.c
-void clrscr(void);
 time_t parseDateToTimeT(char *dateStr);
 int countCallback(void *count, int argc, char **argv, char **azColName);
 int getISTTime();
@@ -153,7 +152,7 @@ void delete_product1();
 int selectany1(int n,const char *a[]);
 void complete_order1();
 void order_history1();
-void check_for_back(int input);
+
 
 
 

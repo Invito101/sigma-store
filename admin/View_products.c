@@ -47,7 +47,9 @@ int view_category_wise(){
     while (true) {
         clear();
         attron(COLOR_PAIR(2));
+        attron(A_BOLD);
         mvprintw(10, 55, "Select a category:");
+        attroff(A_BOLD);
         attroff(COLOR_PAIR(2));
 
         mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
@@ -244,12 +246,12 @@ void view_particular(){
     curs_set(0);
    
     keypad(stdscr, TRUE);
-    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
-    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
-    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
-    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
-    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
-    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+    mvprintw(1,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(2, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(3, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(4, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(5, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(6, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
     refresh();
     
@@ -265,9 +267,9 @@ void view_particular(){
     attroff(COLOR_PAIR(1));
     refresh();
     
-    attron(COLOR_PAIR(1));
-    mvprintw(25,10,"Press 'b' And Press Enter Key To Go Back To Main Menu.");
-    attroff(COLOR_PAIR(1));
+    
+    mvprintw(25,10,"Press ESC And Press ENTER Key To Go Back To Main Menu.");
+    
    
     
     get_valid_input_for_existing_product(12, "Name of the product: ", name, max_len, is_valid_name);
@@ -283,15 +285,16 @@ void view_particular(){
     }
     else{
         clear();
-
-    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
-    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
-    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
-    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
-    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
-    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+    mvprintw(1,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(2, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(3, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(4, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(5, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(6, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
     refresh();
+
+
     attron(COLOR_PAIR(1));
     mvprintw(10, 10, "The Details Of Your Products Are: ");
     mvprintw(14, 10, "Name: ");
@@ -314,15 +317,13 @@ void view_particular(){
     mvprintw(21,36,"%d",products->amountBought);
     attroff(COLOR_PAIR(2));
     refresh();
+    mvprintw(LINES-2,10,"Press 'b' to go to main menu");
     
-    int ch12=getch();
-    if(ch12==27)
+    if(getch()=='b')
     {
         clear();
         endwin();
         admin_home();
-        exit(0);
-
     }
 
 
@@ -377,7 +378,7 @@ void view_all_products(){
     attron(A_BOLD);
     mvprintw(10,90,"%s","PRODUCT INFORMATION");
     attroff(A_BOLD);
-    mvprintw(LINES - 2,10,"Use keys to see all products.Press Enter to return to home page.");
+    mvprintw(LINES - 2,10,"Use keys to see all products. Press Enter to return to home page.");
     attroff(COLOR_PAIR(3));
     refresh();
 
@@ -532,7 +533,7 @@ void view_bestsellers(){
 
 
     // Extract unique categories
-    const char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int category_count = 7;
 
 
@@ -559,7 +560,7 @@ void view_bestsellers(){
         }
 
         attron(COLOR_PAIR(3));
-        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to select, q to quit.");
+        mvprintw(LINES - 2, 10, "Use arrow keys to navigate, Enter to select, q to quit.");
         attroff(COLOR_PAIR(3));
         refresh();
 
@@ -607,23 +608,23 @@ void view_bestsellers(){
 
                 attron(A_BOLD);
                 attron(COLOR_PAIR(3));
-                mvprintw(10, 0, "Bestsellers in %s", categories[category_choice]);
+                mvprintw(10,10, "Bestsellers in %s", categories[category_choice]);
                 mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to go back.");
                 attroff(A_BOLD);
                 attroff(COLOR_PAIR(3));
                 refresh();
-                int filtered_indices[count2];
                 int filtered_count = 0;
 
                 for (int i = 0; i < count2; i++) {
                     if (strcmp(products[i].category, categories[category_choice]) == 0) {
+                        int filtered_indices[count2];
                         filtered_indices[filtered_count++] = i;
                     }
                 }
 
                 if (filtered_count == 0) {
                     mvprintw(3, 10, "No products available in this category.");
-                    mvprintw(LINES - 1, 3, "Use arrow keys to navigate, Enter to delete, b to go back.");
+                    mvprintw(LINES - 1, 10, "Use arrow keys to navigate, Enter to delete, b to go back.");
                     refresh();
                     getch();
                     break;
@@ -744,7 +745,7 @@ void view_highest_rated(){
 
 
     // Extract unique categories
-    const char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int category_count = 7;
 
 
@@ -771,14 +772,16 @@ void view_highest_rated(){
             }
         }
 
-        attron(COLOR_PAIR(3));
-        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to select, q to quit.");
-        attroff(COLOR_PAIR(3));
+        
+        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to Select,Press 'b' to go back to main menu.");
+        
         refresh();
 
         ch = getch();
-        if (ch == 'q') {
-            break;
+        if (ch == 'b') {
+            clear();
+            endwin();
+            admin_home();
         }
 
         switch (ch) {
@@ -797,10 +800,10 @@ void view_highest_rated(){
                     mvprintw(3, 10, "No products available.");
                     mvprintw(LINES - 1, 3, "Press Enter to go back.");
                     refresh();
-                    getch();
+                    if(getch()=='b'){
                     clear();
                     endwin();
-                    admin_home();
+                    admin_home();}
 
                 }
                     Product *products = get_all_category_products_top_rated(&count2,categories[category_choice]);
@@ -819,23 +822,24 @@ void view_highest_rated(){
 
                 attron(A_BOLD);
                 attron(COLOR_PAIR(3));
-                mvprintw(10, 0, "Highest rated products in %s", categories[category_choice]);
-                mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to go back.");
+                mvprintw(10, 10, "Highest Rated Products In %s", categories[category_choice]);
                 attroff(A_BOLD);
                 attroff(COLOR_PAIR(3));
+                mvprintw(LINES - 2, 3, " Press 'b' to go back.");
+
                 refresh();
-                int filtered_indices[count2];
                 int filtered_count = 0;
 
                 for (int i = 0; i < count2; i++) {
                     if (strcmp(products[i].category, categories[category_choice]) == 0) {
+                        int filtered_indices[count2];
                         filtered_indices[filtered_count++] = i;
                     }
                 }
 
                 if (filtered_count == 0) {
                     mvprintw(3, 10, "No products available in this category.");
-                    mvprintw(LINES - 1, 3, "Use arrow keys to navigate, Enter to delete, b to go back.");
+                    mvprintw(LINES - 1, 3, "Press 'b' to go back to main menu.");
                     refresh();
                     getch();
                     break;
@@ -889,11 +893,17 @@ void view_highest_rated(){
         mvprintw( 14, 100, "RATINGS:");
         attroff( A_BOLD);
         attroff( COLOR_PAIR(1));
-
+        mvprintw(LINES-2,10,"Press 'b' to go back to main menu");
 
         ch = getch();
 
-        if (ch=='\n') break;
+        if (ch=='b') 
+        {
+        clear();
+        endwin();
+        admin_home();
+
+        }
         else if (ch== KEY_UP){
                 if (start_row > 0) start_row--;
                 prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
