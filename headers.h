@@ -14,6 +14,10 @@
 #ifndef HEADERS_H   // Prevents multiple inclusion
 #define HEADERS_H
 
+//main.c
+int main();
+
+
 // utils.c
 void clrscr(void);
 time_t parseDateToTimeT(char *dateStr);
