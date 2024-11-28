@@ -105,10 +105,22 @@ void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,cha
 
     //Product* products = get_all_category_products(numberofprods,selected_cat);
     
+    if(products==NULL){
+        
+        attron(COLOR_PAIR(1));
+        mvprintw(5,10,"No products in this category! Press any key to go back to menu.");
+        attroff(COLOR_PAIR(1));        
+        getch();
+        endwin();
+        menu1();
+    
+    }
+    else{
     showproducts(*numberofprods,products,5,1,0,0);
     
 
     endwin();
+    }
 }
 
 void filter1(void){

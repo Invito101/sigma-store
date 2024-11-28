@@ -9,7 +9,8 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
     int (*c[2])(int,int)={AddItemToOrder,DecreaseItemQuantity};
     int choice[2] = {0, 0};
     int tco[2] = {0, 0}; // the_chosen_one
-    
+    int stopper;
+
     if(chooser==0)
     tco[0]=starter;
     else if(chooser==1)
@@ -18,6 +19,12 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
     int sizer = count;
     int sizec = 2;
     int ch;
+
+    if(count<5){
+        stopper=count;
+    }
+    else
+    stopper=starter+5;
 
     initscr();
     raw();
@@ -249,8 +256,13 @@ refresh();*/
                 }
 
             }
-            else
+            else{
+                if(tco[0]==sizer-1){
+                    tco[0]=0;
+                }
+                else
                 tco[0] += 1;
+            }
 
         } else if (ch == KEY_UP) {
             if (tco[0] == starter){
@@ -266,8 +278,13 @@ refresh();*/
                 }
 
             }
-            else
+            else{
+                if(tco[0]==0){
+                    tco[0]=sizer-1;
+                }
+                else
                 tco[0] -= 1;
+            }
 
         } else if (ch == KEY_RIGHT) {
             if (tco[1] == sizec - 1)
