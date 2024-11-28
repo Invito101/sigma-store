@@ -43,16 +43,16 @@ void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,cha
                 if (i == tco[0] && j == tco[1]) {
                     // Highlight the selected button
                     attron(COLOR_PAIR(2));
-                    mvprintw(i*4+row, j*50+column,   "+----------------------------------------+");
-                    mvprintw(i*4+row+1, j*50+column, "|            %-18s  |", a[i][j]);
-                    mvprintw(i*4+row+2, j*50+column, "+----------------------------------------+");
+                    mvprintw(i*4+row, j*60+column,   "+-----------------------------------------------------+");
+                    mvprintw(i*4+row+1, j*60+column, "|            %s", a[i][j]);
+                    mvprintw(i*4+row+2, j*60+column, "+-----------------------------------------------------+");
                     attroff(COLOR_PAIR(2));
                 } else {
                     // Render the non-selected buttons
                     attron(COLOR_PAIR(1));
-                    mvprintw(i*4+row, j*50+column,   "+----------------------------------------+");
-                    mvprintw(i*4+row+1, j*50+column, "|            %-18s  |", a[i][j]);
-                    mvprintw(i*4+row+2, j*50+column, "+----------------------------------------+");
+                    mvprintw(i*4+row, j*60+column,   "+-----------------------------------------------------+");
+                    mvprintw(i*4+row+1, j*60+column, "|            %s", a[i][j]);
+                    mvprintw(i*4+row+2, j*60+column, "+-----------------------------------------------------+");
                     attroff(COLOR_PAIR(1));
                 }
             }
@@ -105,24 +105,36 @@ void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,cha
 
     //Product* products = get_all_category_products(numberofprods,selected_cat);
     
+    if(products==NULL){
+        
+        attron(COLOR_PAIR(1));
+        mvprintw(5,10,"No products in this category! Press any key to go back to menu.");
+        attroff(COLOR_PAIR(1));        
+        getch();
+        endwin();
+        menu1();
+    
+    }
+    else{
     showproducts(*numberofprods,products,5,1,0,0);
     
 
     endwin();
+    }
 }
 
 void filter1(void){
-    const char* a[2][1] = {
-        {"Sort by price(High to low)"},
-        {"Sort by price(Low to high)"}
+    const char* a[2][2] = {
+        "Sort by price(High to low)",
+        "Sort by price(Low to high)","Sort by number of sales(High to low)","Sort by ratings(High to low)"
     };
-    Product* (*b[2][1])(int*,char*) = {
-        {get_all_category_products},
-        {get_all_category_products}
+    Product* (*b[2][2])(int*,char*) = {
+        get_all_category_products_price_desc,
+        get_all_category_products_price_asc,get_all_category_products_top_sold,get_all_category_products_top_rated
     };
 
     // Clear the screen and show options
     
-    
-    filterselect2d(2, 1, a, b,5,90);
+
+    filterselect2d(2, 2, a, b,25,40);
 }

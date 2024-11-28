@@ -2,17 +2,15 @@
 #include <ncurses.h>
 #include "../headers.h"
 
-void showproducts(int count,Product* b, int row, int col,int starter,int chooser);
-
-
-void showproducts(int count,Product* b, int row, int col,int starter,int chooser) {
+void showproducts(int count, Product* b, int row, int col,int starter,int chooser) {
     
     clear();
 
     int (*c[2])(int,int)={AddItemToOrder,DecreaseItemQuantity};
     int choice[2] = {0, 0};
     int tco[2] = {0, 0}; // the_chosen_one
-    
+    int stopper;
+
     if(chooser==0)
     tco[0]=starter;
     else if(chooser==1)
@@ -21,6 +19,12 @@ void showproducts(int count,Product* b, int row, int col,int starter,int chooser
     int sizer = count;
     int sizec = 2;
     int ch;
+
+    if(count<5){
+        stopper=count;
+    }
+    else
+    stopper=starter+5;
 
     initscr();
     raw();
@@ -39,7 +43,7 @@ void showproducts(int count,Product* b, int row, int col,int starter,int chooser
 
     const char *box[] = {
         "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n",
-        "|                  %s                                                                                                                                                                               |\n",
+        "|                  %s                         Number of sales: %s                                                                                                                                                         |\n",
         "|                  Rs.%s                                                                                                                                                                               |\n",
         "|                                                                                                                                                                                                        |\n",
         "|                  %s                                                                                                                                                                                     |\n",
@@ -73,14 +77,15 @@ void showproducts(int count,Product* b, int row, int col,int starter,int chooser
         mvprintw(1,2, "Welcome to %s. Press 'b' to go back to menu.",selected_cat);
         attroff(COLOR_PAIR(1));
 
-        for (int i = starter; i < starter+5; i++) {
+        for (int i = starter; i < stopper; i++) {
         
             char buffer[1000];
             if (i == tco[0]&&tco[1]==0) {
                 attron(COLOR_PAIR(2));
                 for (int j = 0; j < 9; j++) { // Render the main box
                     if(j==1){
-                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name);
+                        snprintf(buffer,sizeof(buffer),"%d",b[i].amountBought);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
 
                     }
                     if(j==2){
@@ -130,7 +135,8 @@ void showproducts(int count,Product* b, int row, int col,int starter,int chooser
                 for (int j = 0; j < 9; j++) { // Render the main box
 
                     if(j==1){
-                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name);
+                        snprintf(buffer,sizeof(buffer),"%d",b[i].amountBought);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
 
                     }
                     if(j==2){
@@ -175,7 +181,8 @@ void showproducts(int count,Product* b, int row, int col,int starter,int chooser
                 
                 for (int j = 0; j < 9; j++) { // Render the main box
                     if(j==1){
-                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name);
+                        snprintf(buffer,sizeof(buffer),"%d",b[i].amountBought);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
 
                     }
                     if(j==2){
@@ -252,8 +259,13 @@ refresh();*/
                 }
 
             }
-            else
+            else{
+                if(tco[0]==sizer-1){
+                    tco[0]=0;
+                }
+                else
                 tco[0] += 1;
+            }
 
         } else if (ch == KEY_UP) {
             if (tco[0] == starter){
@@ -269,8 +281,13 @@ refresh();*/
                 }
 
             }
-            else
+            else{
+                if(tco[0]==0){
+                    tco[0]=sizer-1;
+                }
+                else
                 tco[0] -= 1;
+            }
 
         } else if (ch == KEY_RIGHT) {
             if (tco[1] == sizec - 1)

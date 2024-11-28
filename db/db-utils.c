@@ -16,7 +16,6 @@ sqlite3* open_db(void){
 }
 
 void close_db(sqlite3 *db){
-
     sqlite3_close(db);
 }
 

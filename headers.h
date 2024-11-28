@@ -1,15 +1,22 @@
 #include <sqlite3.h>
 #include <time.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include "structs/structs.c"
 #include <string.h>
 #include <ncurses.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <ctype.h>
+#include <wchar.h>
 
 #ifndef HEADERS_H   // Prevents multiple inclusion
 #define HEADERS_H
+
+//main.c
+int main();
+
 
 // utils.c
 void clrscr(void);
@@ -19,9 +26,14 @@ int getISTTime();
 void get_valid_login(int row, char *label, char *buffer, int max_length, int (*validate)(char *),void page());
 int is_valid_email_for_login(char *email);
 char* get_date_from_time(time_t timestamp);
+
 //login-signup.c
 extern User* userdetails;
-void authpage(void);
+void authpage(void); // Function to allow user to choose signup or login
+void selector(int n,const char *a[],void (*b[])());  // Function allows user to input options, here n is the number of options, a is the array of label names, and b is the function pointer array
+void signup(void);
+void login1(void);
+void quit(void);
 
 // encryption.c
 char* encrypter(char *text);
@@ -45,6 +57,7 @@ int get_money_of_user(char *email);
 int modify_money_of_user(char *email, int new_money);
 int get_id_of_user_by_email(char *email);
 User* login(char *email, char *password);
+User* get_user_by_id(int userId);
 
 // db/products/products.c
 int create_product(char *name, int price, char *description, char *category, char *manufacturedBy);
@@ -106,7 +119,7 @@ void filter1(void);
 
 //customer-products.c
 void filtertest(Product* prods,int* count);
-void showproducts(int count,Product* b, int row, int col,int starter,int chooser);
+void showproducts(int count, Product* b, int row, int col,int starter,int chooser);
 
 // admin/home.c
 int admin_home();

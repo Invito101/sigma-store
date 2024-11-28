@@ -1,109 +1,4 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <ncurses.h>
-#include "headers.h"  // Ensure this file exists and is in the correct path
-#include <wchar.h> // This is temporary as I'm trying to put in unicode characters
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
-
-User* userdetails;
-
-// Function declarations
-void authpage(void);
-void selector(int n,const char *a[],void (*b[])());  //Function allows user to input options    
-//here n is the number of options, a is the array of label names, and b is the function pointer array  // Function to allow user to choose signup or login
-void signup(void);
-void login1(void);
-void quit(void);
-
-
-int main(void) {
-    
-    create_tables();
-    // // Books
-    //create_product("The Great Gatsby", 299, "A classic novel by F. Scott Fitzgerald", "Books", "Penguin Classics");
-    //create_product("Introduction to Algorithms", 1500, "Comprehensive guide on algorithms", "Books", "MIT Press");
-    //create_product("Harry Potter and the Philosopher's Stone", 499, "Fantasy novel by J.K. Rowling", "Books", "Bloomsbury");
-    //create_product("Sapiens: A Brief History of Humankind", 799, "By Yuval Noah Harari", "Books", "Harper Perennial");
-    //create_product("Atomic Habits", 599, "Practical guide to building good habits", "Books", "Penguin Random House");
-    // create_product("yoo hoo", 69, "skibidi", "Books", "among us");
-    //     create_product("yoo loo", 69, "skibidi", "Books", "among us");
-    // create_product("yoo boo", 69, "skibidi", "Books", "among us");
-    // create_product("yoo zoo", 69, "skibidi", "Books", "among us");
-
-
-    // // Electronics
-    //create_product("Wireless Headphones", 1999, "Bluetooth over-ear headphones", "Electronics", "Sony");
-    //create_product("Smartphone", 24999, "Android device with 128GB storage", "Electronics", "Samsung");
-    // create_product("Laptop", 54999, "15-inch laptop with 8GB RAM", "Electronics", "Dell");
-    // create_product("Smartwatch", 9999, "Fitness tracker with heart rate monitoring", "Electronics", "Apple");
-    // create_product("Bluetooth Speaker", 3499, "Portable speaker with deep bass", "Electronics", "JBL");
-
-    // // Fashion
-    // create_product("Leather Jacket", 3999, "Men's black leather jacket", "Fashion", "Zara");
-    // create_product("Sneakers", 2499, "Comfortable running shoes", "Fashion", "Nike");
-    // create_product("Wrist Watch", 1499, "Stylish analog watch", "Fashion", "Casio");
-    // create_product("Sunglasses", 999, "UV-protective polarized lenses", "Fashion", "Ray-Ban");
-    // create_product("Denim Jeans", 1999, "Blue slim-fit jeans", "Fashion", "Levi's");
-
-    // // Sports and Fitness
-    // create_product("Yoga Mat", 899, "Non-slip, lightweight yoga mat", "Sports and Fitness", "Reebok");
-    // create_product("Treadmill", 24999, "Electric treadmill for cardio workouts", "Sports and Fitness", "PowerMax");
-    // create_product("Dumbbell Set", 2999, "Adjustable weight dumbbell set", "Sports and Fitness", "Bowflex");
-    // create_product("Football", 999, "FIFA approved match ball", "Sports and Fitness", "Adidas");
-    // create_product("Resistance Bands", 499, "Set of 5 resistance bands", "Sports and Fitness", "Fit Simplify");
-
-    // // Games
-    // create_product("Chess Set", 999, "Wooden chess board with pieces", "Games", "Handcrafted Creations");
-    // create_product("Playing Cards", 199, "Standard deck of 52 cards", "Games", "Bicycle");
-    // create_product("Board Game - Monopoly", 1499, "Classic property trading game", "Games", "Hasbro");
-    // create_product("Jigsaw Puzzle", 499, "1000-piece nature scenery puzzle", "Games", "Ravensburger");
-    // create_product("Video Game - Elden Ring", 3999, "Action role-playing game", "Games", "Bandai Namco");
-
-    // // Edibles
-    // create_product("Dark Chocolate", 299, "Rich and creamy chocolate", "Edibles", "Lindt");
-    // create_product("Organic Honey", 499, "Pure and natural honey", "Edibles", "Dabur");
-    // create_product("Green Tea", 199, "20 sachets of premium green tea", "Edibles", "Lipton");
-    // create_product("Trail Mix", 299, "Healthy nuts and dried fruits", "Edibles", "Happilo");
-    // create_product("Instant Coffee", 349, "Premium freeze-dried coffee", "Edibles", "Nescafé");
-
-    // // Home and Kitchen
-    // create_product("Vacuum Cleaner", 6999, "Bagless upright vacuum cleaner", "Home and Kitchen", "Dyson");
-    // create_product("Microwave Oven", 8499, "30L convection microwave", "Home and Kitchen", "LG");
-    // create_product("Non-Stick Cookware Set", 2999, "5-piece cookware set", "Home and Kitchen", "Prestige");
-    // create_product("Air Purifier", 12999, "HEPA filter air purifier", "Home and Kitchen", "Philips");
-    // create_product("Electric Kettle", 1299, "1.5L stainless steel kettle", "Home and Kitchen", "Borosil");
-    // Open a file to store stderr
-
-    int file = open("stderr_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (file == -1) {
-        perror("Error opening file");
-        return 1;
-    }
-
-    // Redirect stderr to the file
-    if (dup2(file, STDERR_FILENO) == -1) {
-        perror("Error redirecting stderr");
-        close(file);
-        return 1;
-    }
-
-    // Now any output to stderr will go to the file
-    fprintf(stderr, "This error message will go to stderr_output.txt\n");
-
-    // Initialize ncurses
-    initscr();
-    
-    // Clear the screen and show options
-    clear();
-
-    authpage();
-
-    // Cleanup ncurses
-    endwin();
-    return 0;
-}
+#include "headers.h"
 
 void authpage(void){
     const char *a[3]={"Sign up","Login","Quit"};
@@ -188,7 +83,6 @@ void selector(int n,const char *a[],void (*b[])()) {
     b[choice]();
     endwin();
 }
-
 
 void signup() {
     clear();
@@ -371,7 +265,6 @@ void login1(){
     flag=0;
     free(userdetails); // Clean up simulated user
 }
-
 
 void quit(){
 
