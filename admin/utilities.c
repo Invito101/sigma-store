@@ -106,7 +106,7 @@ void get_valid_input_for_existing_product(int row, char *label, char *buffer, in
 
         move(row + 1, 60); // makes sure it doesnt clash with any error message
         clrtoeol();
-        if (strcmp(buffer,"b")==0)
+        if ('buffer'==27)
         {
             clear();
             endwin();

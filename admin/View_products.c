@@ -71,12 +71,17 @@ int view_category_wise(){
             }
         }
 
-        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to select, q to quit.");
+        mvprintw(LINES - 2, 3, "Use arrow keys to navigate | Enter to select | b to go back | q to quit.");
         refresh();
 
         ch = getch();
-        if (ch == 'q') {
-            break;
+        if (ch == 'q' || ch == 'Q') {
+            endwin();
+            exit(0);
+        }
+
+        if (ch == 'b' || ch == 'B'){
+            admin_home();
         }
 
         switch (ch) {
@@ -146,11 +151,18 @@ int view_category_wise(){
                         }
                     }
 
-                    mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to view, b to go back.");
+                    mvprintw(LINES - 2, 3, "Use arrow keys to navigate | Enter to view | b to go back | q to quit.");
                     refresh();
 
                     ch = getch();
-                    if (ch == 'b') break;
+                    if (ch == 'q' || ch == 'Q') {
+                        endwin();
+                        exit(0);
+                    }
+
+                    if (ch == 'b' || ch == 'B'){
+                        break;
+                    }
 
                     switch (ch) {
                         case KEY_UP:
@@ -256,6 +268,15 @@ void view_particular(){
     attron(COLOR_PAIR(1));
     mvprintw(25,10,"Press 'b' And Press Enter Key To Go Back To Main Menu.");
     attroff(COLOR_PAIR(1));
+    int ch11=getch();
+    if(ch11==27)
+    {
+        clear();
+        endwin();
+        admin_home();
+        exit(0);
+
+    }
     
     get_valid_input_for_existing_product(12, "Name of the product: ", name, max_len, is_valid_name);
     
@@ -302,13 +323,18 @@ void view_particular(){
     attroff(COLOR_PAIR(2));
     refresh();
     
+    int ch12=getch();
+    if(ch12==27)
+    {
+        clear();
+        endwin();
+        admin_home();
+        exit(0);
 
-    attron(COLOR_PAIR(1));
-    mvprintw(26, 10, "Press any key to return to the menu.");
-    attroff(COLOR_PAIR(1));
-    getch();
-    endwin();
-    admin_home();}
+    }
+
+
+    }
 
 
     

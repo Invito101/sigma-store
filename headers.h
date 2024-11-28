@@ -66,7 +66,6 @@ int modify_product(char *name, char *new_name, int new_price, char *new_descript
 int rate_product(char *name, int rating);
 Product* get_product_by_name(char *name);
 Product* get_product_by_id(int productId);
-Product* get_product_by_name(char* name);
 Product* get_all_products(int *size);
 Product* get_all_category_products(int *size, char *cName);
 Product* get_all_category_products_top_sold(int *size, char *cName);
@@ -154,7 +153,7 @@ void delete_product1();
 int selectany1(int n,const char *a[]);
 void complete_order1();
 void order_history1();
-void check_for_back(const char *input);
+void check_for_back(int input);
 
 
 
