@@ -117,8 +117,6 @@ Once the project is installed and the dependencies are configured, you can use t
         - Add products to your cart.
         - View your cart.
         - Place orders securely.
-        - View your order history.
-        - Rate a product.
 4. **Admin Features**
     - As an admin, you can:
         - Manage the product inventory (add, edit, or remove products).
@@ -127,12 +125,19 @@ Once the project is installed and the dependencies are configured, you can use t
 
 ## Contributors
 
-1. [Akshay K M](https://github.com/Akshay-K-M) - IMT2024014
-2. [Anurag Rao U](https://github.com/Invito101) - IMT2024028
-3. [H Sanjay](https://github.com/Bit-by-bit-coder) - BT2024192
-4. [K Sai Amith](https://github.com/Dictator-00) - IMT2024004
-5. [S Arjun Sai](https://github.com/broskitos) - BT2024001
-6. [Sumanth Y M](https://github.com/Sumanth-YM) - BT2024072
+| Interface | Contributors                          |
+| --------- | ------------------------------------- |
+| Admin     | H Sanjay, K Sai Amith, Sumanth Y M    |
+| Customer  | Akshay K M, Anurag Rao U, S Arjun Sai |
+
+| Contributor                                     | Contribution Details                                                                                                   |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| [Akshay K M](https://github.com/Akshay-K-M)     | Authorization and Authentication, Encryption of Passwords, Cart and Wallet, User Interface                             |
+| [Anurag Rao U](https://github.com/Invito101)    | Database, Shell Script, Backend                                                                                        |
+| [H Sanjay](https://github.com/Bit-by-bit-coder) | Delete Product, View Products Category Wise, Complete Order, Makefile, User Interface                                  |
+| [K Sai Amith](https://github.com/Dictator-00)   | Modify Product, View Product by Name, Order History, User Interface                                                    |
+| [S Arjun Sai](https://github.com/broskitos)     | Customer Home Page, Product Filters, View Products, User Interface Hero                                                |
+| [Sumanth Y M](https://github.com/Sumanth-YM)    | Admin Home Page, Create Product, View All Products, View Bestselling Products, View Top Rated Products, User Interface |
 
 ## License
 

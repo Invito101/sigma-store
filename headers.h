@@ -1,12 +1,15 @@
 #include <sqlite3.h>
 #include <time.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include "structs/structs.c"
 #include <string.h>
 #include <ncurses.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <ctype.h>
+#include <wchar.h>
 
 #ifndef HEADERS_H   // Prevents multiple inclusion
 #define HEADERS_H
@@ -19,9 +22,14 @@ int getISTTime();
 void get_valid_login(int row, char *label, char *buffer, int max_length, int (*validate)(char *),void page());
 int is_valid_email_for_login(char *email);
 char* get_date_from_time(time_t timestamp);
+
 //login-signup.c
 extern User* userdetails;
-void authpage(void);
+void authpage(void); // Function to allow user to choose signup or login
+void selector(int n,const char *a[],void (*b[])());  // Function allows user to input options, here n is the number of options, a is the array of label names, and b is the function pointer array
+void signup(void);
+void login1(void);
+void quit(void);
 
 // encryption.c
 char* encrypter(char *text);
@@ -31,6 +39,7 @@ char* decrypt(char *text);
 sqlite3* open_db(void);
 void close_db(sqlite3 *db);
 int create_tables(void);
+int init_db(void);
 
 // db/users/users-utils.c
 void cast_row_to_user_struct(User *userObject, char **values);
