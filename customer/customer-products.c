@@ -80,7 +80,9 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
         for (int i = starter; i < stopper; i++) {
         
             char buffer[1000];
+
             if (i == tco[0]&&tco[1]==0) {
+
                 attron(COLOR_PAIR(2));
                 for (int j = 0; j < 9; j++) { // Render the main box
                     if(j==1){
@@ -88,17 +90,17 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
 
                     }
-                    if(j==2){
+                    else if(j==2){
                         snprintf(buffer,sizeof(buffer),"%d",b[i].price);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],buffer);
                     }
-                    if(j==4){
+                    else if(j==4){
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description);
                     }
-                    if(j==6){
+                    else if(j==6){
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].manufacturedBy);
                     }
-                    if(j==7){
+                    else if(j==7){
                         char* ptr =get_date_from_time(b[i].createdAt);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],ptr);
                     }
@@ -139,17 +141,17 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
 
                     }
-                    if(j==2){
+                    else if(j==2){
                         snprintf(buffer,sizeof(buffer),"%d",b[i].price);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],buffer);
                     }
-                    if(j==4){
+                    else if(j==4){
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description);
                     }
-                    if(j==6){
+                    else if(j==6){
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].manufacturedBy);
                     }
-                    if(j==7){
+                    else if(j==7){
                         char* ptr =get_date_from_time(b[i].createdAt);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],ptr);
                     }
@@ -185,17 +187,17 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
 
                     }
-                    if(j==2){
+                    else if(j==2){
                         snprintf(buffer,sizeof(buffer),"%d",b[i].price);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],buffer);
                     }
-                    if(j==4){
+                    else if(j==4){
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description);
                     }
-                    if(j==6){
+                    else if(j==6){
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].manufacturedBy);
                     }
-                    if(j==7){
+                    else if(j==7){
                         char* ptr =get_date_from_time(b[i].createdAt);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],ptr);
                     }

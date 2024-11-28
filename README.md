@@ -132,11 +132,11 @@ Once the project is installed and the dependencies are configured, you can use t
 
 | Contributor                                     | Contribution Details                                                                                                   |
 | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| [Akshay K M](https://github.com/Akshay-K-M)     | Authorization and Authentication, Encryption of Passwords, Cart and Wallet, User Interface                             |
+| [Akshay K M](https://github.com/Akshay-K-M)     | Signup, Encryption of Passwords, Ordering/Cart (Linked List) and Wallet, User Interface Assistance                     |
 | [Anurag Rao U](https://github.com/Invito101)    | Database, Shell Script, Backend                                                                                        |
 | [H Sanjay](https://github.com/Bit-by-bit-coder) | Delete Product, View Products Category Wise, Complete Order, Makefile, User Interface                                  |
 | [K Sai Amith](https://github.com/Dictator-00)   | Modify Product, View Product by Name, Order History, User Interface                                                    |
-| [S Arjun Sai](https://github.com/broskitos)     | Customer Home Page, Product Filters, View Products, User Interface Hero                                                |
+| [S Arjun Sai](https://github.com/broskitos)     | Login, Customer Home Page, Product Filters, View Products, User Interface Hero                                         |
 | [Sumanth Y M](https://github.com/Sumanth-YM)    | Admin Home Page, Create Product, View All Products, View Bestselling Products, View Top Rated Products, User Interface |
 
 ## License
