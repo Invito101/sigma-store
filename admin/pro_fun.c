@@ -79,21 +79,29 @@ void create_product1(){
     int sf = create_product(name,atoi(price),description,category, manufacturedBy);
 
     clear();
+    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+    mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+    mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+    mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+    mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+    mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+    refresh();
     if (sf==0){
     attron(COLOR_PAIR(1));
-    mvprintw(5, 10, "Product created successfully! Here's the data you entered:");
-    mvprintw(6, 10, "Name:");
-    mvprintw(7, 10, "Price:");
-    mvprintw(8, 10, "Description:");
-    mvprintw(9, 10, "Category:");
-    mvprintw(10, 10, "Manufactured by:");
+    mvprintw(5, 60, "Product created successfully! Here's the data you entered:");
+    mvprintw(6, 60, "Name:");
+    mvprintw(7, 60, "Price:");
+    mvprintw(8, 60, "Description:");
+    mvprintw(9, 60, "Category:");
+    mvprintw(10, 60, "Manufactured by:");
     attroff(COLOR_PAIR(1));
     attron(COLOR_PAIR(2));
-    mvprintw(6, 30, "%s", name);
-    mvprintw(7, 30, "%s", price);
-    mvprintw(8, 30, "%s", description);
-    mvprintw(9, 30, "%s", category);
-    mvprintw(10, 30, "%s", manufacturedBy);
+    mvprintw(6, 80, "%s", name);
+    mvprintw(7, 80, "%s", price);
+    mvprintw(8, 80, "%s", description);
+    mvprintw(9, 80, "%s", category);
+    mvprintw(10, 80, "%s", manufacturedBy);
     attroff(COLOR_PAIR(2));
     refresh();
     }
@@ -202,30 +210,30 @@ void modify_product1(){
     refresh();
     if (sf==0){
     attron(COLOR_PAIR(1));
-    mvprintw(10, 10, "Product modified successfully! Here's the data you entered:");
-    mvprintw(11, 10, "Name:");
-    mvprintw(12, 10, "Price:");
-    mvprintw(13, 10, "Description:");
-    mvprintw(14, 10, "Category:");
-    mvprintw(15, 10, "Manufactured by:");
+    mvprintw(10, 60, "Product modified successfully! Here's the data you entered:");
+    mvprintw(11,60, "Name:");
+    mvprintw(12,60, "Price:");
+    mvprintw(13,60, "Description:");
+    mvprintw(14,60, "Category:");
+    mvprintw(15,60, "Manufactured by:");
     attroff(COLOR_PAIR(1));
     attron(COLOR_PAIR(2));
-    mvprintw(11, 30, "%s", new_name);
-    mvprintw(12, 30, "%s", new_price);
-    mvprintw(13, 30, "%s", new_description);
-    mvprintw(14, 30, "%s", new_category);
-    mvprintw(15, 30, "%s",new_manufactured_by);
+    mvprintw(11, 80, "%s", new_name);
+    mvprintw(12, 80, "%s", new_price);
+    mvprintw(13, 80, "%s", new_description);
+    mvprintw(14, 80, "%s", new_category);
+    mvprintw(15, 80, "%s",new_manufactured_by);
     attroff(COLOR_PAIR(2));
     refresh();
     }
     else 
     {
         attron(COLOR_PAIR(1));
-    mvprintw(10, 10, "Product not created.");
+    mvprintw(10, 60, "Product not created.");
     attroff(COLOR_PAIR(1));
     }
     attron(COLOR_PAIR(1));
-    mvprintw(20, 10, "Press any key to return to the menu.");
+    mvprintw(20, 60, "Press any key to return to the menu.");
     attroff(COLOR_PAIR(1));
     
     getch();
@@ -300,7 +308,7 @@ int selectany1(int n,const char *a[]) {
     }
 
     endwin();
-    return 0;
+    return choice;
 }
 
 
@@ -715,24 +723,32 @@ void order_history1(){
     else{
         attron(COLOR_PAIR(1));
         mvprintw(12,30,"Order ID");
-        mvprintw(12,50,"User ID");
-        mvprintw(12,70,"Product ID");
-        mvprintw(12,90,"Quantity");
-        mvprintw(12,110,"Created At");
+        mvprintw(12,40,"User ID");
+        mvprintw(12,60,"Product Name");
+        mvprintw(12,110,"Quantity");
+        mvprintw(12,130,"Created At");
         attroff(COLOR_PAIR(1));
+        int k=0;
         for (int i=0;i<size;i++)
-        {
+        {   
+            
             attron(COLOR_PAIR(1));
+            mvprintw(14+i+k,30,"%d",comp_orders[i].id);
+            mvprintw(14+i+k,40,"%d",comp_orders[i].items->userId);
             
             
 
-            mvprintw(14+i,30,"%d",comp_orders[i].items->orderId);
-            mvprintw(14+i,50,"%d",comp_orders[i].items->userId);
-            mvprintw(14+i,70,"%d",comp_orders[i].items->productId);
-            mvprintw(14+i,90,"%d",comp_orders[i].items->quantity);
-            mvprintw(14+i,110,"%d",comp_orders[i].createdAt);
+            
+            for (int j=0;j<comp_orders[i].size;j++)
+            {
+                
+                Product *p11=get_product_by_id(comp_orders[i].items[j].productId);
+                mvprintw(14+i+k+j,60,"%s",p11->name);
+                mvprintw(14+i+k+j,110,"%d",comp_orders[i].items[j].quantity);}
+            mvprintw(14+i+k,130,"%d",comp_orders[i].createdAt);
 
             attroff(COLOR_PAIR(1));
+            k=k+comp_orders[i].size;
             refresh();
         }
     }
@@ -748,7 +764,8 @@ void order_history1(){
         free(comp_orders);
     }
 
-    endwin(); 
+    endwin();
+    admin_home();
 }
     
 
