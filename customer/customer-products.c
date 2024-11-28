@@ -38,18 +38,18 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(3, COLOR_BLUE,COLOR_BLACK);
+    init_pair(3, COLOR_CYAN,COLOR_BLACK);
 
 
     const char *box[] = {
         "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n",
-        "|                  %s                         Number of sales: %s                                                                                                                                                         |\n",
-        "|                  Rs.%s                                                                                                                                                                               |\n",
+        "|                %-40s                               Number of sales: %s                                                                                                                                                         |\n",
+        "|                Rs.%s                                                                                                                                                                               |\n",
         "|                                                                                                                                                                                                        |\n",
-        "|                  %s                                                                                                                                                                                     |\n",
+        "|                %-40s                               Ratings: %s                                                                                                                                                  |\n",
         "|                                                                                                                                                                                                        |\n",
-        "|                  Manufactured by: %s                                                                                                                                                                                      |\n",
-        "|                  Release date: %s                                                                                                                                                                                     |\n",
+        "|                Manufactured by: %s                                                                                                                                                                                      |\n",
+        "|                Release date: %s                                                                                                                                                                                     |\n",
         "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n"};
 
     const char *plus[] = {
@@ -85,17 +85,25 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
 
                 attron(COLOR_PAIR(2));
                 for (int j = 0; j < 9; j++) { // Render the main box
+                    
                     if(j==1){
+                        attron(A_BOLD);
                         snprintf(buffer,sizeof(buffer),"%d",b[i].amountBought);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
+                        attroff(A_BOLD);
+
 
                     }
                     else if(j==2){
+                        attron(A_BOLD);
                         snprintf(buffer,sizeof(buffer),"%d",b[i].price);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],buffer);
+                        attroff(A_BOLD);
+
                     }
                     else if(j==4){
-                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description);
+                        snprintf(buffer,sizeof(buffer),"%.1lf",b[i].rating);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description,buffer);
                     }
                     else if(j==6){
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].manufacturedBy);
@@ -137,16 +145,23 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                 for (int j = 0; j < 9; j++) { // Render the main box
 
                     if(j==1){
+                        attron(A_BOLD);
                         snprintf(buffer,sizeof(buffer),"%d",b[i].amountBought);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
+                        attroff(A_BOLD);
+
 
                     }
                     else if(j==2){
+                        attron(A_BOLD);
                         snprintf(buffer,sizeof(buffer),"%d",b[i].price);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],buffer);
+                        attroff(A_BOLD);
+
                     }
                     else if(j==4){
-                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description);
+                        snprintf(buffer,sizeof(buffer),"%.1lf",b[i].rating);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description,buffer);
                     }
                     else if(j==6){
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].manufacturedBy);
@@ -183,16 +198,22 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                 
                 for (int j = 0; j < 9; j++) { // Render the main box
                     if(j==1){
+                        attron(A_BOLD);
                         snprintf(buffer,sizeof(buffer),"%d",b[i].amountBought);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
+                        attroff(A_BOLD);
+
 
                     }
                     else if(j==2){
+                        attron(A_BOLD);
                         snprintf(buffer,sizeof(buffer),"%d",b[i].price);
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],buffer);
+                        attroff(A_BOLD);
                     }
                     else if(j==4){
-                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description);
+                        snprintf(buffer,sizeof(buffer),"%.1lf",b[i].rating);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].description,buffer);
                     }
                     else if(j==6){
                         mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].manufacturedBy);

@@ -210,7 +210,7 @@ Order* get_all_pending_orders(int *size){
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         char *values[3];
         for (int i = 0; i < 3; i++) {
-            values[i] = (int *)sqlite3_column_text(stmt, i);
+            values[i] = (char *)sqlite3_column_text(stmt, i);
         }
 
         cast_row_to_order_struct(&orders[index], values);

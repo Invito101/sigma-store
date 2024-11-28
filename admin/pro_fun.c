@@ -349,7 +349,9 @@ void delete_product1() {
     while (true) {
         clear();
         attron(COLOR_PAIR(2));
+        attron(A_BOLD);
         mvprintw(9, 55, "Select a category:");
+        attroff(A_BOLD);
         attroff(COLOR_PAIR(2));
 
         mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
@@ -554,7 +556,10 @@ void complete_order1(){
         mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
         attron(COLOR_PAIR(1));
         mvprintw(10, 55, "Order ID");
-        mvprintw(10, 70, "User ID");
+        mvprintw(10, 75, "Name");
+        mvprintw(10, 95, "Email ID");
+        mvprintw(10, 135, "Phone number");
+        mvprintw(10, 150, "Order placed on");
         attroff(COLOR_PAIR(1));
         refresh();
         // Display categories
@@ -562,12 +567,22 @@ void complete_order1(){
             if (i == choice) {
                 attron(COLOR_PAIR(2));
                 mvprintw(12 + i, 53, "> %d", orders[i].id);
-                mvprintw(12 + i, 70, "%d", orders[i].userId);
+                User *user = get_user_by_id(orders[i].userId);
+                mvprintw(12 + i, 75, "%s", user->name);
+                mvprintw(12 + i, 95, "%s", user->email);
+                mvprintw(12 + i, 135, "%s",user->phoneNumber);
+                char*p = get_date_from_time(user->createdAt);
+                mvprintw(12 + i, 150, "%s",p);
                 attroff(COLOR_PAIR(2));
             } else {
                 attron(COLOR_PAIR(1));
                 mvprintw(12 + i, 55, "%d", orders[i].id);
-                mvprintw(12 + i, 70, "%d", orders[i].userId);
+                User *user = get_user_by_id(orders[i].userId);
+                mvprintw(12 + i, 75, "%s", user->name);
+                mvprintw(12 + i, 95, "%s", user->email);
+                mvprintw(12 + i, 135, "%s",user->phoneNumber);
+                char*p = get_date_from_time(user->createdAt);
+                mvprintw(12 + i, 150, "%s",p);
                 attroff(COLOR_PAIR(1));
             }
         }
@@ -626,7 +641,10 @@ void complete_order1(){
                 while (true) {
                     clear();
                     attron(COLOR_PAIR(2));
-                    mvprintw(9, 55, "Do you want to approve the order of '%d'? (y/n)", orders[choice].userId);
+                    attron(A_BOLD);
+                    User *user = get_user_by_id(orders[choice].userId);
+                    mvprintw(9, 55, "Do you want to approve the order of '%s'? (y/n)", user->name);
+                    attroff(A_BOLD);
                     attroff(COLOR_PAIR(2));
 
                     mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
@@ -639,16 +657,20 @@ void complete_order1(){
                     refresh();
 
                     attron(COLOR_PAIR(1));
-                    mvprintw(10, 55, "Order ID: '%d'",orders[choice].id);
-                    mvprintw(10, 85, "User ID: '%d'",orders[choice].userId);
-                    mvprintw(12,55,"Product ID");
-                    mvprintw(12,70,"Quantity");
+                    attron(A_BOLD);
+                    mvprintw(11, 55, "Order ID: %d",orders[choice].id);
+                    mvprintw(11, 75, "Phone number: %s", user->phoneNumber);
+                    mvprintw(13,55,"Product");
+                    mvprintw(13,105,"Quantity");
+                    attroff(A_BOLD);
                     attroff(COLOR_PAIR(1));
 
                     for (int i=0; i<orders[choice].size; i++){
                         attron(COLOR_PAIR(2));
-                        mvprintw(13+i,55,"%d. %d",i+1,orders[choice].items[i].productId);
-                        mvprintw(13+i,70,"%d. %d",i+1,orders[choice].items[i].quantity);
+                        Product *product = get_product_by_id(orders[choice].items[i].productId);
+                        mvprintw(14+i,55,"%d. %s",i+1,product->name);
+                        mvprintw(14+i,105,"%d",orders[choice].items[i].quantity);
+
                         attroff(COLOR_PAIR(2));
                     }
 
