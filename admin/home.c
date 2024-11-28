@@ -10,9 +10,9 @@ int admin_home(void) {
     // Initialize ncurses
     initscr();
     
-    
     // Clear the screen and show options
     clear();
+    
 
     view_all();
 
