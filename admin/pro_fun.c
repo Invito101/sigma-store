@@ -300,7 +300,7 @@ int selectany1(int n,const char *a[]) {
     }
 
     endwin();
-    return 0;
+    return choice;
 }
 
 
