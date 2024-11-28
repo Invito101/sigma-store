@@ -27,16 +27,16 @@ int main(void) {
     //create_product("Harry Potter and the Philosopher's Stone", 499, "Fantasy novel by J.K. Rowling", "Books", "Bloomsbury");
     //create_product("Sapiens: A Brief History of Humankind", 799, "By Yuval Noah Harari", "Books", "Harper Perennial");
     //create_product("Atomic Habits", 599, "Practical guide to building good habits", "Books", "Penguin Random House");
-    create_product("yoo hoo", 69, "skibidi", "Books", "among us");
+    // create_product("yoo hoo", 69, "skibidi", "Books", "among us");
 
-    // // Electronics
-    //create_product("Wireless Headphones", 1999, "Bluetooth over-ear headphones", "Electronics", "Sony");
-    //create_product("Smartphone", 24999, "Android device with 128GB storage", "Electronics", "Samsung");
+    // // // Electronics
+    // create_product("Wireless Headphones", 1999, "Bluetooth over-ear headphones", "Electronics", "Sony");
+    // create_product("Smartphone", 24999, "Android device with 128GB storage", "Electronics", "Samsung");
     // create_product("Laptop", 54999, "15-inch laptop with 8GB RAM", "Electronics", "Dell");
     // create_product("Smartwatch", 9999, "Fitness tracker with heart rate monitoring", "Electronics", "Apple");
     // create_product("Bluetooth Speaker", 3499, "Portable speaker with deep bass", "Electronics", "JBL");
 
-    // // Fashion
+    // // // Fashion
     // create_product("Leather Jacket", 3999, "Men's black leather jacket", "Fashion", "Zara");
     // create_product("Sneakers", 2499, "Comfortable running shoes", "Fashion", "Nike");
     // create_product("Wrist Watch", 1499, "Stylish analog watch", "Fashion", "Casio");
@@ -70,10 +70,10 @@ int main(void) {
     // create_product("Non-Stick Cookware Set", 2999, "5-piece cookware set", "Home and Kitchen", "Prestige");
     // create_product("Air Purifier", 12999, "HEPA filter air purifier", "Home and Kitchen", "Philips");
     // create_product("Electric Kettle", 1299, "1.5L stainless steel kettle", "Home and Kitchen", "Borosil");
-    // Open a file to store stderr
-    add_item_to_cart(1,30,1);
-    place_order(1);
-    mark_order_as_delivered(1);
+    // // Open a file to store stderr
+    // // add_item_to_cart(1,30,1);
+    // // place_order(1);
+    // mark_order_as_delivered(1);
 
     int file = open("stderr_output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (file == -1) {

@@ -742,7 +742,8 @@ void order_history1(){
         free(comp_orders);
     }
 
-    endwin(); 
+    endwin();
+    admin_home();
 }
     
 
