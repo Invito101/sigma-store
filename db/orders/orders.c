@@ -231,7 +231,7 @@ int mark_order_as_delivered(int orderId){
 
     sqlite3_stmt *stmt;
 
-    const char *sql = "UPDATE Order SET delivered = 1 WHERE id = ?;";
+    const char *sql = "UPDATE Orders SET delivered = 1 WHERE id = ?;";
 
     int rc = rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
 
