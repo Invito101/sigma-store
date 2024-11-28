@@ -1,196 +1,128 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <ncurses.h>
 #include "../headers.h"
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 
-void cart(void);
-void wallet(void);
-void categories(void);
-void settings(void);
-void cartselect(int count,Product* b, int row, int col);
+int zero=0;
+int *numberofprods=&zero;
 
-void filtertest(){
-    int count;
-    Product* b=get_all_products(&count);
 
-    cartselect(count,b,5,1);
-}
-
-void cartselect(int count,Product* b, int row, int col) {
-    int (*c[2])()={AddItemToOrder,DecreaseItemQuantity};
-    int choice[2] = {0, 0};
-    int tco[2] = {0, 0}; // the_chosen_one
-
-    int sizer = count;
-    int sizec = 2;
+void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,char*),int row, int column) {
+  
+    int choice[2]={0,0};
+    int tco[2] = {0,0}; //the_chosen_one
+    
+    int sizer=m;
+    int sizec=n;
     int ch;
+
+    //char opencircle[]="\u25EF";
+    //char closedcircle[]="\u2B24";
 
     initscr();
     raw();
-    clear();
     start_color();
     cbreak();
     noecho();
-    curs_set(0);
+    curs_set(0);     
 
     keypad(stdscr, TRUE);
 
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(3, COLOR_BLUE,COLOR_BLACK);
 
-    const char *box[] = {
-        "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n",
-        "|                                                                                                                                                                                                        |\n",
-        "|                                                                                                                                                                                                        |\n",
-        "|                                                                                                                                                                                                      |\n",
-        "|                                                                                                                                                                                                        |\n",
-        "|                                                                                                                                                                                                        |\n",
-        "|                                                                                                                                                                                                        |\n",
-        "|                                                                                                                                                                                                        |\n",
-        "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n"};
-
-    const char *plus[] = {
-        "     +-------+\n",
-        "     |   _   |\n",
-        "Add  | _| |_ |\n",
-        "to   ||_   _||\n",
-        "Cart |  |_|  |\n",
-        "     |       |\n",
-        "     +-------+\n"};
-
-    const char *minus[] = {
-        "      +-------+\n",
-        "      |       |\n",
-        "Remove|  ___  |\n",
-        "from  | |___| |\n",
-        "cart  |       |\n",
-        "      |       |\n",
-        "      +-------+\n"};
-
-    while (true) {
-        clear();
-        attron(COLOR_PAIR(1));
-        mvprintw(5, 10, "Welcome! Please live:");
-        attroff(COLOR_PAIR(1));
-
-        for (int i = 0; i < sizer; i++) {
-            if (i == tco[0]&&tco[1]==0) {
-                attron(COLOR_PAIR(2));
-                for (int j = 0; j < 9; j++) { // Render the main box
-                    mvprintw(row * (1 + 2 * i) + j, col, box[j]);   //get_product_by_id(b[i]->id)->name
-
-                }
-                attroff(COLOR_PAIR(2));
-
-                // Render the plus box on the right side of the current box
+    while(true){
+    
+    for (int i = 0; i < sizer; i++) {
+            for (int j = 0; j < sizec; j++) {
                 
-                attron(COLOR_PAIR(3));
 
-                for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, plus[k]);
-
+                if (i == tco[0] && j == tco[1]) {
+                    // Highlight the selected button
+                    attron(COLOR_PAIR(2));
+                    mvprintw(i*4+row, j*50+column,   "+----------------------------------------+");
+                    mvprintw(i*4+row+1, j*50+column, "|            %-18s  |", a[i][j]);
+                    mvprintw(i*4+row+2, j*50+column, "+----------------------------------------+");
+                    attroff(COLOR_PAIR(2));
+                } else {
+                    // Render the non-selected buttons
+                    attron(COLOR_PAIR(1));
+                    mvprintw(i*4+row, j*50+column,   "+----------------------------------------+");
+                    mvprintw(i*4+row+1, j*50+column, "|            %-18s  |", a[i][j]);
+                    mvprintw(i*4+row+2, j*50+column, "+----------------------------------------+");
+                    attroff(COLOR_PAIR(1));
                 }
-                
-                attroff(COLOR_PAIR(3));
-
-                attron(COLOR_PAIR(2));
-                
-                for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 180, minus[k]);
-
-                }
-                attroff(COLOR_PAIR(2));
-
-                } 
-                else if(tco[0]==i&&tco[1]==1){
-                attron(COLOR_PAIR(2));
-
-                for (int j = 0; j < 9; j++) { // Render the main box
-                    mvprintw(row * (1 + 2 * i) + j, col, box[j]);
-
-                }
-
-                // Render the plus box on the right side of the non-selected box
-                for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, plus[k]);
-
-                }
-                attroff(COLOR_PAIR(2));
-                attron(COLOR_PAIR(3));
-
-                // Render the minus box below the plus box
-                for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 180, minus[k]);
-
-                }
-                attroff(COLOR_PAIR(3));
-
             }
-            else{
-
-                attron(COLOR_PAIR(1));
-
-                for (int j = 0; j < 9; j++) { // Render the main box
-                    mvprintw(row * (1 + 2 * i) + j, col, box[j]);
-
-                }
-
-                // Render the plus box on the right side of the non-selected box
-                for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 160, plus[k]);
-
-                }
-                
-
-                // Render the minus box below the plus box
-                for (int k = 0; k < 7; k++) {
-                    mvprintw(row * (1 + 2 * i) + k + 1, col + 180, minus[k]);
-
-                }
-                attroff(COLOR_PAIR(1));
-
-            
-
-            }
-
         }
-            refresh();
+        
 
-
-        ch = getch();
-
-        if (ch == '\n') {
-            choice[0] = tco[0];
-            choice[1] = tco[1];
+        ch=getch();
+        
+        if(ch =='\n'){
+            choice[0]=tco[0];
+            choice[1]=tco[1];
             break;
-        } else if (ch == KEY_DOWN) {
-            if (tco[0] == sizer - 1)
-                tco[0] = 0;
+        }
+        else if(ch==KEY_DOWN){
+            if(tco[0]==sizer-1)
+                tco[0]=0;
             else
-                tco[0] += 1;
+                tco[0]+=1;
+                
+        }
+        else if(ch==KEY_UP){
+            if(tco[0]==0)
+                tco[0]=sizer-1;
+            else
+                tco[0]-=1;
+                
+        }
+        else if(ch==KEY_RIGHT){
+            if(tco[1]==sizec-1)
+                tco[1]=0;
+                else
+                tco[1]+=1;
+        }
+        else if(ch==KEY_LEFT){
+            if(tco[1]==0)
+                tco[1]=sizec-1;
+            else
+                tco[1]-=1;
+        }
 
-        } else if (ch == KEY_UP) {
-            if (tco[0] == 0)
-                tco[0] = sizer - 1;
-            else
-                tco[0] -= 1;
 
-        } else if (ch == KEY_RIGHT) {
-            if (tco[1] == sizec - 1)
-                tco[1] = 0;
-            else
-                tco[1] += 1;
-        } else if (ch == KEY_LEFT) {
-            if (tco[1] == 0)
-                tco[1] = sizec - 1;
-            else
-                tco[1] -= 1;
-        } else
-            continue;
-    }
+        else
+        continue;
+
+    } 
+    
+    clear();
+    
+    Product* products= (b[choice[0]][choice[1]])(numberofprods,selected_cat);
+
+    //Product* products = get_all_category_products(numberofprods,selected_cat);
+    
+    showproducts(*numberofprods,products,5,1,0,0);
     
 
-    c[choice[1]](b[choice[0]].id,userdetails->id);
     endwin();
 }
 
+void filter1(void){
+    const char* a[2][1] = {
+        {"Sort by price(High to low)"},
+        {"Sort by price(Low to high)"}
+    };
+    Product* (*b[2][1])(int*,char*) = {
+        {get_all_category_products},
+        {get_all_category_products}
+    };
+
+    // Clear the screen and show options
+    
+    
+    filterselect2d(2, 1, a, b,5,90);
+}

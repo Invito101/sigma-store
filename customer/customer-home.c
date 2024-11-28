@@ -12,6 +12,7 @@ void cart(void);
 void wallet(void);
 void categories(void);
 void settings(void);
+void exitprogram(void);
 void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, int column);
 
 void cart() {
@@ -21,7 +22,7 @@ void cart() {
 
 void wallet() {
     clear();
-    char *email = userdetails->email;
+     char *email = userdetails->email;
     int current_money = get_money_of_user(email);
     mvprintw(1, 5, "Wallet Balance: %d", current_money);
     mvprintw(3, 5, "Solve the question to earn 1000!");
@@ -47,20 +48,23 @@ void wallet() {
     clear();
 }
 
+char c[]=" ";
+char* selected_cat=c;
+
 void categories() {
     clear();
     //mvprintw(5, 10, "Categories function called.");
-    const char *a[3][2] = {
-        {"cat1", "cat2"},
-        {"cat3", "cat4"},{"cat5","cat6"}
+    const char *a[4][2] = {
+        {"Books", "Electronics"},               //    const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+        {"Fashion", "Sports and Fitness"},{"Games","Edibles"},{"Home and Kitchen","BACK"}
     };
-    void (*b[3][2])() = {
-        {filtertest, wallet},
-        {categories, settings},{categories,categories}
+    void (*b[4][2])() = {
+        {filter1, filter1},
+        {filter1, filter1},{filter1,filter1},{filter1,menu1}
     };
 
     // Clear the screen and show options
-    buttonselect2d(3, 2, a, b,5,50);
+    buttonselect2d(4, 2, a, b,5,50);
     refresh();
     getch();
 }
@@ -82,6 +86,10 @@ void settings() {
     getch();
 }
 
+void exitprogram(){
+    //ends the program
+}
+
 void menu1(void){
 
     initscr();
@@ -95,19 +103,21 @@ mvprintw(10, 10, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____
 
 refresh();
 
-    const char *a[2][2] = {
+    const char *a[3][2] = {
         {"CART", "WALLET"},
-        {"CATEGORIES", "SETTINGS"}
+        {"CATEGORIES", "SETTINGS"},
+        {"Quit",""}
     };
-    void (*b[2][2])() = {
+    void (*b[3][2])() = {
         {cart, wallet},
-        {categories, settings}
+        {categories, settings},
+        {exitprogram,exitprogram}
     };
 
     // Clear the screen and show options
-    buttonselect2d(2, 2, a, b,5,90);
+    buttonselect2d(3, 2, a, b,5,90);
     // Cleanup ncurses
-    
+
 refresh();
 endwin();
 
@@ -121,6 +131,7 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
     int sizer=m;
     int sizec=n;
     int ch;
+
     //char opencircle[]="\u25EF";
     //char closedcircle[]="\u2B24";
 
@@ -141,7 +152,26 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
     for (int i = 0; i < sizer; i++) {
             for (int j = 0; j < sizec; j++) {
                 
+                if(strcmp(a[i][1],"")==0){
+                    if (i == tco[0]) {
+                    // Highlight the selected button
+                    attron(COLOR_PAIR(2));
+                    mvprintw(i*4+row+30,column-5, "+--------------------------------+");
+                    mvprintw(i*4+row+31,column-5, "|            %-18s  |", a[i][j]);
+                    mvprintw(i*4+row+32,column-5, "+--------------------------------+");
+                    attroff(COLOR_PAIR(2));
+                } else {
+                    // Render the non-selected buttons
+                    attron(COLOR_PAIR(1));
+                    mvprintw(i*4+row+30, column-5, "+--------------------------------+");
+                    mvprintw(i*4+row+31, column-5, "|            %-18s  |", a[i][j]);
+                    mvprintw(i*4+row+32, column-5, "+--------------------------------+");
+                    attroff(COLOR_PAIR(1));
+                }
+                break;
 
+                }
+                else{
                 if (i == tco[0] && j == tco[1]) {
                     // Highlight the selected button
                     attron(COLOR_PAIR(2));
@@ -156,6 +186,7 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
                     mvprintw(i*4+row+1, j*50+column, "|            %-18s  |", a[i][j]);
                     mvprintw(i*4+row+2, j*50+column, "+--------------------------------+");
                     attroff(COLOR_PAIR(1));
+                }
                 }
             }
         }
@@ -201,14 +232,7 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
 
     } 
     if(strcmp(a[choice[0]][choice[1]],"PLACE ORDER")==0){
-        printw("Order has been placed. Press any key to continue");
-        refresh();
-        getch();
-        clear();
-        endwin();
         PlaceOrder(userdetails->id);
-        
-
     }
     else if(strcmp(a[choice[0]][choice[1]],"BACK")==0){
         endwin();
@@ -218,6 +242,7 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
 
     else{
     clear();
+    selected_cat=a[choice[0]][choice[1]];
     b[choice[0]][choice[1]]();
     endwin();}
 }
