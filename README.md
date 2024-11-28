@@ -1,4 +1,4 @@
-# Sigma Store - eCommerce System (ECS)
+# [Sigma Store](https://github.com/Invito101/sigma-store) - eCommerce System (ECS)
 
 ## Overview
 
