@@ -43,7 +43,7 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
 
     const char *box[] = {
         "+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n",
-        "|                  %s                                                                                                                                                                               |\n",
+        "|                  %s                         Number of sales: %s                                                                                                                                                         |\n",
         "|                  Rs.%s                                                                                                                                                                               |\n",
         "|                                                                                                                                                                                                        |\n",
         "|                  %s                                                                                                                                                                                     |\n",
@@ -84,7 +84,8 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                 attron(COLOR_PAIR(2));
                 for (int j = 0; j < 9; j++) { // Render the main box
                     if(j==1){
-                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name);
+                        snprintf(buffer,sizeof(buffer),"%d",b[i].amountBought);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
 
                     }
                     if(j==2){
@@ -134,7 +135,8 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                 for (int j = 0; j < 9; j++) { // Render the main box
 
                     if(j==1){
-                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name);
+                        snprintf(buffer,sizeof(buffer),"%d",b[i].amountBought);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
 
                     }
                     if(j==2){
@@ -179,7 +181,8 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                 
                 for (int j = 0; j < 9; j++) { // Render the main box
                     if(j==1){
-                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name);
+                        snprintf(buffer,sizeof(buffer),"%d",b[i].amountBought);
+                        mvprintw(row * (1 + 2 * (i-starter)) + j, col, box[j],b[i].name,buffer);
 
                     }
                     if(j==2){
