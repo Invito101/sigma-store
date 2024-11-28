@@ -2,14 +2,6 @@
 #include <time.h>
 #include <ctype.h>
 
-void clrscr(void){
-    #if defined(_WIN32) || defined(_WIN64)
-        system("cls"); // For Windows
-    #else
-        system("clear"); // For UNIX-like systems (Linux, macOS)
-    #endif
-}
-
 int getISTTime(){
     time_t rawtime;
     struct tm * timeinfo;
