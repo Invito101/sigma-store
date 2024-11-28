@@ -559,7 +559,7 @@ void view_bestsellers(){
         }
 
         attron(COLOR_PAIR(3));
-        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to select, q to quit.");
+        mvprintw(LINES - 2, 10, "Use arrow keys to navigate, Enter to select, q to quit.");
         attroff(COLOR_PAIR(3));
         refresh();
 
@@ -607,7 +607,7 @@ void view_bestsellers(){
 
                 attron(A_BOLD);
                 attron(COLOR_PAIR(3));
-                mvprintw(10, 0, "Bestsellers in %s", categories[category_choice]);
+                mvprintw(10,10, "Bestsellers in %s", categories[category_choice]);
                 mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to go back.");
                 attroff(A_BOLD);
                 attroff(COLOR_PAIR(3));
@@ -623,7 +623,7 @@ void view_bestsellers(){
 
                 if (filtered_count == 0) {
                     mvprintw(3, 10, "No products available in this category.");
-                    mvprintw(LINES - 1, 3, "Use arrow keys to navigate, Enter to delete, b to go back.");
+                    mvprintw(LINES - 1, 10, "Use arrow keys to navigate, Enter to delete, b to go back.");
                     refresh();
                     getch();
                     break;
@@ -770,14 +770,16 @@ void view_highest_rated(){
             }
         }
 
-        attron(COLOR_PAIR(3));
-        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to select, q to quit.");
-        attroff(COLOR_PAIR(3));
+        
+        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to Select,Press 'b' to go back to main menu.");
+        
         refresh();
 
         ch = getch();
-        if (ch == 'q') {
-            break;
+        if (ch == 'b') {
+            clear();
+            endwin();
+            admin_home();
         }
 
         switch (ch) {
@@ -796,10 +798,10 @@ void view_highest_rated(){
                     mvprintw(3, 10, "No products available.");
                     mvprintw(LINES - 1, 3, "Press Enter to go back.");
                     refresh();
-                    getch();
+                    if(getch()=='b'){
                     clear();
                     endwin();
-                    admin_home();
+                    admin_home();}
 
                 }
                     Product *products = get_all_category_products_top_rated(&count2,categories[category_choice]);
@@ -818,10 +820,11 @@ void view_highest_rated(){
 
                 attron(A_BOLD);
                 attron(COLOR_PAIR(3));
-                mvprintw(10, 0, "Highest rated products in %s", categories[category_choice]);
-                mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to go back.");
+                mvprintw(10, 10, "Highest Rated Products In %s", categories[category_choice]);
                 attroff(A_BOLD);
                 attroff(COLOR_PAIR(3));
+                mvprintw(LINES - 2, 3, " Press 'b' to go back.");
+
                 refresh();
                 int filtered_count = 0;
 
@@ -834,7 +837,7 @@ void view_highest_rated(){
 
                 if (filtered_count == 0) {
                     mvprintw(3, 10, "No products available in this category.");
-                    mvprintw(LINES - 1, 3, "Use arrow keys to navigate, Enter to delete, b to go back.");
+                    mvprintw(LINES - 1, 3, "Press 'b' to go back to main menu.");
                     refresh();
                     getch();
                     break;
@@ -888,11 +891,17 @@ void view_highest_rated(){
         mvprintw( 14, 100, "RATINGS:");
         attroff( A_BOLD);
         attroff( COLOR_PAIR(1));
-
+        mvprintw(LINES-2,10,"Press 'b' to go back to main menu");
 
         ch = getch();
 
-        if (ch=='\n') break;
+        if (ch=='b') 
+        {
+        clear();
+        endwin();
+        admin_home();
+
+        }
         else if (ch== KEY_UP){
                 if (start_row > 0) start_row--;
                 prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
