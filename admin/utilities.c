@@ -43,11 +43,11 @@ int is_valid_manufacturedBy(char* manufacturedBy)
 
 void get_valid_input_for_product(int row, char *label, char *buffer, int max_length, int (*validate)(char *)) {
     do {
-        move(row, 10);
+        move(row, 60);
         clrtoeol();
 
         attron(COLOR_PAIR(1));
-        mvprintw(row, 10, "%s: ", label);
+        mvprintw(row, 60, "%s: ", label);
         attroff(COLOR_PAIR(1));
         refresh();
 
@@ -57,14 +57,14 @@ void get_valid_input_for_product(int row, char *label, char *buffer, int max_len
         noecho();
         attroff(COLOR_PAIR(2));
 
-        move(row + 1, 10); // makes sure it doesnt clash with any error message
+        move(row + 1, 60); // makes sure it doesnt clash with any error message
         clrtoeol();
         
 
         if (validate == NULL || validate(buffer)) { // Checks for valid input if required per the case.
             if(strcmp(label,"Name of the product: ")==0 && is_product_name_taken(buffer)==1){
                 attron(COLOR_PAIR(1));
-                mvprintw(row + 1, 10, "Product with this name already exists. Press any key to enter a new name.");
+                mvprintw(row + 1, 60, "Product with this name already exists. Press any key to enter a new name.");
                 attroff(COLOR_PAIR(1));
                 refresh();
                 getch();
@@ -81,7 +81,7 @@ void get_valid_input_for_product(int row, char *label, char *buffer, int max_len
 
         // error message if invalid input
         attron(COLOR_PAIR(1));
-        mvprintw(row + 1, 10, "Invalid %s. Please try again.", label);
+        mvprintw(row + 1, 60, "Invalid %s. Please try again.", label);
         attroff(COLOR_PAIR(1));
         refresh();
     } while (1);
@@ -89,12 +89,12 @@ void get_valid_input_for_product(int row, char *label, char *buffer, int max_len
 
 void get_valid_input_for_existing_product(int row, char *label, char *buffer, int max_length, int (*validate)(char *)) {
     do {
-        move(row, 10);
+        move(row, 60);
         clrtoeol();
         char *label2 = label;
 
         attron(COLOR_PAIR(1));
-        mvprintw(row, 10, "%s", label);
+        mvprintw(row, 60, "%s", label);
         attroff(COLOR_PAIR(1));
         refresh();
 
@@ -104,7 +104,7 @@ void get_valid_input_for_existing_product(int row, char *label, char *buffer, in
         noecho();
         attroff(COLOR_PAIR(2));
 
-        move(row + 1, 10); // makes sure it doesnt clash with any error message
+        move(row + 1, 60); // makes sure it doesnt clash with any error message
         clrtoeol();
         if (strcmp(buffer,"b")==0)
         {
@@ -116,7 +116,7 @@ void get_valid_input_for_existing_product(int row, char *label, char *buffer, in
         if (validate == NULL || validate(buffer)) { // Checks for valid input if required per the case.
             if(strcmp(label,"Name of the product do you wanna modify: ")==0 && is_product_name_taken(buffer)==1){
                 attron(COLOR_PAIR(1));
-                mvprintw(row + 1, 10, "The Product you entered in the cart exists.");
+                mvprintw(row + 1, 60, "The Product you entered in the cart exists.");
                 attroff(COLOR_PAIR(1));
                 refresh();
                 getch();
@@ -128,7 +128,7 @@ void get_valid_input_for_existing_product(int row, char *label, char *buffer, in
             
             else if(is_product_name_taken(buffer)==0){
                 attron(COLOR_PAIR(1));
-                mvprintw(row + 1, 10, "The Product Name does not exists,please enter the valid name.");
+                mvprintw(row + 1, 60, "The Product Name does not exists,please enter the valid name.");
                 attroff(COLOR_PAIR(1));
                 refresh();
                 getch();
@@ -141,7 +141,7 @@ void get_valid_input_for_existing_product(int row, char *label, char *buffer, in
 
         // error message if invalid input
         attron(COLOR_PAIR(1));
-        mvprintw(row + 1, 10, "Invalid %s. Please try again.", label2);
+        mvprintw(row + 1, 60, "Invalid %s. Please try again.", label2);
         attroff(COLOR_PAIR(1));
         refresh();
     } while (1);
