@@ -150,7 +150,7 @@ void delete_product1();
 int selectany1(int n,const char *a[]);
 void complete_order1();
 void order_history1();
-void check_for_back(const char *input);
+void check_for_back(int input);
 
 
 

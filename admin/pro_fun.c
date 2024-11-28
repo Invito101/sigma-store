@@ -6,8 +6,8 @@
 #include <ncurses.h> // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 #define max_len 100
-void check_for_back(const char *input) {
-        if (strcmp(input, "b") == 0) {
+void check_for_back(int input) {
+        if (input==27) {
             clear();
             endwin();
             admin_home();
@@ -683,13 +683,15 @@ void order_history1(){
     attroff(COLOR_PAIR(1));
     int size;
     Order *comp_orders=get_all_completed_orders(&size);
-    attron(COLOR_PAIR(1));
-    mvprintw(30,10,"Enter 'b' to return to the main menu");
     
-    
-    
-    attroff(COLOR_PAIR(1));
-    
+    int pad_rows=0;
+    for(int t=0;t<size;t++)
+    {
+        pad_rows = pad_rows + comp_orders[t].size;
+
+    }
+    int pad_cols = 500;
+    WINDOW *pad2 = newpad(pad_rows, pad_cols);
     
     if (size==0)
     {
@@ -699,50 +701,80 @@ void order_history1(){
         refresh();
     }
     else{
+
+      
+    int k = 0;
+   
+    for (int i = 0; i < size; i++) {
+        wattron(pad2, COLOR_PAIR(2));
+        mvwprintw(pad2, i + k, 0, "%d", comp_orders[i].id);
+        mvwprintw(pad2,  i + k, 10, "%d", comp_orders[i].items->userId);
+
+        for (int j = 0; j < comp_orders[i].size; j++) {
+            Product *p11 = get_product_by_id(comp_orders[i].items[j].productId);
+            if (p11) {
+                mvwprintw(pad2, i + k + j, 30, "%s", p11->name);
+                mvwprintw(pad2,  i + k + j, 80, "%d", comp_orders[i].items[j].quantity);
+                free(p11);  // Free product after use
+            }
+        }
+        mvwprintw(pad2, i + k, 100, "%d", comp_orders[i].createdAt);
+        wattroff(pad2, COLOR_PAIR(2));
+        k += comp_orders[i].size;
+    
+    
+}
+   
+    }
+
+    int start_row = 0, start_col = 0 ,start_col2 = 0;
+    int display_rows = LINES < 15 ? LINES : 15;
+    int display_cols = COLS < 220 ? COLS : 220;
+    prefresh(pad2, start_row, start_col, 14, 30, 10 + display_rows - 1, display_cols - 1);
+    int ch;
+    while(true)
+    {
         attron(COLOR_PAIR(1));
         mvprintw(12,30,"Order ID");
         mvprintw(12,40,"User ID");
         mvprintw(12,60,"Product Name");
         mvprintw(12,110,"Quantity");
         mvprintw(12,130,"Created At");
-        attroff(COLOR_PAIR(1));
-        int k=0;
-        for (int i=0;i<size;i++)
-        {   
-            
-            attron(COLOR_PAIR(1));
-            mvprintw(14+i+k,30,"%d",comp_orders[i].id);
-            mvprintw(14+i+k,40,"%d",comp_orders[i].items->userId);
-            
-            
-
-            
-            for (int j=0;j<comp_orders[i].size;j++)
-            {
-                
-                Product *p11=get_product_by_id(comp_orders[i].items[j].productId);
-                mvprintw(14+i+k+j,60,"%s",p11->name);
-                mvprintw(14+i+k+j,110,"%d",comp_orders[i].items[j].quantity);}
-            mvprintw(14+i+k,130,"%d",comp_orders[i].createdAt);
-
-            attroff(COLOR_PAIR(1));
-            k=k+comp_orders[i].size;
-            refresh();
+        prefresh(pad2, start_row, start_col, 14, 30, 10+display_rows - 1, display_cols - 1);
+        ch=getch();
+        if (ch=='\n') break;
+        else if (ch== KEY_UP){
+                if (start_row > 0) start_row--;
+                prefresh(pad2, start_row, start_col, 14, 30, 10+display_rows - 1, display_cols - 1);
         }
+        else if (ch == KEY_DOWN){
+                if (start_row < (pad_rows - display_rows)+10) start_row++;
+                prefresh(pad2, start_row, start_col, 14, 30, 10+display_rows - 1, display_cols - 1);
+        }
+        else if (ch== KEY_LEFT){
+                if (start_col > 0) {start_col--;start_col2--;}
+                prefresh(pad2, start_row, start_col, 14, 30, 10+display_rows - 1, display_cols - 1);
+                
+        }
+        else if(ch==KEY_RIGHT){
+                if (start_col < (pad_cols - display_cols)) {start_col++;start_col2++;}
+                prefresh(pad2, start_row, start_col, 14, 30, 10+display_rows - 1, display_cols - 1);
+                
+        }
+        else continue;
     }
-    attron(COLOR_PAIR(1));
-    mvprintw(30, 10, "Enter 'b' to return to the main menu");
-    attroff(COLOR_PAIR(1));
+    
 
-    char ch12 = getch();
-    check_for_back(&ch12);
+    int  ch12 = getch();
+    check_for_back(ch12);
 
    
     if (comp_orders) {
         free(comp_orders);
     }
-
+    clear();
     endwin();
+    delwin(pad2);
     admin_home();
 }
     
