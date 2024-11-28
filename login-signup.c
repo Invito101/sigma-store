@@ -111,9 +111,6 @@ void signup() {
     noecho();
     int ch, index = 0;
     while ((ch = getch()) != '\n') {
-        if(ch==27){
-            main();
-        }
         if (ch == KEY_BACKSPACE || ch == 127) {
             if (index > 0) {
                 index--;
@@ -126,6 +123,9 @@ void signup() {
         }
     }
     password[index] = '\0';
+    if (password[0]==27 && password[1]=='\0'){//escape case
+    main();
+    }
     attroff(COLOR_PAIR(2));
     echo();
 
@@ -222,9 +222,6 @@ void login1(){
         attron(COLOR_PAIR(2));
         index = 0; 
         while ((ch = getch()) != '\n') {
-            if(ch==27){
-                main();
-            }
             if (ch == KEY_BACKSPACE || ch == 127) {
                 if (index > 0) {
                     index--;
@@ -238,6 +235,9 @@ void login1(){
         }
         password[index] = '\0'; // adding null terminator
         attroff(COLOR_PAIR(2));
+        if(password[0]==27 && password[1]=='\0'){// escape case
+            main();
+        }
         echo();
 
         userdetails = login(email, password);
