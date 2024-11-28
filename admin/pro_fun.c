@@ -353,7 +353,7 @@ void delete_product1() {
     while (true) {
         clear();
         attron(COLOR_PAIR(2));
-        mvprintw(1, 10, "Select a category:");
+        mvprintw(9, 55, "Select a category:");
         attroff(COLOR_PAIR(2));
 
         mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
@@ -368,21 +368,23 @@ void delete_product1() {
         for (int i = 0; i < category_count; i++) {
             if (i == category_choice) {
                 attron(COLOR_PAIR(2));
-                mvprintw(12 + i, 10, "> %s", categories[i]);
+                mvprintw(12 + i, 53, "> %s", categories[i]);
                 attroff(COLOR_PAIR(2));
             } else {
                 attron(COLOR_PAIR(1));
-                mvprintw(12 + i, 12, "%s", categories[i]);
+                mvprintw(12 + i, 55, "%s", categories[i]);
                 attroff(COLOR_PAIR(1));
             }
         }
 
-        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to select, q to quit.");
+        mvprintw(LINES - 2, 3, "Use arrow keys to navigate | Enter to select | b to go back | q to quit.");
         refresh();
 
         ch = getch();
-        if (ch == 'q') {
-            break;
+        if (ch == 'b') admin_home();
+        if (ch == 'q' || ch == 'Q') {
+            endwin();
+            exit(0);
         }
 
         switch (ch) {
@@ -396,7 +398,7 @@ void delete_product1() {
                 // Display products under the selected category
                 clear();
                 attron(COLOR_PAIR(2));
-                mvprintw(9, 10, "Select a product to delete from category: %s", categories[category_choice]);
+                mvprintw(9, 55, "Select a product to delete from category: %s", categories[category_choice]);
                 attroff(COLOR_PAIR(2));
 
                 int filtered_indices[count];
@@ -416,10 +418,15 @@ void delete_product1() {
                     mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
                     mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
                     mvprintw(15, 10, "No products available in this category.");
-                    mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to delete, b to go back.");
+                    mvprintw(LINES - 2, 3, "Use arrow keys to navigate | Enter to delete | b to go back | q to quit.");
                     refresh();
-                    getch();
-                    break;
+
+                    ch = getch();
+                    if (ch == 'b') break;
+                    if (ch == 'q' || ch == 'Q') {
+                        endwin();
+                        exit(0);
+                    }
                 }
 
                 int product_choice = 0;
@@ -427,7 +434,7 @@ void delete_product1() {
                 while (true) {
                     clear();
                     attron(COLOR_PAIR(2));
-                    mvprintw(9, 10, "Select a product to delete from category: %s", categories[category_choice]);
+                    mvprintw(9, 55, "Select a product to delete from category: %s", categories[category_choice]);
                     attroff(COLOR_PAIR(2));
 
                     mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
@@ -443,20 +450,24 @@ void delete_product1() {
                         int index = filtered_indices[i];
                         if (i == product_choice) {
                             attron(COLOR_PAIR(2));
-                            mvprintw(12 + i, 10, "> %s", products[index].name);
+                            mvprintw(12 + i, 53, "> %s", products[index].name);
                             attroff(COLOR_PAIR(2));
                         } else {
                             attron(COLOR_PAIR(1));
-                            mvprintw(12 + i, 12, "%s", products[index].name);
+                            mvprintw(12 + i, 55, "%s", products[index].name);
                             attroff(COLOR_PAIR(1));
                         }
                     }
 
-                    mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to delete, b to go back.");
+                    mvprintw(LINES - 2, 3, "Use arrow keys to navigate | Enter to delete | b to go back | q to quit.");
                     refresh();
 
                     ch = getch();
                     if (ch == 'b') break;
+                    if (ch == 'q' || ch == 'Q') {
+                        endwin();
+                        exit(0);
+                    }
 
                     switch (ch) {
                         case KEY_UP:
@@ -477,9 +488,9 @@ void delete_product1() {
                                 move(LINES-4,10);
                                 clrtoeol();
                                 attron(COLOR_PAIR(2));
+                                clear();
                                 mvprintw(LINES - 4, 10, "'%s' deleted successfully!", products[delete_index].name);
                                 attroff(COLOR_PAIR(2));
-                                getch();
                                 clear();
                                 admin_home();
                                 break;
@@ -565,12 +576,17 @@ void complete_order1(){
             }
         }
 
-        mvprintw(LINES - 2, 3, "Use arrow keys to navigate, Enter to select, q to quit.");
+        mvprintw(LINES - 2, 3, "Use arrow keys to navigate | Enter to select | b to go back | q to quit.");
         refresh();
 
         ch = getch();
-        if (ch == 'q') {
-            break;
+        if (ch == 'q' || ch == 'Q') {
+            endwin();
+            exit(0);
+        }
+
+        if (ch == 'b' || ch == 'B'){
+            admin_home();
         }
 
         switch (ch) {
@@ -591,17 +607,24 @@ void complete_order1(){
                 }
 
                 if (orders[choice].items == NULL || orders[choice].size <= 0) {
-                     mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+                    mvprintw(2,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
                     mvprintw(3, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
                     mvprintw(4, 60, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
                     mvprintw(5, 60, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
                     mvprintw(6, 60, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
                     mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
                     mvprintw(15, 60, "No items in this order.");
-                    mvprintw(LINES-2, 3, "Press b to go back.");
+                    mvprintw(LINES-2, 3, "Press b to go back | q to quit.");
                     refresh();
                     getch();
-                    break;
+
+                    if (ch == 'b' || ch == 'B'){
+                        break;
+                    }
+                    if (ch == 'q' || ch == 'Q'){
+                        endwin();
+                        exit(0);
+                    }
                 }
                 // Display order details
                 while (true) {
@@ -620,10 +643,10 @@ void complete_order1(){
                     refresh();
 
                     attron(COLOR_PAIR(1));
-                    mvprintw(10, 10, "Order ID: '%d'",orders[choice].id);
-                    mvprintw(10, 70, "User ID: '%d'",orders[choice].userId);
-                    mvprintw(11,55,"Product ID");
-                    mvprintw(11,70,"Quantity");
+                    mvprintw(10, 55, "Order ID: '%d'",orders[choice].id);
+                    mvprintw(10, 85, "User ID: '%d'",orders[choice].userId);
+                    mvprintw(12,55,"Product ID");
+                    mvprintw(12,70,"Quantity");
                     attroff(COLOR_PAIR(1));
 
                     for (int i=0; i<orders[choice].size; i++){
@@ -633,11 +656,16 @@ void complete_order1(){
                         attroff(COLOR_PAIR(2));
                     }
 
-                    mvprintw(LINES - 2, 3, "Press b to go back.");
+                    mvprintw(LINES - 2, 3, "Press b to go back | q to quit.");
                     refresh();
 
                     ch = getch();
-                    if (ch == 'b') break;
+                    if (ch == 'b' || ch == 'B') break;
+
+                    if (ch == 'q' || ch == 'Q'){
+                        endwin();
+                        exit(0);
+                    }
 
                     if (ch == 'y' || ch == 'Y') {
                         clear();
