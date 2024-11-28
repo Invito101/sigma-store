@@ -117,7 +117,7 @@ void get_valid_input_for_existing_product(int row, char *label, char *buffer, in
             clear();
             endwin();
             admin_home();
-            exit(0);
+            
         }
         if (validate == NULL || validate(buffer)) { // Checks for valid input if required per the case.
             if(strcmp(label,"Name of the product do you wanna modify: ")==0 && is_product_name_taken(buffer)==1){
