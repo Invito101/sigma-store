@@ -166,18 +166,15 @@ void get_valid_login(int row, char *label, char *buffer, int max_length, int (*v
 
 char* get_date_from_time(time_t timestamp) {
     struct tm *time_info;
-    char *formatted_date = malloc(11 * sizeof(char));  // Allocate memory for date string "YYYY-MM-DD" + '\0'
+    char *formatted_date = malloc(11 * sizeof(char));
 
-    // Check if memory allocation succeeded
     if (formatted_date == NULL) {
-        return NULL;  // Return NULL if malloc fails
+        return NULL;
     }
 
-    // Convert time_t to local time (you can use gmtime for UTC time)
     time_info = localtime(&timestamp);
 
-    // Format the date into a string (only date, no time)
     strftime(formatted_date, 11, "%Y-%m-%d", time_info);
 
-    return formatted_date;  // Return the dynamically allocated string
+    return formatted_date;
 }

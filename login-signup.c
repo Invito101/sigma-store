@@ -1,9 +1,38 @@
 #include "headers.h"
 
 void authpage(void){
-    const char *a[3]={"Sign up","Login","Quit"};
-    void (*b[])()={signup,login1,quit};
-    selector(3,a,b);
+    initscr();
+        start_color();
+
+    clear();
+
+    mvprintw(5, 62, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
+mvprintw(6, 67, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
+mvprintw(7, 67, " | (___   | || |  __| \\  / |  /  \\    | (___    | | | |  | | |__) | |__   ");
+mvprintw(8, 67, "  \\___ \\  | || | |_ | |\\/| | / /\\ \\    \\___ \\   | | | |  | |  _  /|  __|  ");
+mvprintw(9, 67, "  ____) |_| || |__| | |  | |/ ____ \\   ____) |  | | | |__| | | \\ \\| |____ ");
+mvprintw(10, 67, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
+
+refresh();
+
+    const char *a[3][2] = {
+        {"SIGNUP", ""},
+        {"LOGIN",""},
+        {"QUIT", ""}
+    };
+    void (*b[3][2])() = {
+        {signup, signup},
+        {login1, login1},
+        {quit, quit}
+    };
+
+    // Clear the screen and show options
+    buttonselect2d(3, 2, a, b,-10,92);
+    // Cleanup ncurses
+
+refresh();
+endwin();
+
 }
 
 void selector(int n,const char *a[],void (*b[])()) {
@@ -269,11 +298,11 @@ void login1(){
         menu1();
     }
     flag=0;
-    free(userdetails); // Clean up simulated user
 }
 
 void quit(){
-
+    initscr();
     clear();
-    admin_home();
+    endwin();
+    exit(0);
 }

@@ -6,15 +6,7 @@
 #include <ncurses.h> // Ensure this file exists and is in the correct path
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 #define max_len 100
-void check_for_back(int input) {
-        if (input==27) {
-            clear();
-            endwin();
-            admin_home();
-            exit(0); // Ensure the function exits immediately
-        }
-        
-    }
+
 
 
 void create_product1(){   
@@ -168,16 +160,16 @@ void modify_product1(){
     attroff(COLOR_PAIR(3));
 
     get_valid_input_for_existing_product(11, "Name Of The Product Do You Wanna Modify: ", name, max_len, is_valid_name);
-    check_for_back(name);
+    
     
 
     get_valid_input_for_product(12, "New Name ", new_name, max_len, is_valid_name);
-    check_for_back(new_name);
+    
 
     get_valid_input_for_product(13, "New Price ", new_price, max_len, is_numeric);
-    check_for_back(new_price);
+    
     get_valid_input_for_product(14, "New Description ",new_description, max_len, NULL);
-    check_for_back(new_description);
+    
 
     const char* categ[7]= {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int selected = selectany1(7,categ);
@@ -196,7 +188,7 @@ void modify_product1(){
     attroff(COLOR_PAIR(2));
     refresh();
     get_valid_input_for_product(16, "Manufactured by ",new_manufactured_by, max_len, is_valid_manufacturedBy);
-    check_for_back(new_manufactured_by);
+    
 
     int sf = modify_product(name,new_name,atoi(new_price),new_description,new_category,new_manufactured_by);
     clear();
@@ -837,8 +829,7 @@ void order_history1(){
     }
     
 
-    int  ch12 = getch();
-    check_for_back(ch12);
+    
 
    
     if (comp_orders) {

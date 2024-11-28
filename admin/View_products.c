@@ -270,15 +270,7 @@ void view_particular(){
     attron(COLOR_PAIR(1));
     mvprintw(25,10,"Press 'b' And Press Enter Key To Go Back To Main Menu.");
     attroff(COLOR_PAIR(1));
-    int ch11=getch();
-    if(ch11==27)
-    {
-        clear();
-        endwin();
-        admin_home();
-        exit(0);
 
-    }
     
     get_valid_input_for_existing_product(12, "Name of the product: ", name, max_len, is_valid_name);
     
@@ -325,15 +317,7 @@ void view_particular(){
     attroff(COLOR_PAIR(2));
     refresh();
     
-    int ch12=getch();
-    if(ch12==27)
-    {
-        clear();
-        endwin();
-        admin_home();
-        exit(0);
-
-    }
+    
 
 
     }
@@ -621,10 +605,10 @@ void view_bestsellers(){
                 attroff(A_BOLD);
                 attroff(COLOR_PAIR(3));
                 refresh();
-                int filtered_indices[count];
+                int filtered_indices[count2];
                 int filtered_count = 0;
 
-                for (int i = 0; i < count; i++) {
+                for (int i = 0; i < count2; i++) {
                     if (strcmp(products[i].category, categories[category_choice]) == 0) {
                         filtered_indices[filtered_count++] = i;
                     }
@@ -669,25 +653,24 @@ void view_bestsellers(){
 
 
     int start_row = 0, start_col = 0;
-    int display_rows = LINES < 30 ? LINES : 30;
+    int display_rows = LINES <  30? LINES - 5 : 30;
     int display_cols = COLS < 220 ? COLS : 220;
-    prefresh(pad2, start_row, start_col, 15, 10, 10 + display_rows - 1, display_cols - 1);
+    prefresh(pad2, start_row, start_col, 15, 10,  10+display_rows - 1, display_cols - 1);
 
-    int ch;
-    WINDOW *header = newpad( 1, 500); 
+
         
         while(true){
-        wattron(header,COLOR_PAIR(1));
-        wattron(header,A_BOLD);
-        mvwprintw( header,0, 10, "NAME:");       // Print product name
-        mvwprintw( header,0, 80, "PRICE:"); 
-        mvwprintw( header,0, 90, "ID:"); 
-        mvwprintw( header,0, 100, "NUMBER OF BUYERS:");
-        mvwprintw( header,0, 120, "NUMBER OF RATINGS:");
-        mvwprintw( header,0, 145, "RATINGS:");
-        wattroff(header,A_BOLD);
-        wattroff(header,COLOR_PAIR(1));
-        prefresh(header, 0, 0, 14, 0, 14, display_cols - 1);
+        attron(COLOR_PAIR(1));
+        attron(A_BOLD);
+        mvprintw( 14, 10, "NAME:");       // Print product name
+        mvprintw( 14, 80, "PRICE:"); 
+        mvprintw(14, 90, "ID:"); 
+        mvprintw( 14, 100, "NUMBER OF BUYERS:");
+        mvprintw( 14, 120, "NUMBER OF RATINGS:");
+        mvprintw( 14, 145, "RATINGS:");
+        attroff(A_BOLD);
+        attroff(COLOR_PAIR(1));
+        refresh();
         
         ch = getch();
 
@@ -714,7 +697,6 @@ void view_bestsellers(){
 
             clear();
             delwin(pad2);
-            delwin(header);
             endwin();
             admin_home();
 
@@ -834,10 +816,10 @@ void view_highest_rated(){
                 attroff(A_BOLD);
                 attroff(COLOR_PAIR(3));
                 refresh();
-                int filtered_indices[count];
+                int filtered_indices[count2];
                 int filtered_count = 0;
 
-                for (int i = 0; i < count; i++) {
+                for (int i = 0; i < count2; i++) {
                     if (strcmp(products[i].category, categories[category_choice]) == 0) {
                         filtered_indices[filtered_count++] = i;
                     }
@@ -882,25 +864,24 @@ void view_highest_rated(){
 
 
     int start_row = 0, start_col = 0;
-    int display_rows = LINES < 30 ? LINES : 30;
+    int display_rows = LINES < 30 ? LINES - 5 : 30;
     int display_cols = COLS < 220 ? COLS : 220;
     prefresh(pad2, start_row, start_col, 15, 10, 10 + display_rows - 1, display_cols - 1);
 
-    int ch;
-    WINDOW *header = newpad( 1, 500); 
+
         
         while(true){
-        wattron(header, COLOR_PAIR(1));
-        wattron(header, A_BOLD);
-        mvwprintw(header, 0, 10, "NAME:");       // Print product name
-        mvwprintw(header, 0, 80, "PRICE:"); 
-        mvwprintw(header, 0, 90, "ID:"); 
-        mvwprintw(header, 0, 145, "NUMBER OF BUYERS:");
-        mvwprintw(header, 0, 120, "NUMBER OF RATINGS:");
-        mvwprintw( header,0, 100, "RATINGS:");
-        wattroff(header, A_BOLD);
-        wattroff(header, COLOR_PAIR(1));
-        prefresh(header, 0, 0, 14, 0, 14, display_cols - 1);
+        attron( COLOR_PAIR(1));
+        attron( A_BOLD);
+        mvprintw( 14, 10, "NAME:");       // Print product name
+        mvprintw( 14, 80, "PRICE:"); 
+        mvprintw( 14, 90, "ID:"); 
+        mvprintw( 14, 145, "NUMBER OF BUYERS:");
+        mvprintw( 14, 120, "NUMBER OF RATINGS:");
+        mvprintw( 14, 100, "RATINGS:");
+        attroff( A_BOLD);
+        attroff( COLOR_PAIR(1));
+
 
         ch = getch();
 
@@ -927,7 +908,6 @@ void view_highest_rated(){
 
             clear();
             delwin(pad2);
-            delwin(header);
             endwin();
             admin_home();
 
