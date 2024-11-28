@@ -525,7 +525,7 @@ void view_bestsellers(){
 
 
     // Extract unique categories
-    const char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int category_count = 7;
 
 
@@ -605,7 +605,6 @@ void view_bestsellers(){
                 attroff(A_BOLD);
                 attroff(COLOR_PAIR(3));
                 refresh();
-                int filtered_indices[count2];
                 int filtered_count = 0;
 
                 for (int i = 0; i < count2; i++) {
@@ -736,7 +735,7 @@ void view_highest_rated(){
 
 
     // Extract unique categories
-    const char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
+    char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int category_count = 7;
 
 

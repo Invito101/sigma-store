@@ -134,11 +134,8 @@ refresh();
   }
 
 
-
-
     int start_row = 0, start_col = 0 ;
     int display_rows = LINES < 30 ? LINES : 30;
-    int display_cols = COLS < 100 ? COLS : 100;
     prefresh(pad2, start_row, start_col, 8, 126,  10 +display_rows - 4, COLS - 2);
 
 
