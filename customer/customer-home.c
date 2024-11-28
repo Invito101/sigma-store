@@ -118,7 +118,7 @@ refresh();
     };
 
     // Clear the screen and show options
-    buttonselect2d(3, 2, a, b,5,90);
+    buttonselect2d(3, 2, a, b,5,102);
     // Cleanup ncurses
 
 refresh();
