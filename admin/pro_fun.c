@@ -826,7 +826,7 @@ void order_history1(){
         k += comp_orders[i].size;
     
     
-}
+        }
    
     }
 
@@ -881,17 +881,5 @@ void order_history1(){
     }
     
 }
-    
 
-
-
-
-
-
-
-
-
-
-    
-    
 
