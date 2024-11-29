@@ -84,7 +84,7 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
             if (i == tco[0]&&tco[1]==0) {
 
                 attron(COLOR_PAIR(2));
-                for (int j = 0; j < 9; j++) { // Render the main box
+                for (int j = 0; j < 9; j++) {
                     
                     if(j==1){
                         attron(A_BOLD);
@@ -120,7 +120,6 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                 }
                 attroff(COLOR_PAIR(2));
 
-                // Render the plus box on the right side of the current box
                 
                 attron(COLOR_PAIR(3));
 
@@ -142,7 +141,7 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                 } 
                 else if(tco[0]==i&&tco[1]==1){
                 attron(COLOR_PAIR(2));
-                for (int j = 0; j < 9; j++) { // Render the main box
+                for (int j = 0; j < 9; j++) {
 
                     if(j==1){
                         attron(A_BOLD);
@@ -176,7 +175,6 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                     }
                 }
 
-                // Render the plus box on the right side of the non-selected box
                 for (int k = 0; k < 7; k++) {
                     mvprintw(row * (1 + 2 * (i-starter)) + k + 1, col + 160, plus[k]);
 
@@ -184,7 +182,6 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                 attroff(COLOR_PAIR(2));
                 attron(COLOR_PAIR(3));
 
-                // Render the minus box below the plus box
                 for (int k = 0; k < 7; k++) {
                     mvprintw(row * (1 + 2 * (i-starter)) + k + 1, col + 180, minus[k]);
 
@@ -196,7 +193,7 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
 
                 attron(COLOR_PAIR(1));
                 
-                for (int j = 0; j < 9; j++) { // Render the main box
+                for (int j = 0; j < 9; j++) {
                     if(j==1){
                         attron(A_BOLD);
                         snprintf(buffer,sizeof(buffer),"%d",b[i].amountBought);
@@ -228,14 +225,12 @@ void showproducts(int count, Product* b, int row, int col,int starter,int choose
                     }
                 }
 
-                // Render the plus box on the right side of the non-selected box
                 for (int k = 0; k < 7; k++) {
                     mvprintw(row * (1 + 2 * (i-starter)) + k + 1, col + 160, plus[k]);
 
                 }
                 
 
-                // Render the minus box below the plus box
                 for (int k = 0; k < 7; k++) {
                     mvprintw(row * (1 + 2 * (i-starter)) + k + 1, col + 180, minus[k]);
 
@@ -256,8 +251,8 @@ printw("Manufactured By: %s\n", b[choice[0]].manufacturedBy);
 printw("Rating: %.2f\n", b[choice[0]].rating);
 printw("Number of Ratings: %d\n", b[choice[0]].noOfRatings);
 printw("Amount Bought: %d\n", b[choice[0]].amountBought);
-printw("Created At: %s\n", ctime(&(b[choice[0]].createdAt))); // Convert time_t to string
-printw("\n"); // Add a blank line after the selected product
+printw("Created At: %s\n", ctime(&(b[choice[0]].createdAt)));
+printw("\n");
 refresh();*/
         }
             refresh();

@@ -43,14 +43,12 @@ void filterselect2d(int m,int n,const char *a[m][n],Product* (*b[m][n])(int*,cha
                 
 
                 if (i == tco[0] && j == tco[1]) {
-                    // Highlight the selected button
                     attron(COLOR_PAIR(2));
                     mvprintw(i*4+row, j*60+column,   "+-----------------------------------------------------+");
                     mvprintw(i*4+row+1, j*60+column, "|            %s", a[i][j]);
                     mvprintw(i*4+row+2, j*60+column, "+-----------------------------------------------------+");
                     attroff(COLOR_PAIR(2));
                 } else {
-                    // Render the non-selected buttons
                     attron(COLOR_PAIR(1));
                     mvprintw(i*4+row, j*60+column,   "+-----------------------------------------------------+");
                     mvprintw(i*4+row+1, j*60+column, "|            %s", a[i][j]);
@@ -146,7 +144,6 @@ void filter1(void){
 };
 
 
-    // Clear the screen and show options
     
 
     filterselect2d(2, 2, a, b,15,40);

@@ -124,7 +124,6 @@ User* login(char *email, char *password){
     if (sqlite3_step(stmt) == SQLITE_ROW){
         user = malloc(sizeof(User));
         if (user) {
-            // Array of char pointers
             char *values[11];
             for (int i = 0; i < 11; i++){
                 values[i] = (char *)sqlite3_column_text(stmt, i);

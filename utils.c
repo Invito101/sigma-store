@@ -94,8 +94,8 @@ void get_valid_input(int row, char *label, char *buffer, int max_length, int (*v
         move(row + 1, 10); // makes sure it doesnt clash with any error message
         clrtoeol();
 
-        if (validate == NULL || validate(buffer)) { // Checks for valid input if required per the case.
-            break; // Valid input
+        if (validate == NULL || validate(buffer)) {
+            break;
         }
 
         // error message if invalid input
@@ -129,7 +129,7 @@ void get_valid_login(int row, char *label, char *buffer, int max_length, int (*v
         move(row + 1, 10); // makes sure it doesnt clash with any error message
         clrtoeol();
 
-        if (validate == NULL || validate(buffer)) { // Checks for valid input if required per the case.
+        if (validate == NULL || validate(buffer)) {
             if(is_email_taken(buffer)==0){
                 attron(COLOR_PAIR(1)|A_BOLD);
                 mvprintw(row + 1, 10, "This account does not exist. Please sign up.");
@@ -143,7 +143,7 @@ void get_valid_login(int row, char *label, char *buffer, int max_length, int (*v
 
             }
 
-            break; // Valid input
+            break;
         }
 
         // error message if invalid input

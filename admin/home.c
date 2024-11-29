@@ -1,22 +1,19 @@
 #include "../headers.h"
 #include <stdbool.h>
-#include <ncurses.h> // Ensure this file exists and is in the correct path
+#include <ncurses.h>
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 
 
 int view_all(void);
 void quit2(void);
 int admin_home(void) {
-    // Initialize ncurses
     initscr();
     
-    // Clear the screen and show options
     clear();
     
 
     view_all();
 
-    // Cleanup ncurses
     endwin();
     return 0;
 }
@@ -320,15 +317,13 @@ void selectany1func(int n,const char *a[],void (*b[])()) {
 void settings2() {
     clear();
 
-    // Define the labels and corresponding functions for the buttons
     const char *a[1][2] = {
         {"BACK", "LOGOUT"}
     };
     void (*b[1][2])() = {
-        {(void*)admin_home, authpage} // Map "Back" to menu1 and "Logout" to login1
+        {(void*)admin_home, authpage}
     };
 
-    // Use buttonselect2d to display the buttons
     buttonselect2d(1, 2, a, b, 5, 50);
     refresh();
     getch();
