@@ -132,7 +132,7 @@ Once the project is installed and the dependencies are configured, you can use t
 
 | Contributor                                     | Contribution Details                                                                                                   |
 | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| [Akshay K M](https://github.com/Akshay-K-M)     | Signup, Encryption of Passwords, Ordering/Cart (Linked List) and Wallet, User Interface Assistance                     |
+| [Akshay K M](https://github.com/Akshay-K-M)     | Signup, Encryption of Passwords, Ordering/Cart, Wallet, User Interface Assistance                                      |
 | [Anurag Rao U](https://github.com/Invito101)    | Database, Shell Script, Backend                                                                                        |
 | [H Sanjay](https://github.com/Bit-by-bit-coder) | Delete Product, View Products Category Wise, Complete Order, Makefile, User Interface                                  |
 | [K Sai Amith](https://github.com/Dictator-00)   | Modify Product, View Product by Name, Order History, User Interface                                                    |
