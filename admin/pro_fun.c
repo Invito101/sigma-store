@@ -539,7 +539,7 @@ void complete_order1(){
         return;
     }
 
-                    int pad_rows = 2*count+2;
+    int pad_rows = 2*count+2;
     int pad_cols = 500;
     WINDOW *pad2 = newpad(pad_rows, pad_cols);
     if (pad2 == NULL) {
@@ -552,7 +552,7 @@ void complete_order1(){
 
     int choice=0;
     int ch;
-            int start_row = 0, start_col = 0 ,start_col2 = 0;
+    int start_row = 0, start_col = 0 ,start_col2 = 0;
     int display_rows = LINES < 30 ? LINES : 30;
     int display_cols = COLS < 220 ? COLS : 220;
 

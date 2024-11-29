@@ -449,19 +449,19 @@ void view_all_products(){
         // Create a window for the fixed header row
 
 
-// Draw the fixed header row in the 'header' window
-wattron(header, COLOR_PAIR(1) | A_BOLD);
-mvwprintw(header, 0, 0, "NAME:");
-mvwprintw(header, 0, 90, "PRICE:");
-mvwprintw(header, 0, 100, "ID:");
-mvwprintw(header, 0, 145, "NUMBER OF BUYERS:");
-mvwprintw(header, 0, 123, "NUMBER OF RATINGS:");
-mvwprintw(header, 0, 110, "RATINGS:");
-mvwprintw(header, 0, 70, "CATEGORY:");
-mvwprintw(header, 0, 167, "MANUFACTURED BY:");
-mvwprintw(header, 0, 190, "DESCRIPTION:");
-wattroff(header, COLOR_PAIR(1) | A_BOLD);
-prefresh(header, 0, start_col2, 14, 10, 14, display_cols - 1);
+    // Draw the fixed header row in the 'header' window
+    wattron(header, COLOR_PAIR(1) | A_BOLD);
+    mvwprintw(header, 0, 0, "NAME:");
+    mvwprintw(header, 0, 90, "PRICE:");
+    mvwprintw(header, 0, 100, "ID:");
+    mvwprintw(header, 0, 145, "NUMBER OF BUYERS:");
+    mvwprintw(header, 0, 123, "NUMBER OF RATINGS:");
+    mvwprintw(header, 0, 110, "RATINGS:");
+    mvwprintw(header, 0, 70, "CATEGORY:");
+    mvwprintw(header, 0, 167, "MANUFACTURED BY:");
+    mvwprintw(header, 0, 190, "DESCRIPTION:");
+    wattroff(header, COLOR_PAIR(1) | A_BOLD);
+    prefresh(header, 0, start_col2, 14, 10, 14, display_cols - 1);
 
         prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
         ch = getch();
