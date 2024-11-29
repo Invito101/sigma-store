@@ -8,7 +8,7 @@ sqlite3* open_db(void){
 
     if (rc != SQLITE_OK){
         fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        close_db(db); // Close the database connection if it was partially opened
+        close_db(db);
         exit(0);
     }
 

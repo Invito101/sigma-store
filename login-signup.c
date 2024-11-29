@@ -26,9 +26,7 @@ refresh();
         {quit, quit}
     };
 
-    // Clear the screen and show options
     buttonselect2d(3, 2, a, b,-10,92);
-    // Cleanup ncurses
 
 refresh();
 endwin();
@@ -42,8 +40,6 @@ void selector(int n,const char *a[],void (*b[])()) {
     
     int sizea=n;
     int ch;
-    //char opencircle[]="\u25EF";
-    //char closedcircle[]="\u2B24";
 
     initscr();
     raw();

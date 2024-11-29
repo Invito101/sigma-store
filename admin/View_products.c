@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include<string.h>
-#include <ncurses.h> // Ensure this file exists and is in the correct path
+#include <ncurses.h>
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 #define max_len 100
 
@@ -36,7 +36,6 @@ int view_category_wise(){
         return 1;
     }
 
-    // Extract unique categories
     const char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int category_count = 7;
 
@@ -60,7 +59,6 @@ int view_category_wise(){
         mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
         refresh();
-        // Display categories
         for (int i = 0; i < category_count; i++) {
             if (i == category_choice) {
                 attron(COLOR_PAIR(2));
@@ -94,7 +92,6 @@ int view_category_wise(){
                 category_choice = (category_choice == category_count - 1) ? 0 : category_choice + 1;
                 break;
             case '\n': {
-                // Display products under the selected category
                 clear();
                 attron(COLOR_PAIR(2));
                 mvprintw(9, 10, "Select a product to delete from category: %s", categories[category_choice]);
@@ -191,16 +188,16 @@ int view_category_wise(){
                                 
                                 int row = 10;
                                 attron(COLOR_PAIR(1));
-                                mvprintw(row, 55, "Name:");       // Print product name
-                                mvprintw(row + 1, 55, "Price:"); // Print product category
+                                mvprintw(row, 55, "Name:");  
+                                mvprintw(row + 1, 55, "Price:");
                                 mvprintw(row + 2, 55, "Description:");
                                 mvprintw(row + 3, 55, "Category:");
                                 mvprintw(row + 4, 55, "Manufactured by:");
                                 attroff(COLOR_PAIR(1));
 
                                 attron(COLOR_PAIR(2));
-                                mvprintw(row, 72, "%s", products[view_index].name);       // Print product name
-                                mvprintw(row + 1, 72, "%d", products[view_index].price); // Print product category
+                                mvprintw(row, 72, "%s", products[view_index].name);     
+                                mvprintw(row + 1, 72, "%d", products[view_index].price);
                                 mvprintw(row + 2, 72, "%s", products[view_index].description);
                                 mvprintw(row + 3, 72, "%s", products[view_index].category);
                                 mvprintw(row + 4, 72, "%s", products[view_index].manufacturedBy);
@@ -223,7 +220,6 @@ int view_category_wise(){
         }
     }
 
-    // Clean up
     endwin();
     free(products);    
     return 0;
@@ -242,9 +238,7 @@ void view_particular(){
     cbreak();
     noecho();
     curs_set(0);
-   
-    curs_set(0);
-   
+      
     keypad(stdscr, TRUE);
     mvprintw(1,55, "        _____ _____ _____ __  __             _____ _______ ____  _____  ______ ");
     mvprintw(2, 60, "  / ____|_   _/ ____|  \\/  |   /\\      / ____|__   __/ __ \\|  __ \\|  ____|");
@@ -257,8 +251,6 @@ void view_particular(){
     
     char name[max_len];
     init_pair(1, COLOR_GREEN, COLOR_BLACK); 
-    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(3,COLOR_RED,COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
     init_pair(3,COLOR_RED,COLOR_BLACK);
     attron(COLOR_PAIR(1));
@@ -413,11 +405,11 @@ void view_all_products(){
         if( strlen(products[i].name)<=65)
         {mvwprintw(pad2, row, 0,"%s", products[i].name);}
         else{
-        mvwprintw(pad2, row, 0,"%.*s", 65, products[i].name);       // Print product name
+        mvwprintw(pad2, row, 0,"%.*s", 65, products[i].name); 
         mvwprintw(pad2, row, 66 , "...");
         }
         mvwprintw(pad2, row , 90, "%d", products[i].price); 
-        mvwprintw(pad2, row , 100, "%d", products[i].id); // Print product category
+        mvwprintw(pad2, row , 100, "%d", products[i].id); 
 
         mvwprintw(pad2, row , 152, "%d", products[i].amountBought);
         mvwprintw(pad2, row , 132, "%d", products[i].noOfRatings);
@@ -426,7 +418,7 @@ void view_all_products(){
                 if( strlen(products[i].manufacturedBy)<=20)
         {mvwprintw(pad2, row, 167,"%s", products[i].manufacturedBy);}
         else{
-        mvwprintw(pad2, row, 167,"%.*s", 20, products[i].manufacturedBy);       // Print product name
+        mvwprintw(pad2, row, 167,"%.*s", 20, products[i].manufacturedBy);   
         mvwprintw(pad2, row, 187 , "...");
         }
         mvwprintw(pad2, row , 190, "%s", products[i].description);
@@ -442,26 +434,24 @@ void view_all_products(){
     prefresh(pad2, start_row, start_col, 14, 10, 10 + display_rows - 1, display_cols - 1);
 
     int ch;
-    WINDOW *header = newpad( 1, 500); // 1-row height, display_cols width, position at (14, 10)
+    WINDOW *header = newpad( 1, 500); 
 
         
         while(true){
-        // Create a window for the fixed header row
 
 
-    // Draw the fixed header row in the 'header' window
-    wattron(header, COLOR_PAIR(1) | A_BOLD);
-    mvwprintw(header, 0, 0, "NAME:");
-    mvwprintw(header, 0, 90, "PRICE:");
-    mvwprintw(header, 0, 100, "ID:");
-    mvwprintw(header, 0, 145, "NUMBER OF BUYERS:");
-    mvwprintw(header, 0, 123, "NUMBER OF RATINGS:");
-    mvwprintw(header, 0, 110, "RATINGS:");
-    mvwprintw(header, 0, 70, "CATEGORY:");
-    mvwprintw(header, 0, 167, "MANUFACTURED BY:");
-    mvwprintw(header, 0, 190, "DESCRIPTION:");
-    wattroff(header, COLOR_PAIR(1) | A_BOLD);
-    prefresh(header, 0, start_col2, 14, 10, 14, display_cols - 1);
+wattron(header, COLOR_PAIR(1) | A_BOLD);
+mvwprintw(header, 0, 0, "NAME:");
+mvwprintw(header, 0, 90, "PRICE:");
+mvwprintw(header, 0, 100, "ID:");
+mvwprintw(header, 0, 145, "NUMBER OF BUYERS:");
+mvwprintw(header, 0, 123, "NUMBER OF RATINGS:");
+mvwprintw(header, 0, 110, "RATINGS:");
+mvwprintw(header, 0, 70, "CATEGORY:");
+mvwprintw(header, 0, 167, "MANUFACTURED BY:");
+mvwprintw(header, 0, 190, "DESCRIPTION:");
+wattroff(header, COLOR_PAIR(1) | A_BOLD);
+prefresh(header, 0, start_col2, 14, 10, 14, display_cols - 1);
 
         prefresh(pad2, start_row, start_col, 15, 10, 10+display_rows - 1, display_cols - 1);
         ch = getch();
@@ -532,7 +522,6 @@ void view_bestsellers(){
 
 
 
-    // Extract unique categories
     char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int category_count = 7;
 
@@ -546,7 +535,6 @@ void view_bestsellers(){
         mvprintw(1, 10, "Select a category:");
         attroff(COLOR_PAIR(2));
 
-        // Display categories
         for (int i = 0; i < category_count; i++) {
             if (i == category_choice) {
                 attron(COLOR_PAIR(2));
@@ -577,7 +565,6 @@ void view_bestsellers(){
                 category_choice = (category_choice == category_count - 1) ? 0 : category_choice + 1;
                 break;
             case '\n': {
-                // Display products under the selected category
                 clear();
                     int count2 = count_all_category_products(categories[category_choice]);
                                     if (count2 == 0) {
@@ -647,10 +634,10 @@ void view_bestsellers(){
         if( strlen(products[i].name)<65)
         {mvwprintw(pad2, row, 0,"%s", products[i].name);}
         else{
-        mvwprintw(pad2, row, 0,"%.*s", 65, products[i].name);       // Print product name
+        mvwprintw(pad2, row, 0,"%.*s", 65, products[i].name);   
         }
         mvwprintw(pad2, row , 70, "%d", products[i].price); 
-        mvwprintw(pad2, row , 80, "%d", products[i].id); // Print product category
+        mvwprintw(pad2, row , 80, "%d", products[i].id);
         mvwprintw(pad2, row , 97, "%d", products[i].amountBought);
         mvwprintw(pad2, row , 117, "%d", products[i].noOfRatings);
         mvwprintw(pad2, row , 135, "%.2f", products[i].rating);
@@ -670,7 +657,7 @@ void view_bestsellers(){
         while(true){
         attron(COLOR_PAIR(1));
         attron(A_BOLD);
-        mvprintw( 14, 10, "NAME:");       // Print product name
+        mvprintw( 14, 10, "NAME:"); 
         mvprintw( 14, 80, "PRICE:"); 
         mvprintw(14, 90, "ID:"); 
         mvprintw( 14, 100, "NUMBER OF BUYERS:");
@@ -744,7 +731,6 @@ void view_highest_rated(){
 
 
 
-    // Extract unique categories
     char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int category_count = 7;
 
@@ -759,7 +745,6 @@ void view_highest_rated(){
         mvprintw(1, 10, "Select a category:");
         attroff(COLOR_PAIR(2));
 
-        // Display categories
         for (int i = 0; i < category_count; i++) {
             if (i == category_choice) {
                 attron(COLOR_PAIR(2));
@@ -792,7 +777,6 @@ void view_highest_rated(){
                 category_choice = (category_choice == category_count - 1) ? 0 : category_choice + 1;
                 break;
             case '\n': {
-                // Display products under the selected category
                 clear();
                     int count2 = count_all_category_products(categories[category_choice]);
                                     if (count == 0) {
@@ -862,10 +846,10 @@ void view_highest_rated(){
         if( strlen(products[i].name)<65)
         {mvwprintw(pad2, row, 0,"%s", products[i].name);}
         else{
-        mvwprintw(pad2, row, 0,"%.*s", 65, products[i].name);       // Print product name
+        mvwprintw(pad2, row, 0,"%.*s", 65, products[i].name);    
         }
         mvwprintw(pad2, row , 70, "%d", products[i].price); 
-        mvwprintw(pad2, row , 80, "%d", products[i].id); // Print product category
+        mvwprintw(pad2, row , 80, "%d", products[i].id); 
         mvwprintw(pad2, row , 142, "%d", products[i].amountBought);
         mvwprintw(pad2, row , 117, "%d", products[i].noOfRatings);
         mvwprintw(pad2, row , 90, "%.2f", products[i].rating);
@@ -885,7 +869,7 @@ void view_highest_rated(){
         while(true){
         attron( COLOR_PAIR(1));
         attron( A_BOLD);
-        mvprintw( 14, 10, "NAME:");       // Print product name
+        mvprintw( 14, 10, "NAME:");  
         mvprintw( 14, 80, "PRICE:"); 
         mvprintw( 14, 90, "ID:"); 
         mvprintw( 14, 145, "NUMBER OF BUYERS:");

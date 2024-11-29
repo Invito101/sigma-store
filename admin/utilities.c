@@ -67,7 +67,7 @@ void get_valid_input_for_product(int row, char *label, char *buffer, int max_len
             admin_home();
             exit(0);
         }
-        else if (validate == NULL || validate(buffer)) { // Checks for valid input if required per the case.
+        else if (validate == NULL || validate(buffer)) {
             if(strcmp(label,"Name of the product: ")==0 && is_product_name_taken(buffer)==1){
                 attron(COLOR_PAIR(1));
                 mvprintw(row + 1, 60, "Product with this name already exists. Press any key to enter a new name.");
@@ -82,7 +82,7 @@ void get_valid_input_for_product(int row, char *label, char *buffer, int max_len
 
             }
 
-            break; // Valid input
+            break;
         }
 
         // error message if invalid input
@@ -119,7 +119,7 @@ void get_valid_input_for_existing_product(int row, char *label, char *buffer, in
             admin_home();
             
         }
-        if (validate == NULL || validate(buffer)) { // Checks for valid input if required per the case.
+        if (validate == NULL || validate(buffer)) {
             if(strcmp(label,"Name of the product do you wanna modify: ")==0 && is_product_name_taken(buffer)==1){
                 attron(COLOR_PAIR(1));
                 mvprintw(row + 1, 60, "The Product you entered in the cart exists.");

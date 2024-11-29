@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include<string.h>
-#include <ncurses.h> // Ensure this file exists and is in the correct path
+#include <ncurses.h>
 #include <wchar.h> // This is temporary as I'm trying to put in unicode characters
 #define max_len 100
 
@@ -338,7 +338,6 @@ void delete_product1() {
         return;
     }
 
-    // Extract unique categories
     const char categories[][50] = {"Books","Electronics","Fashion","Sports and Fitness","Games","Edibles","Home and Kitchen"};
     int category_count = 7;
 
@@ -362,7 +361,6 @@ void delete_product1() {
         mvprintw(7, 60, " |_____/|_____\\_____|_|  |_/_/    \\_\\ |_____/   |_|  \\____/|_|  \\_\\______|");
 
         refresh();
-        // Display categories
         for (int i = 0; i < category_count; i++) {
             if (i == category_choice) {
                 attron(COLOR_PAIR(2));
@@ -393,7 +391,6 @@ void delete_product1() {
                 category_choice = (category_choice == category_count - 1) ? 0 : category_choice + 1;
                 break;
             case '\n': {
-                // Display products under the selected category
                 clear();
                 attron(COLOR_PAIR(2));
                 mvprintw(9, 55, "Select a product to delete from category: %s", categories[category_choice]);
@@ -503,7 +500,6 @@ void delete_product1() {
         }
     }
 
-    // Clean up
     endwin();
     free(products);
 }
@@ -577,7 +573,6 @@ void complete_order1(){
         mvprintw(10, 150, "Order placed on");
         attroff(COLOR_PAIR(1));
         refresh();
-        // Display categories
 
         for (int i = 0; i < count; i++) {
             if (i == choice) {
@@ -643,7 +638,6 @@ void complete_order1(){
             case '\n': {
                 delwin(pad2);
                 clear();
-                // Validate choice and items
                 if (choice < 0 || choice >= count) {
                     mvprintw(LINES - 2, 3, "Invalid choice.");
                     refresh();
@@ -673,7 +667,6 @@ void complete_order1(){
                         exit(0);
                     }
                 }
-                // Display order details
                 
                 while (true) {
                     clear();
@@ -748,7 +741,6 @@ void complete_order1(){
             break;
         }
     }
-    // Clean up
     endwin();
     free(orders);    
     return;
@@ -826,7 +818,7 @@ void order_history1(){
             if (p11) {
                 mvwprintw(pad2, i + k + j, 30, "%s", p11->name);
                 mvwprintw(pad2,  i + k + j, 80, "%d", comp_orders[i].items[j].quantity);
-                free(p11);  // Free product after use
+                free(p11);
             }
         }
         mvwprintw(pad2, i + k, 100, "%s", get_date_from_time(comp_orders[i].createdAt));

@@ -65,7 +65,6 @@ void categories() {
         {filter1, filter1},{filter1,filter1},{filter1,menu1}
     };
 
-    // Clear the screen and show options
     buttonselect2d(4, 2, a, b,5,50);
     refresh();
     getch();
@@ -74,15 +73,13 @@ void categories() {
 void settings() {
     clear();
 
-    // Define the labels and corresponding functions for the buttons
     const char *a[1][2] = {
         {"BACK", "LOGOUT"}
     };
     void (*b[1][2])() = {
-        {menu1, authpage} // Map "Back" to menu1 and "Logout" to login1
+        {menu1, authpage}
     };
 
-    // Use buttonselect2d to display the buttons
     buttonselect2d(1, 2, a, b, 5, 50);
     refresh();
     getch();
@@ -119,9 +116,7 @@ refresh();
         {exitprogram,exitprogram}
     };
 
-    // Clear the screen and show options
     buttonselect2d(3, 2, a, b,5,102);
-    // Cleanup ncurses
 
 refresh();
 endwin();
@@ -159,14 +154,12 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
                 
                 if(strcmp(a[i][1],"")==0){
                     if (i == tco[0]) {
-                    // Highlight the selected button
                     attron(COLOR_PAIR(2));
                     mvprintw(i*4+row+30,column-5, "+--------------------------------+");
                     mvprintw(i*4+row+31,column-5, "|            %-18s  |", a[i][j]);
                     mvprintw(i*4+row+32,column-5, "+--------------------------------+");
                     attroff(COLOR_PAIR(2));
                 } else {
-                    // Render the non-selected buttons
                     attron(COLOR_PAIR(1));
                     mvprintw(i*4+row+30, column-5, "+--------------------------------+");
                     mvprintw(i*4+row+31, column-5, "|            %-18s  |", a[i][j]);
@@ -178,14 +171,12 @@ void buttonselect2d(int m,int n,const char *a[m][n],void (*b[m][n])(),int row, i
                 }
                 else{
                 if (i == tco[0] && j == tco[1]) {
-                    // Highlight the selected button
                     attron(COLOR_PAIR(2));
                     mvprintw(i*4+row, j*50+column, "+--------------------------------+");
                     mvprintw(i*4+row+1, j*50+column, "|            %-18s  |", a[i][j]);
                     mvprintw(i*4+row+2, j*50+column, "+--------------------------------+");
                     attroff(COLOR_PAIR(2));
                 } else {
-                    // Render the non-selected buttons
                     attron(COLOR_PAIR(1));
                     mvprintw(i*4+row, j*50+column, "+--------------------------------+");
                     mvprintw(i*4+row+1, j*50+column, "|            %-18s  |", a[i][j]);
